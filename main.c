@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/12 18:03:36 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/08/13 16:57:54 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,32 @@ static void	ft_print_map(t_window *infos)
 
 int		ft_callback(t_window *infos)
 {
-	t_coord2d	coordmap;
-
-	coordmap.x = 12;
-	coordmap.y = 12;
+	infos->wolf.pos_cam.x = WIDTH - 100;
+	infos->wolf.pos_cam.y = 100;
 	ft_bzero(infos->img, sizeof(int) * (WIDTH * HEIGHT));
 	if (infos->keys.l_arr == 1)
-		infos->wolf.angle_cam -= 0.08;
+		infos->wolf.angle_cam -= 0.07;
 	if (infos->keys.r_arr == 1)
-		infos->wolf.angle_cam += 0.08;
+		infos->wolf.angle_cam += 0.07;
 	if (infos->keys.up_arr == 1)
 	{
-		infos->wolf.pos_cam.x += cos(infos->wolf.angle_cam);
-		infos->wolf.pos_cam.y += sin(infos->wolf.angle_cam);
+		// infos->wolf.pos_cam.x += cos(infos->wolf.angle_cam);
+		// infos->wolf.pos_cam.y += sin(infos->wolf.angle_cam);
+		infos->map.map_pos.x -= cos(infos->wolf.angle_cam);
+		infos->map.map_pos.y -= sin(infos->wolf.angle_cam);
 	}
 	if (infos->keys.dwn_arr == 1)
 	{
-		infos->wolf.pos_cam.x -= cos(infos->wolf.angle_cam);
-		infos->wolf.pos_cam.y -= sin(infos->wolf.angle_cam);
+		// infos->wolf.pos_cam.x -= cos(infos->wolf.angle_cam);
+		// infos->wolf.pos_cam.y -= sin(infos->wolf.angle_cam);
+		infos->map.map_pos.x += cos(infos->wolf.angle_cam);
+		infos->map.map_pos.y += sin(infos->wolf.angle_cam);
 	}
-	infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 50 + infos->wolf.pos_cam.x;
-	infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 50 + infos->wolf.pos_cam.y;
-	ft_draw_minimap(infos, coordmap);
+	infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.x;
+	infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.y;
+	// infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 50 + infos->map.map_pos.x;
+	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 50 + infos->map.map_pos.y;
+	ft_draw_minimap(infos, infos->map.map_pos);
 	ft_line_new(infos, infos->wolf.pos_cam, infos->wolf.dir_cam);
 	ft_draw_cam(infos);
 	// infos->img[(int)infos->wolf.pos_cam.x + (int)infos->wolf.pos_cam.y * WIDTH] = 0xFFFFFF;

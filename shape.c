@@ -6,11 +6,14 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:11:37 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/12 17:06:07 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/08/13 17:32:10 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+
+#include <stdio.h>
 
 void		ft_square(t_window *infos, t_square s)
 {
@@ -19,14 +22,16 @@ void		ft_square(t_window *infos, t_square s)
 
 	i = s.x;
 	j = s.y;
-	while (i < s.x + s.size)
-		infos->img[i++ + s.y * infos->width] = s.color;
-	while (j < s.y + s.size)
-		infos->img[i + j++ * infos->width] = s.color;
-	while (i > s.x)
-		infos->img[i-- + j * infos->width] = s.color;
-	while (j > s.y)
-		infos->img[s.x + j-- * infos->width] = s.color;
+	{
+		while (i < s.x + s.size)
+			infos->img[i++ + s.y * infos->width] = s.color;
+		while (j < s.y + s.size)
+			infos->img[i + j++ * infos->width] = s.color;
+		while (i > s.x)
+			infos->img[i-- + j * infos->width] = s.color;
+		while (j > s.y)
+			infos->img[s.x + j-- * infos->width] = s.color;
+	}
 }
 
 void		ft_fill_square(t_window *infos, t_square s)

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/12 17:32:51 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:31:38 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	**ft_get_map(int fd, t_window *infos)
 
 	i = 1;
 	infos->map.height = 1;
-	if (get_next_line(fd, &line)<= 0)
+	if (get_next_line(fd, &line) <= 0)
 		return (0);
 	width = ft_check_width(line);
 	infos->map.width = width;
