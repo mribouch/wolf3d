@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/13 14:22:23 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/08/19 14:52:45 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "key.h"
 # define WIDTH 1000
 # define HEIGHT 1000
+
 
 typedef struct	s_square
 {
@@ -74,14 +75,21 @@ typedef struct	s_coord2d
 	int				color;
 }				t_coord2d;
 
+typedef struct	s_ray
+{
+	t_coord2d	pos_ray;
+	t_coord2d	pos_int;
+	int			length;
+}				t_ray;
+
 typedef struct	s_wolf
 {
 	t_coord2d	pos_cam;
-	double		angle_cam;
 	t_coord2d	dir_cam;
+	t_ray		*tab_ray;
+	double		angle_cam;
 	int			fov;
 	int			d_camscreen;
-
 }				t_wolf;
 
 
@@ -116,11 +124,15 @@ int				ft_callback(t_window *infos);
 int				**ft_get_map(int fd, t_window *infos);
 void			ft_line_new(t_window *infos, t_coord2d v1, t_coord2d v2);
 void			ft_init_wolf(t_window *infos);
+void			ft_init_ray(t_window *infos);
+void			ft_update_ray(t_window *infos);
 void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_fill_square(t_window *infos, t_square s);
 void			ft_square(t_window *infos, t_square s);
 void			ft_draw_cam(t_window *infos);
 void			ft_draw_minimap(t_window *infos, t_coord2d coordmap);
+void			ft_draw_ray(t_window *infos);
+void			ft_draw_wolf(t_window *infos);
 
 #endif

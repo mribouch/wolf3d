@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/13 16:57:54 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/09 12:16:14 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,41 @@ static void	ft_print_map(t_window *infos)
 
 int		ft_callback(t_window *infos)
 {
-	infos->wolf.pos_cam.x = WIDTH - 100;
-	infos->wolf.pos_cam.y = 100;
+	t_coord2d	pos_cam_mm;
+	// ft_putendl("heysalut");
 	ft_bzero(infos->img, sizeof(int) * (WIDTH * HEIGHT));
+	pos_cam_mm.x = 100;
+	pos_cam_mm.y = 100;
 	if (infos->keys.l_arr == 1)
 		infos->wolf.angle_cam -= 0.07;
 	if (infos->keys.r_arr == 1)
 		infos->wolf.angle_cam += 0.07;
 	if (infos->keys.up_arr == 1)
 	{
-		// infos->wolf.pos_cam.x += cos(infos->wolf.angle_cam);
-		// infos->wolf.pos_cam.y += sin(infos->wolf.angle_cam);
+		infos->wolf.pos_cam.x += cos(infos->wolf.angle_cam);
+		infos->wolf.pos_cam.y += sin(infos->wolf.angle_cam);
 		infos->map.map_pos.x -= cos(infos->wolf.angle_cam);
 		infos->map.map_pos.y -= sin(infos->wolf.angle_cam);
 	}
 	if (infos->keys.dwn_arr == 1)
 	{
-		// infos->wolf.pos_cam.x -= cos(infos->wolf.angle_cam);
-		// infos->wolf.pos_cam.y -= sin(infos->wolf.angle_cam);
+		infos->wolf.pos_cam.x -= cos(infos->wolf.angle_cam);
+		infos->wolf.pos_cam.y -= sin(infos->wolf.angle_cam);
 		infos->map.map_pos.x += cos(infos->wolf.angle_cam);
 		infos->map.map_pos.y += sin(infos->wolf.angle_cam);
 	}
-	infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.x;
-	infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.y;
+	// infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.x;
+	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.y;
+	infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + pos_cam_mm.x;
+	infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + pos_cam_mm.y;
+	ft_update_ray(infos);
 	// infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 50 + infos->map.map_pos.x;
 	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 50 + infos->map.map_pos.y;
+	ft_draw_wolf(infos);
 	ft_draw_minimap(infos, infos->map.map_pos);
-	ft_line_new(infos, infos->wolf.pos_cam, infos->wolf.dir_cam);
+	ft_draw_ray(infos);
+	infos->wolf.dir_cam.color = 0xFF0000;
+	ft_line_new(infos, pos_cam_mm, infos->wolf.dir_cam);
 	ft_draw_cam(infos);
 	// infos->img[(int)infos->wolf.pos_cam.x + (int)infos->wolf.pos_cam.y * WIDTH] = 0xFFFFFF;
 	mlx_put_image_to_window(infos->mlx_ptr,
@@ -122,8 +130,11 @@ int	main(int ac, char **av)
 		}
 		ft_print_map(infos);
 		ft_init_wolf(infos);
+		// ft_putendl("avant hook press");
 		mlx_hook(infos->win_ptr, KEY_PRESS, KEY_PRESS_MASK, ft_dealkey_press, infos);
+		// ft_putendl("avant hook release");
 		mlx_hook(infos->win_ptr, KEY_RELEASE, KEY_RELEASE_MASK, ft_dealk_release, infos);
+		// ft_putendl("avant loophookCB");
 		mlx_loop_hook(infos->mlx_ptr, ft_callback, infos);
 		mlx_loop(infos->mlx_ptr);
 	}

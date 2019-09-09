@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2019/08/12 17:00:21 by mribouch         ###   ########.fr        #
+#    Updated: 2019/08/14 16:16:29 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS = main.c		\
 		parse.c		\
 		bresenham.c	\
 		shape.c		\
+		ray.c		\
 		draw.c		\
 		init.c
 
