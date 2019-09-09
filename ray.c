@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/09 12:10:18 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:19:41 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int		ft_intersect(t_window *infos, int it)
 		// printf("dx = %f\ndy = %f\n\n", dx, dy);
 		if (ft_check_wall(infos->map, dx/24, dy/24) == 1)
 		{
-			ft_putendl("murrrrrrrr");
+			// ft_putendl("murrrrrrrr");
 			return (l);
 		}
 		l++;
 	}
-	printf("dafuuuuu\n");
+	// printf("dafuuuuu\n");
 	return (-1);
 }
 
