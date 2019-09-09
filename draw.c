@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/09 12:16:00 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:02:45 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,20 @@ void	ft_draw_col(t_window *infos, int up, int dwn, int it)
 	while (i < HEIGHT)
 	{
 		if (infos->wolf.tab_ray[it].length == 100)
-			infos->img[it + i++ * WIDTH] = 0x000000;
+		{
+			if (i <= HEIGHT / 2)
+				infos->img[it + i++ * WIDTH] = 0x00FFFD;
+			else
+				infos->img[it + i++ * WIDTH] = 0x00B921;
+		}
 		else if (i < up)
 		{
-			infos->img[it + i++ * WIDTH] = 0x000000;
+			infos->img[it + i++ * WIDTH] = 0x00FFFD;
 		}
 		else if (i >= up && i <= dwn)
 			infos->img[it + i++ * WIDTH] = 0xFF0000;
 		else if (i > dwn)
-			infos->img[it + i++ * WIDTH] = 0x000000;
+			infos->img[it + i++ * WIDTH] = 0x00B921;
 	}
 }
 
@@ -49,7 +54,10 @@ void	ft_draw_wolf(t_window *infos)
 	{
 		dm2 = pow(infos->wolf.pos_cam.x - infos->wolf.tab_ray[i].pos_int.x, 2)
 			+ pow(infos->wolf.pos_cam.y - infos->wolf.tab_ray[i].pos_int.y, 2);
-		hp = (infos->wolf.d_camscreen) * 64 / sqrt(dm2);
+		hp = (infos->wolf.d_camscreen) * 150 / sqrt(dm2);
+		// hp = (infos->wolf.d_camscreen) * 64 / sqrt(dm2);
+		hp /= 6;
+
 		intup = (HEIGHT / 2 - (hp / 2));
 		// printf("up = %d\ndwn = %d\n\n", intup, intdwn);
 		intdwn = HEIGHT / 2 + (hp / 2);
@@ -65,6 +73,7 @@ void	ft_draw_ray(t_window *infos)
 
 	pos_cam_mm.x = 100;
 	pos_cam_mm.y = 100;
+	pos_cam_mm.color = 0x00FF00;
 	i = 0;
 	while (i < WIDTH)
 	{

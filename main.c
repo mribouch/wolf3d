@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/09 12:16:14 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/09 14:23:27 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		ft_callback(t_window *infos)
 	ft_draw_minimap(infos, infos->map.map_pos);
 	ft_draw_ray(infos);
 	infos->wolf.dir_cam.color = 0xFF0000;
+	pos_cam_mm.color = 0xFF0000;
 	ft_line_new(infos, pos_cam_mm, infos->wolf.dir_cam);
 	ft_draw_cam(infos);
 	// infos->img[(int)infos->wolf.pos_cam.x + (int)infos->wolf.pos_cam.y * WIDTH] = 0xFFFFFF;
