@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/09 17:02:45 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:15:04 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ void	ft_draw_col(t_window *infos, int up, int dwn, int it)
 	i = 0;
 	while (i < HEIGHT)
 	{
-		if (infos->wolf.tab_ray[it].length == 100)
+		if (infos->wolf.tab_ray[it].length == 100.0)
 		{
 			if (i <= HEIGHT / 2)
-				infos->img[it + i++ * WIDTH] = 0x00FFFD;
+				infos->img[WIDTH - it + i++ * WIDTH] = 0x392C02;
 			else
-				infos->img[it + i++ * WIDTH] = 0x00B921;
+				infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
 		}
 		else if (i < up)
 		{
-			infos->img[it + i++ * WIDTH] = 0x00FFFD;
+			infos->img[WIDTH - it + i++ * WIDTH] = 0x392C02;
 		}
 		else if (i >= up && i <= dwn)
-			infos->img[it + i++ * WIDTH] = 0xFF0000;
+			infos->img[WIDTH - it + i++ * WIDTH] = 0xB8B8B8;
 		else if (i > dwn)
-			infos->img[it + i++ * WIDTH] = 0x00B921;
+			infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
 	}
 }
 

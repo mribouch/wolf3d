@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/19 14:52:45 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:05:11 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ typedef struct	s_ray
 {
 	t_coord2d	pos_ray;
 	t_coord2d	pos_int;
-	int			length;
+	float		length;
+	float		angle;
 }				t_ray;
 
 typedef struct	s_wolf

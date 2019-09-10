@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/09 14:23:27 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/09/10 16:38:39 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int		ft_callback(t_window *infos)
 	pos_cam_mm.x = 100;
 	pos_cam_mm.y = 100;
 	if (infos->keys.l_arr == 1)
-		infos->wolf.angle_cam -= 0.07;
+		infos->wolf.angle_cam -= 0.06;
 	if (infos->keys.r_arr == 1)
-		infos->wolf.angle_cam += 0.07;
+		infos->wolf.angle_cam += 0.06;
 	if (infos->keys.up_arr == 1)
 	{
 		infos->wolf.pos_cam.x += cos(infos->wolf.angle_cam);
@@ -73,7 +73,7 @@ int		ft_callback(t_window *infos)
 	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 50 + infos->map.map_pos.y;
 	ft_draw_wolf(infos);
 	ft_draw_minimap(infos, infos->map.map_pos);
-	ft_draw_ray(infos);
+	// ft_draw_ray(infos);
 	infos->wolf.dir_cam.color = 0xFF0000;
 	pos_cam_mm.color = 0xFF0000;
 	ft_line_new(infos, pos_cam_mm, infos->wolf.dir_cam);
