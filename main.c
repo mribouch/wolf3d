@@ -19,25 +19,25 @@
 
 #include <stdio.h>
 
-static void	ft_print_map(t_window *infos)
-{
-	int	i;
-	int	j;
+// static void	ft_print_map(t_window *infos)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	j = 0;
-	while (infos->map.map[j] != NULL)
-		{
-			while (i < infos->map.width)
-			{
-				printf("%d ", infos->map.map[j][i]);
-				i++;
-			}
-			printf("\n");
-			i = 0;
-			j++;
-		}
-}
+// 	i = 0;
+// 	j = 0;
+// 	while (infos->map.map[j] != NULL)
+// 		{
+// 			while (i < infos->map.width)
+// 			{
+// 				printf("%d ", infos->map.map[j][i]);
+// 				i++;
+// 			}
+// 			printf("\n");
+// 			i = 0;
+// 			j++;
+// 		}
+// }
 
 int		ft_callback(t_window *infos)
 {
@@ -73,7 +73,7 @@ int		ft_callback(t_window *infos)
 	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 50 + infos->map.map_pos.y;
 	ft_draw_wolf(infos);
 	ft_draw_minimap(infos, infos->map.map_pos);
-	// ft_draw_ray(infos);
+	ft_draw_ray(infos);
 	infos->wolf.dir_cam.color = 0xFF0000;
 	pos_cam_mm.color = 0xFF0000;
 	ft_line_new(infos, pos_cam_mm, infos->wolf.dir_cam);
@@ -129,7 +129,7 @@ int	main(int ac, char **av)
 			ft_putendl("Wrong input ! The lines doesn't have the same lenght !");
 			exit(0);
 		}
-		ft_print_map(infos);
+		// ft_print_map(infos);
 		ft_init_wolf(infos);
 		// ft_putendl("avant hook press");
 		mlx_hook(infos->win_ptr, KEY_PRESS, KEY_PRESS_MASK, ft_dealkey_press, infos);

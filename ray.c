@@ -33,7 +33,7 @@ int		ft_intersect(t_window *infos, int it)
 	angle = infos->wolf.angle_cam + 1.0472 / 2 - it * (1.0472 / WIDTH);
 	dir_vec.x = cosf(angle);
 	dir_vec.y = sinf(angle);
-	while (l < 100)
+	while (l < RAYLENGHT)
 	{
 		dx = infos->wolf.pos_cam.x + l * dir_vec.x;
 		dy = infos->wolf.pos_cam.y + l * dir_vec.y;
@@ -64,7 +64,7 @@ void	ft_update_ray(t_window *infos)
 		if ((l = ft_intersect(infos, i)) > 0)
 			infos->wolf.tab_ray[i].length = l;
 		else
-			infos->wolf.tab_ray[i].length = 100.0;
+			infos->wolf.tab_ray[i].length = RAYLENGHT;
 		infos->wolf.tab_ray[i].pos_ray.x = infos->wolf.pos_cam.x + infos->wolf.tab_ray[i].length
 			* cosf((infos->wolf.angle_cam + 1.0472 / 2) - i * (1.0472 / WIDTH));
 		infos->wolf.tab_ray[i].pos_ray.y = infos->wolf.pos_cam.y + infos->wolf.tab_ray[i].length
@@ -85,11 +85,11 @@ void	ft_init_ray(t_window *infos)
 	ft_putendl("nanibefore");
 	while (i < WIDTH)
 	{
-		infos->wolf.tab_ray[i].length = 100.0;
+		infos->wolf.tab_ray[i].length = RAYLENGHT;
 		infos->wolf.tab_ray[i].pos_ray.x = infos->wolf.pos_cam.x + infos->wolf.tab_ray[i].length
 			* cosf(angle - i * fov);
 		infos->wolf.tab_ray[i].angle = cosf(angle - i * fov);
-		printf("ray numero %d, angle = %f\n", i, infos->wolf.tab_ray[i].angle);
+		// printf("ray numero %d, angle = %f\n", i, infos->wolf.tab_ray[i].angle);
 		infos->wolf.tab_ray[i].pos_ray.y = infos->wolf.pos_cam.y + infos->wolf.tab_ray[i].length
 			* sinf(angle - i * fov);
 		infos->wolf.tab_ray[i].pos_ray.color = 0x00FF00;

@@ -16,44 +16,44 @@
 #include <math.h>
 
 
-void	ft_draw_col(t_window *infos, int up, int dwn, int it)
+void	ft_draw_col(t_window *infos, float up, float dwn, int it)
 {
 	int	i;
 
 	i = 0;
 	while (i < HEIGHT)
 	{
-		if (infos->wolf.tab_ray[it].length == 100.0)
+		if (infos->wolf.tab_ray[it].length == RAYLENGHT)
 		{
 			if (i <= HEIGHT / 2)
 				infos->img[WIDTH - it + i++ * WIDTH] = 0x392C02;
 			else
 				infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
 		}
-		else if (i < up)
+		else if (i < (int)up)
 		{
 			infos->img[WIDTH - it + i++ * WIDTH] = 0x392C02;
 		}
-		else if (i >= up && i <= dwn)
+		else if (i >= (int)up && i <= (int)dwn)
 			infos->img[WIDTH - it + i++ * WIDTH] = 0xB8B8B8;
-		else if (i > dwn)
+		else if (i > (int)dwn)
 			infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
 	}
 }
 
 void	ft_draw_wolf(t_window *infos)
 {
-	int	i;
-	int	dm2;
-	int	hp;
-	int intup;
-	int	intdwn;
+	int		i;
+	float	dm2;
+	float	hp;
+	float	intup;
+	float	intdwn;
 
 	i = 0;
 	while (i < WIDTH)
 	{
-		dm2 = pow(infos->wolf.pos_cam.x - infos->wolf.tab_ray[i].pos_int.x, 2)
-			+ pow(infos->wolf.pos_cam.y - infos->wolf.tab_ray[i].pos_int.y, 2);
+		dm2 = powf(infos->wolf.pos_cam.x - infos->wolf.tab_ray[i].pos_int.x, 2)
+			+ powf(infos->wolf.pos_cam.y - infos->wolf.tab_ray[i].pos_int.y, 2);
 		hp = (infos->wolf.d_camscreen) * 150 / sqrt(dm2);
 		// hp = (infos->wolf.d_camscreen) * 64 / sqrt(dm2);
 		hp /= 6;

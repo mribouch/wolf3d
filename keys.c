@@ -25,8 +25,8 @@ void	ft_fill_key(t_window *infos)
 int		ft_dealkey_press(int keycode, t_window *infos)
 {
 	(void)infos;
-	ft_putnbr(keycode);
-	ft_putchar('\n');
+	// ft_putnbr(keycode);
+	// ft_putchar('\n');
 	// ft_bzero(infos->img, WIDTH * HEIGHT);
 	if (keycode == 53)
 		exit(0);

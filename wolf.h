@@ -16,8 +16,9 @@
 # include "minilibx_macos/mlx.h"
 #include "callbacks.h"
 #include "key.h"
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 917
+# define HEIGHT 688
+# define RAYLENGHT 100.0
 
 
 typedef struct	s_square
