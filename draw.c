@@ -77,6 +77,8 @@ void	ft_draw_ray(t_window *infos)
 	i = 0;
 	while (i < WIDTH)
 	{
+		infos->wolf.tab_ray[i].pos_ray.x -= (infos->wolf.pos_cam.x - 100);
+		infos->wolf.tab_ray[i].pos_ray.y -= (infos->wolf.pos_cam.y - 100);
 		ft_line_new(infos, pos_cam_mm, infos->wolf.tab_ray[i].pos_ray);
 		i++;
 	}

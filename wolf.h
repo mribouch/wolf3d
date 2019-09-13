@@ -19,6 +19,7 @@
 # define WIDTH 917
 # define HEIGHT 688
 # define RAYLENGHT 100.0
+# define FOV 1.5708
 
 
 typedef struct	s_square

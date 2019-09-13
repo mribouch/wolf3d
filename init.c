@@ -21,7 +21,7 @@ void	ft_init_wolf(t_window *infos)
 	if (!(infos->wolf.tab_ray = malloc(sizeof(t_ray) * (WIDTH))))
 		return ;
 	infos->wolf.angle_cam = 0.349066;
-	infos->wolf.d_camscreen = (WIDTH / 2) / tan(1.0472 / 2);
+	infos->wolf.d_camscreen = (WIDTH / 2) / tan(FOV / 2);
 	infos->wolf.pos_cam.x = 100;
 	infos->wolf.pos_cam.y = 100;
 	infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 50 + infos->wolf.pos_cam.x;
