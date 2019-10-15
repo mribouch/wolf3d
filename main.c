@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/10 16:38:39 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/15 17:30:34 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,43 +42,64 @@
 int		ft_callback(t_window *infos)
 {
 	t_coord2d	pos_cam_mm;
+
+	double		olddirx;
+	double		oldplanex;
 	// ft_putendl("heysalut");
 	ft_bzero(infos->img, sizeof(int) * (WIDTH * HEIGHT));
+	// ft_putendl("TEEEEST");
 	pos_cam_mm.x = 100;
 	pos_cam_mm.y = 100;
 	if (infos->keys.l_arr == 1)
-		infos->wolf.angle_cam -= 0.06;
+	{
+		olddirx = infos->wolf.dir_cam.x;
+		infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(0.05) - infos->wolf.dir_cam.y * sin(0.05);
+		infos->wolf.dir_cam.y = olddirx * sin(0.05) + infos->wolf.dir_cam.y * cos(0.05);
+		oldplanex = infos->wolf.plane.x;
+		infos->wolf.plane.x = infos->wolf.plane.x * cos(0.05) - infos->wolf.plane.y * sin(0.05);
+		infos->wolf.plane.y = oldplanex * sin(0.05) + infos->wolf.plane.y * cos(0.05);
+	}
 	if (infos->keys.r_arr == 1)
-		infos->wolf.angle_cam += 0.06;
+	{
+		olddirx = infos->wolf.dir_cam.x;
+		infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(-0.05) - infos->wolf.dir_cam.y * sin(-0.05);
+		infos->wolf.dir_cam.y = olddirx * sin(-0.05) + infos->wolf.dir_cam.y * cos(-0.05);
+		oldplanex = infos->wolf.plane.x;
+		infos->wolf.plane.x = infos->wolf.plane.x * cos(-0.05) - infos->wolf.plane.y * sin(-0.05);
+		infos->wolf.plane.y = oldplanex * sin(-0.05) + infos->wolf.plane.y * cos(-0.05);
+	}
 	if (infos->keys.up_arr == 1)
 	{
-		infos->wolf.pos_cam.x += cos(infos->wolf.angle_cam);
-		infos->wolf.pos_cam.y += sin(infos->wolf.angle_cam);
-		infos->map.map_pos.x -= cos(infos->wolf.angle_cam);
-		infos->map.map_pos.y -= sin(infos->wolf.angle_cam);
+		if (infos->map.map[(int)infos->wolf.pos_cam.y][(int)(infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * 0.05)] == 0)
+			infos->wolf.pos_cam.x += infos->wolf.dir_cam.x * 0.05;
+		if (infos->map.map[(int)(infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * 0.05)][(int)infos->wolf.pos_cam.x] == 0)
+			infos->wolf.pos_cam.y += infos->wolf.dir_cam.y * 0.05;
+		// infos->map.map_pos.x -= cos(infos->wolf.angle_cam);
+		// infos->map.map_pos.y -= sin(infos->wolf.angle_cam);
 	}
 	if (infos->keys.dwn_arr == 1)
 	{
-		infos->wolf.pos_cam.x -= cos(infos->wolf.angle_cam);
-		infos->wolf.pos_cam.y -= sin(infos->wolf.angle_cam);
-		infos->map.map_pos.x += cos(infos->wolf.angle_cam);
-		infos->map.map_pos.y += sin(infos->wolf.angle_cam);
+		if (infos->map.map[(int)infos->wolf.pos_cam.y][(int)(infos->wolf.pos_cam.x - infos->wolf.dir_cam.x * 0.05)] == 0)
+			infos->wolf.pos_cam.x -= infos->wolf.dir_cam.x * 0.05;
+		if (infos->map.map[(int)(infos->wolf.pos_cam.y - infos->wolf.dir_cam.y * 0.05)][(int)infos->wolf.pos_cam.x] == 0)
+			infos->wolf.pos_cam.y -= infos->wolf.dir_cam.y * 0.05;
+		// infos->map.map_pos.x += cos(infos->wolf.angle_cam);
+		// infos->map.map_pos.y += sin(infos->wolf.angle_cam);
 	}
-	// infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.x;
-	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + infos->wolf.pos_cam.y;
-	infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + pos_cam_mm.x;
-	infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + pos_cam_mm.y;
+	// ft_putendl("ICI ?");
+	// infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 100 + pos_cam_mm.x;
+	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 100 + pos_cam_mm.y;
 	ft_update_ray(infos);
-	// infos->wolf.dir_cam.x = cos(infos->wolf.angle_cam) * 50 + infos->map.map_pos.x;
-	// infos->wolf.dir_cam.y = sin(infos->wolf.angle_cam) * 50 + infos->map.map_pos.y;
-	ft_draw_wolf(infos);
-	ft_draw_minimap(infos, infos->map.map_pos);
-	ft_draw_ray(infos);
+	// ft_putendl("Aprs update ray ?");
+	// ft_draw_wolf(infos);
+	// ft_putendl("Aprs draw wolf ?");
+	// ft_draw_minimap(infos, infos->map.map_pos);
+	// ft_draw_ray(infos);
+	// ft_putendl("Aprs draw ray ?");
 	infos->wolf.dir_cam.color = 0xFF0000;
 	pos_cam_mm.color = 0xFF0000;
-	ft_line_new(infos, pos_cam_mm, infos->wolf.dir_cam);
-	ft_draw_cam(infos);
-	// infos->img[(int)infos->wolf.pos_cam.x + (int)infos->wolf.pos_cam.y * WIDTH] = 0xFFFFFF;
+	// ft_line_new(infos, pos_cam_mm, infos->wolf.dir_cam);
+	// ft_draw_cam(infos);
 	mlx_put_image_to_window(infos->mlx_ptr,
     	infos->win_ptr, infos->img_ptr, 0, 0);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/10 17:05:11 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/15 17:44:46 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 #include "key.h"
 # define WIDTH 917
 # define HEIGHT 688
-# define RAYLENGHT 100.0
+# define RAYLENGHT 150.0
 # define FOV 1.5708
-
 
 typedef struct	s_square
 {
@@ -77,6 +76,18 @@ typedef struct	s_coord2d
 	int				color;
 }				t_coord2d;
 
+typedef	struct s_dda
+{
+	t_coord2d	cam;
+	t_coord2d	raydir;
+	t_coord2d	side_dist;
+	t_coord2d	delta_dist;
+	t_coord2d	step;
+	t_coord2d	map;
+	int			side;
+	int			hit;
+}				t_dda;
+
 typedef struct	s_ray
 {
 	t_coord2d	pos_ray;
@@ -89,10 +100,12 @@ typedef struct	s_wolf
 {
 	t_coord2d	pos_cam;
 	t_coord2d	dir_cam;
+	t_coord2d	plane;
 	t_ray		*tab_ray;
 	double		angle_cam;
 	int			fov;
 	int			d_camscreen;
+	int			s_wall;
 }				t_wolf;
 
 
@@ -136,6 +149,6 @@ void			ft_square(t_window *infos, t_square s);
 void			ft_draw_cam(t_window *infos);
 void			ft_draw_minimap(t_window *infos, t_coord2d coordmap);
 void			ft_draw_ray(t_window *infos);
-void			ft_draw_wolf(t_window *infos);
+void			ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x);
 
 #endif

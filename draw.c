@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/09/10 17:15:04 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/15 17:20:56 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,37 @@ void	ft_draw_col(t_window *infos, float up, float dwn, int it)
 			infos->img[WIDTH - it + i++ * WIDTH] = 0xB8B8B8;
 		else if (i > (int)dwn)
 			infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
+			// printf("voici i = %d\n", i);
 	}
 }
 
-void	ft_draw_wolf(t_window *infos)
+void	ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x)
 {
-	int		i;
-	float	dm2;
-	float	hp;
-	float	intup;
-	float	intdwn;
-
-	i = 0;
-	while (i < WIDTH)
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
+	int	color;
+	int	i;
+	(void)dda;
+	// perp_wall_dist += 0.00000001;
+	color = 0xFFFFFF;
+	// ft_putendl("perpwall = ");
+	// ft_putnbr(perp_wall_dist);
+	line_height = (int)(HEIGHT / perp_wall_dist);
+	// ft_putendl("\nlineheight = ");
+	// ft_putnbr(line_height);
+	draw_start = -line_height / 2 + HEIGHT / 2;
+	if (draw_start < 0)
+		draw_start = 0;
+	draw_end = line_height / 2 + HEIGHT / 2;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
+	if (dda.side == 1)
+		color = 0xDDDDDD;
+	i = draw_start;
+	while(i < draw_end)
 	{
-		dm2 = powf(infos->wolf.pos_cam.x - infos->wolf.tab_ray[i].pos_int.x, 2)
-			+ powf(infos->wolf.pos_cam.y - infos->wolf.tab_ray[i].pos_int.y, 2);
-		hp = (infos->wolf.d_camscreen) * 150 / sqrt(dm2);
-		// hp = (infos->wolf.d_camscreen) * 64 / sqrt(dm2);
-		hp /= 6;
-
-		intup = (HEIGHT / 2 - (hp / 2));
-		// printf("up = %d\ndwn = %d\n\n", intup, intdwn);
-		intdwn = HEIGHT / 2 + (hp / 2);
-		ft_draw_col(infos, intup, intdwn, i);
-		i++;
+		infos->img[x + i++ * WIDTH] = color;
 	}
 }
 
@@ -77,6 +83,7 @@ void	ft_draw_ray(t_window *infos)
 	i = 0;
 	while (i < WIDTH)
 	{
+		// infos->wolf.tab_ray[i].length /= cos(infos->wolf.tab_ray[i].angle);
 		infos->wolf.tab_ray[i].pos_ray.x -= (infos->wolf.pos_cam.x - pos_cam_mm.x);
 		infos->wolf.tab_ray[i].pos_ray.y -= (infos->wolf.pos_cam.y - pos_cam_mm.y);
 		ft_line_new(infos, pos_cam_mm, infos->wolf.tab_ray[i].pos_ray);
