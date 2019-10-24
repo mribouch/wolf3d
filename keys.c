@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/23 17:18:54 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:47:16 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ void	ft_fill_key(t_window *infos)
 	infos->keys.e = 0;
 	infos->keys.i = 0;
 	infos->keys.o = 0;
+	infos->keys.f = 0;
 }
 
 int		ft_dealkey_press(int keycode, t_window *infos)
 {
 	(void)infos;
-	// ft_putnbr(keycode);
-	// ft_putchar('\n');
+	ft_putnbr(keycode);
+	ft_putchar('\n');
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 0)
@@ -49,6 +50,8 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 		infos->keys.i = 1;
 	if (keycode == 31)
 		infos->keys.o = 1;
+	if (keycode == 257)
+		infos->keys.f = 1;
 	ft_callback(infos);
 	return (1);
 }
@@ -56,6 +59,8 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 int		ft_dealk_release(int keycode, t_window *infos)
 {
 	// ft_bzero(infos->img, WIDTH * HEIGHT);
+	ft_putnbr(keycode);
+	ft_putchar('\n');
 	if (keycode == 0)
 		infos->keys.a = 0;
 	if (keycode == 2)
@@ -72,6 +77,8 @@ int		ft_dealk_release(int keycode, t_window *infos)
 		infos->keys.i = 0;
 	if (keycode == 31)
 		infos->keys.o = 0;
+	if (keycode == 257)
+		infos->keys.f = 0;
 	ft_callback(infos);
 	return (1);
 }

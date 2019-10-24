@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/24 13:58:49 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/24 18:10:20 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ void	ft_editor(t_window *infos)
 			return ;
 	if (current_block.x != infos->wolf.old_block.x && current_block.y != infos->wolf.old_block.y)
 	{
-		if (infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] != 1)
+		// if (infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] != infos->wolf.select_block)
+		if (infos->map.map[(int)current_block.y][(int)current_block.x] == 0)
+		{
 			infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
-		if (infos->map.map[(int)current_block.y][(int)current_block.x] != 1)
-			infos->map.map[(int)current_block.y][(int)current_block.x] = 3;
-		infos->wolf.old_block.x = current_block.x;
-		infos->wolf.old_block.y = current_block.y;
+			infos->map.map[(int)current_block.y][(int)current_block.x] = infos->wolf.select_block + 1;
+			infos->wolf.old_block.x = current_block.x;
+			infos->wolf.old_block.y = current_block.y;
+		}
+		// if (infos->map.map[(int)current_block.y][(int)current_block.x] != infos->wolf.select_block)
 		// infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.y] = 0;
 	}
 }
@@ -71,17 +74,19 @@ int		ft_callback(t_window *infos)
 	if (infos->wolf.editor == 1)
 		ft_editor(infos);
 	ft_draw_cursor(infos);
+	// printf("shift actif : %d\n", infos->keys.shift);
 	infos->wolf.dir_cam.color = 0xFF0000;
 	// infos->img[0]= infos->img_brick[0];
 	mlx_put_image_to_window(infos->mlx_ptr,
     	infos->win_ptr, infos->img_ptr, 0, 0);
 	mlx_put_image_to_window(infos->mlx_ptr,
-    	infos->win_ptr, infos->texture[1].img_ptr, WIDTH / 2 -
-			infos->texture[1].w / 2, HEIGHT - infos->texture[1].h);
+    	infos->win_ptr, infos->gui[0].img_ptr, WIDTH / 2 -
+			infos->gui[0].w / 2, HEIGHT - infos->gui[0].h);
 	mlx_put_image_to_window(infos->mlx_ptr,
     	infos->win_ptr, infos->texture[0].img_ptr, WIDTH / 2 -
 			infos->texture[0].w / 2, HEIGHT - infos->texture[0].h -
-				(infos->texture[1].h - infos->texture[0].h) / 2);
+				(infos->gui[0].h - infos->texture[0].h) / 2);
+	ft_draw_select_block(infos);
 	return (1);
 }
 
