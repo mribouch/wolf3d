@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/15 16:51:30 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/17 13:39:06 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,31 @@ t_dda		ft_intersect(t_window *infos, t_dda dda)
 	return (dda);
 }
 
+static t_dda	ft_get_side_dist(t_window *infos, t_dda dda)
+{
+	if (dda.raydir.x < 0)
+	{
+		dda.step.x = -1;
+		dda.side_dist.x = (infos->wolf.pos_cam.x - dda.map.x) * dda.delta_dist.x;
+	}
+	else
+	{
+		dda.step.x = 1;
+		dda.side_dist.x = (dda.map.x + 1.0 - infos->wolf.pos_cam.x) * dda.delta_dist.x;
+	}
+	if (dda.raydir.y < 0)
+	{
+		dda.step.y = -1;
+		dda.side_dist.y = (infos->wolf.pos_cam.y - dda.map.y) * dda.delta_dist.y;
+	}
+	else
+	{
+		dda.step.y = 1;
+		dda.side_dist.y = (dda.map.y + 1.0 - infos->wolf.pos_cam.y) * dda.delta_dist.y;
+	}
+	return (dda);
+}
+
 void	ft_update_ray(t_window *infos)
 {
 	int		i;
@@ -61,40 +86,13 @@ void	ft_update_ray(t_window *infos)
 		dda.map.y = (int)infos->wolf.pos_cam.y;
 		dda.delta_dist.x = fabs(1 / dda.raydir.x);
 		dda.delta_dist.y = fabs(1 / dda.raydir.y);
-		if (dda.raydir.x < 0)
-		{
-			dda.step.x = -1;
-			dda.side_dist.x = (infos->wolf.pos_cam.x - dda.map.x) * dda.delta_dist.x;
-		}
-		else
-		{
-			dda.step.x = 1;
-			dda.side_dist.x = (dda.map.x + 1.0 - infos->wolf.pos_cam.x) * dda.delta_dist.x;
-		}
-		if (dda.raydir.y < 0)
-		{
-			dda.step.y = -1;
-			dda.side_dist.y = (infos->wolf.pos_cam.y - dda.map.y) * dda.delta_dist.y;
-		}
-		else
-		{
-			dda.step.y = 1;
-			dda.side_dist.y = (dda.map.y + 1.0 - infos->wolf.pos_cam.y) * dda.delta_dist.y;
-		}
+		dda = ft_get_side_dist(infos, dda);
 		dda = ft_intersect(infos, dda);
-		// printf("mapx = %f, mapy = %f, posx = %f, posy = %f, stepx = %f, stepy = %f, raydirx = %f, raydiry = %f", dda.map.x, dda.map.y, infos->wolf.pos_cam.x, infos->wolf.pos_cam.y, dda.step.x, dda.step.y, dda.raydir.x, dda.raydir.y);
-		// ft_putendl("\n");
-		// ft_putstr("stepx , stepy = ");
-		// ft_putnbr(dda.raydir.x);
-		// ft_putstr(", ");
-		// ft_putnbr(dda.raydir.y);
 		if (dda.side == 0)
 			perp_wall_dist = (dda.map.x - infos->wolf.pos_cam.x + (1 - dda.step.x) / 2) / dda.raydir.x;
 		else
 			perp_wall_dist = (dda.map.y - infos->wolf.pos_cam.y + (1 -dda.step.y) / 2) / dda.raydir.y;
-		// ft_putendl("avant le draw wolf");
 		ft_draw_wolf(infos, dda, perp_wall_dist, i);
-		// ft_putendl("apres le draw wolf");
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/15 17:20:56 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/24 14:56:53 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ void	ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x)
 	int	draw_end;
 	int	color;
 	int	i;
-	(void)dda;
+	int	texNum = infos->map.map[(int)dda.map.y][(int)dda.map.y] - 1;
+	(void)texNum;
+	double	wall_x;
+	int		tex_x;
+	// (void)dda;
 	// perp_wall_dist += 0.00000001;
 	color = 0xFFFFFF;
 	// ft_putendl("perpwall = ");
@@ -65,6 +69,16 @@ void	ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x)
 		draw_end = HEIGHT - 1;
 	if (dda.side == 1)
 		color = 0xDDDDDD;
+	if (dda.side == 0)
+		wall_x = infos->wolf.pos_cam.y + perp_wall_dist * dda.raydir.y;
+	else
+		wall_x = infos->wolf.pos_cam.x + perp_wall_dist * dda.raydir.x;
+	wall_x -= floorf(wall_x);
+	tex_x = (int)(wall_x * infos->texture[0].w);
+	if (dda.side == 0 && dda.raydir.x > 0)
+		tex_x = infos->texture[0].w - tex_x - 1;
+	if (dda.side == 1 && dda.raydir.y < 0)
+		tex_x = infos->texture[0].w - tex_x - 1;
 	i = draw_start;
 	while(i < draw_end)
 	{
@@ -143,5 +157,24 @@ void	ft_draw_minimap(t_window *infos, t_coord2d coordmap)
 		i++;
 		sq.x = coordmap.x;
 		sq.y += sq.size;
+	}
+}
+
+void	ft_draw_cursor(t_window *infos)
+{
+	int	size;
+	int	i;
+	size = 15;
+	i = 0;
+	while (i < size)
+	{
+		infos->img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH] = 0x0000FF;
+		i++;
+	}
+	i = 0;
+	while(i < size)
+	{
+		infos->img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH] = 0x0000FF;
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:50:40 by mribouch          #+#    #+#             */
-/*   Updated: 2019/06/26 15:08:03 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/23 17:07:54 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,18 @@
 
 typedef struct	s_key
 {
-	int	r_arr;
-	int	l_arr;
-	int	up_arr;
-	int	dwn_arr;
+	int	d;
+	int	a;
+	int	w;
+	int	s;
+	int	q;
+	int	e;
+	int	i;
+	int	o;
+	int	left_click;
+	int	right_click;
+	int	mouse_wheel_up;
+	int	mouse_wheel_down;
 }				t_key;
 
 // void	ft_fill_key(t_window *infos);

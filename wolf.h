@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/15 17:44:46 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/24 13:44:35 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define WOLF_H
 # include "libft/libft.h"
 # include "minilibx_macos/mlx.h"
-#include "callbacks.h"
-#include "key.h"
+# include "callbacks.h"
+# include "SDL2-2.0.10/include/SDL.h"
+# include "key.h"
 # define WIDTH 917
 # define HEIGHT 688
 # define RAYLENGHT 150.0
 # define FOV 1.5708
+# define NUM_TEX 2
 
 typedef struct	s_square
 {
@@ -101,11 +103,14 @@ typedef struct	s_wolf
 	t_coord2d	pos_cam;
 	t_coord2d	dir_cam;
 	t_coord2d	plane;
+	t_coord2d	old_block;
 	t_ray		*tab_ray;
 	double		angle_cam;
 	int			fov;
 	int			d_camscreen;
 	int			s_wall;
+	int			editor;
+	int			edit_distance_wall;
 }				t_wolf;
 
 
@@ -117,6 +122,14 @@ typedef struct	s_map
 	int				height;
 }				t_map;
 
+typedef struct	s_image
+{
+	int			*img;
+	void		*img_ptr;
+	int			w;
+	int			h;
+}				t_image;
+
 typedef struct	s_window
 {
 	void		*mlx_ptr;
@@ -125,12 +138,15 @@ typedef struct	s_window
 	int			*img;
 	int			width;
 	int			height;
+	void		*brick_img_ptr;
+	int			*img_brick;
 	t_map		map;
 	t_key		keys;
 	t_coord2d	test;
 	t_coord2d	cursor;
 	t_wolf		wolf;
 	t_wolf		*data;
+	t_image		*texture;
 }				t_window;
 
 void			ft_fill_key(t_window *infos);
@@ -150,5 +166,10 @@ void			ft_draw_cam(t_window *infos);
 void			ft_draw_minimap(t_window *infos, t_coord2d coordmap);
 void			ft_draw_ray(t_window *infos);
 void			ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x);
+void			ft_draw_cursor(t_window *infos);
+void			ft_dealk_act(t_window *infos);
+int				ft_button_press(int button, int x, int y, t_window *infos);
+int				ft_button_release(int button, int x, int y, t_window *infos);
+
 
 #endif
