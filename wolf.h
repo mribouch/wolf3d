@@ -6,21 +6,25 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/24 18:05:14 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/29 16:46:54 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 # include "minilibx_macos/mlx.h"
 # include "callbacks.h"
 # include "key.h"
-# define WIDTH 917
+# include <time.h>
+# define WIDTH 916
 # define HEIGHT 688
 # define RAYLENGHT 150.0
 # define FOV 1.5708
-# define NUM_TEX 2
+# define NUM_TEX 8
 
 typedef struct	s_square
 {
@@ -113,8 +117,11 @@ typedef struct	s_wolf
 	t_coord2d	old_block;
 	t_coord2d	current_block;
 	t_ray		*tab_ray;
+	t_coord2d	tnt_block;
 	double		angle_cam;
 	int			fov;
+	int			explode;
+	int			exp_iter;
 	int			d_camscreen;
 	int			s_wall;
 	int			editor;
@@ -139,6 +146,16 @@ typedef struct	s_image
 	int			h;
 }				t_image;
 
+// typedef union	u_texlist
+// {
+// 	"stone.xpm",
+// 	"oreDiamond.xpm",
+// 	"stonebricksmooth_mossy.xpm",
+// 	"brick.xpm",
+// 	"wood.xpm",
+// 	"tnt_side.xpm";
+// }				t_texlist;
+
 typedef struct	s_window
 {
 	void		*mlx_ptr;
@@ -149,6 +166,8 @@ typedef struct	s_window
 	int			height;
 	void		*brick_img_ptr;
 	int			*img_brick;
+	clock_t		previous;
+	double		lag;
 	t_map		map;
 	t_key		keys;
 	t_coord2d	test;
@@ -181,5 +200,10 @@ void			ft_dealk_act(t_window *infos);
 int				ft_button_press(int button, int x, int y, t_window *infos);
 int				ft_button_release(int button, int x, int y, t_window *infos);
 void			ft_draw_select_block(t_window *infos);
+void			ft_draw_item_tb(t_window *infos);
+int				ft_create_rgb(t_color color);
+int				ft_negative_col(t_color color);
+t_color			ft_int_to_rgb(int color);
+int				ft_get_tnt_color(t_window *infos, int color);
 
 #endif

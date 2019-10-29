@@ -1,0 +1,9 @@
+8
+stone.xpm
+oreDiamond.xpm
+stonebricksmooth_mossy.xpm
+brick.xpm
+wood.xpm
+tnt_side.xpm
+quartzblock_chiseled.xpm
+flintAndSteel.xpm

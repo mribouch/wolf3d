@@ -6,12 +6,37 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/24 18:04:23 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/29 15:32:39 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 #include <math.h>
+#    include <stdio.h>
+
+void	ft_explode_tnt(t_window *infos)
+{
+	int	x;
+	int	y;
+	infos->wolf.exp_iter ++;
+	printf("explode = %d\n", infos->wolf.explode);
+	if (infos->wolf.exp_iter == 100)
+	{
+		x = infos->wolf.tnt_block.x;
+		y = infos->wolf.tnt_block.y;
+		infos->map.map[y][x] = 0;
+		infos->map.map[y + 1][x] = 0;
+		infos->map.map[y - 1][x] = 0;
+		infos->map.map[y][x + 1] = 0;
+		infos->map.map[y][x - 1] = 0;
+		infos->map.map[y - 1][x - 1] = 0;
+		infos->map.map[y + 1][x + 1] = 0;
+		infos->map.map[y - 1][x + 1] = 0;
+		infos->map.map[y + 1][x - 1] = 0;
+		infos->wolf.explode = 0;
+		infos->wolf.exp_iter = 0;
+	}
+}
 
 static void	ft_rotate_view(t_window *infos)
 {
@@ -21,20 +46,20 @@ static void	ft_rotate_view(t_window *infos)
 	if (infos->keys.a == 1)
 	{
 		olddirx = infos->wolf.dir_cam.x;
-		infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(0.05) - infos->wolf.dir_cam.y * sin(0.05);
-		infos->wolf.dir_cam.y = olddirx * sin(0.05) + infos->wolf.dir_cam.y * cos(0.05);
+		infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(0.03) - infos->wolf.dir_cam.y * sin(0.03);
+		infos->wolf.dir_cam.y = olddirx * sin(0.03) + infos->wolf.dir_cam.y * cos(0.03);
 		oldplanex = infos->wolf.plane.x;
-		infos->wolf.plane.x = infos->wolf.plane.x * cos(0.05) - infos->wolf.plane.y * sin(0.05);
-		infos->wolf.plane.y = oldplanex * sin(0.05) + infos->wolf.plane.y * cos(0.05);
+		infos->wolf.plane.x = infos->wolf.plane.x * cos(0.03) - infos->wolf.plane.y * sin(0.03);
+		infos->wolf.plane.y = oldplanex * sin(0.03) + infos->wolf.plane.y * cos(0.03);
 	}
 	if (infos->keys.d == 1)
 	{
 		olddirx = infos->wolf.dir_cam.x;
-		infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(-0.05) - infos->wolf.dir_cam.y * sin(-0.05);
-		infos->wolf.dir_cam.y = olddirx * sin(-0.05) + infos->wolf.dir_cam.y * cos(-0.05);
+		infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(-0.03) - infos->wolf.dir_cam.y * sin(-0.03);
+		infos->wolf.dir_cam.y = olddirx * sin(-0.03) + infos->wolf.dir_cam.y * cos(-0.03);
 		oldplanex = infos->wolf.plane.x;
-		infos->wolf.plane.x = infos->wolf.plane.x * cos(-0.05) - infos->wolf.plane.y * sin(-0.05);
-		infos->wolf.plane.y = oldplanex * sin(-0.05) + infos->wolf.plane.y * cos(-0.05);
+		infos->wolf.plane.x = infos->wolf.plane.x * cos(-0.03) - infos->wolf.plane.y * sin(-0.03);
+		infos->wolf.plane.y = oldplanex * sin(-0.03) + infos->wolf.plane.y * cos(-0.03);
 	}
 }
 
@@ -68,7 +93,11 @@ static void	ft_act_block(t_window *infos)
 		x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
 		y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
 		if ((x > 0 && x < infos->map.width) && (y > 0 && y < infos->map.height))
-			infos->map.map[y][x] = infos->wolf.select_block + 1;
+		{
+			// infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
+			// infos->map.map[y][x] = infos->wolf.select_block + 1;
+			infos->wolf.old_block.color = 1;
+		}
 	}
 	if (infos->keys.left_click == 1 && infos->wolf.editor == 1)
 	{
@@ -77,6 +106,30 @@ static void	ft_act_block(t_window *infos)
 		if ((x > 0 && x < infos->map.width -1) && (y > 0 && y < infos->map.height - 1))
 					infos->map.map[y][x] = 0;
 	}
+	if (infos->keys.right_click == 1 && infos->wolf.editor == 0 && infos->wolf.select_block == 7)
+	{
+		// infos->wolf.explode++;
+		x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
+		y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
+		if (infos->map.map[y][x] == 6)
+		{
+			infos->wolf.explode = 1;
+			infos->wolf.tnt_block.x = x;
+			infos->wolf.tnt_block.y = y;
+			// infos->map.map[y][x] = 0;
+			// infos->map.map[y + 1][x] = 0;
+			// infos->map.map[y - 1][x] = 0;
+			// infos->map.map[y][x + 1] = 0;
+			// infos->map.map[y][x - 1] = 0;
+			// infos->map.map[y - 1][x - 1] = 0;
+			// infos->map.map[y + 1][x + 1] = 0;
+			// infos->map.map[y - 1][x + 1] = 0;
+			// infos->map.map[y + 1][x - 1] = 0;
+			// infos->wolf.explode = 0;
+		}
+	}
+	if (infos->wolf.explode == 1)
+		ft_explode_tnt(infos);
 }
 
 void	ft_dealk_act(t_window *infos)
@@ -105,7 +158,7 @@ void	ft_dealk_act(t_window *infos)
 	if (infos->keys.o == 1)
 		infos->wolf.editor = 0;
 	if (infos->wolf.editor == 0)
-		if (infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] == 3)
+		if (infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] > 0)
 			infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
 	ft_act_block(infos);
 	infos->keys.mouse_wheel_up = 0;

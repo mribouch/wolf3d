@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/24 17:13:00 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/29 16:47:11 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@
 // 			// printf("voici i = %d\n", i);
 // 	}
 // }
+
+void	ft_draw_item_tb(t_window *infos)
+{
+	int	i;
+
+	i = 0;
+	while (i < NUM_TEX)
+	{
+		mlx_put_image_to_window(infos->mlx_ptr,
+    		infos->win_ptr, infos->texture[i].img_ptr, WIDTH / 2 -
+				infos->gui[0].w / 2 + 2 + (infos->texture[i].w + 4) * i, HEIGHT - infos->texture[i].h -
+					(infos->gui[0].h - infos->texture[i].h) / 2);
+		i++;
+	}
+}
 
 void	ft_draw_select_block(t_window *infos)
 {
@@ -77,6 +92,8 @@ void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 		color = infos->texture[tex_num].img[infos->texture[tex_num].h * dda.tex_y + dda.tex_x];
 		if (dda.side == 1)
 			color = (color >> 1) & 8355711;
+		if ((int)infos->wolf.tnt_block.x == (int)dda.map.x && (int)infos->wolf.tnt_block.y == (int)dda.map.y && infos->wolf.explode == 1)
+			color = ft_get_tnt_color(infos, color);
 		infos->img[x + i++ * WIDTH] = color;
 	}
 }
@@ -182,17 +199,31 @@ void	ft_draw_cursor(t_window *infos)
 {
 	int	size;
 	int	i;
+	t_color	current_rgb;
+	int		current_int;
+	int		neg_col;
+
 	size = 15;
 	i = 0;
 	while (i < size)
 	{
-		infos->img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH] = 0x0000FF;
+		current_int = infos->img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH];
+		current_rgb = ft_int_to_rgb(current_int);
+		neg_col = ft_negative_col(current_rgb);
+		infos->img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH] = neg_col;
 		i++;
 	}
 	i = 0;
 	while(i < size)
 	{
-		infos->img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH] = 0x0000FF;
+		if (i != 7)
+		{
+			current_int = infos->img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH];
+			current_rgb = ft_int_to_rgb(current_int);
+			neg_col = ft_negative_col(current_rgb);
+			// printf("col neg = %x\n", neg_col);
+			infos->img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH] = neg_col;
+		}
 		i++;
 	}
 }
