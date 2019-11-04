@@ -1,4 +1,4 @@
-8
+9
 stone.xpm
 oreDiamond.xpm
 stonebricksmooth_mossy.xpm
@@ -7,3 +7,4 @@ wood.xpm
 tnt_side.xpm
 quartzblock_chiseled.xpm
 flintAndSteel.xpm
+torch.xpm

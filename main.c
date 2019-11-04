@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/29 18:12:20 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/04 14:55:11 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	ft_editor(t_window *infos)
 		// 	// current_block.y = 0;
 		// 	infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
 		// }
-		
 		// if (infos->map.map[(int)current_block.y][(int)current_block.x] != infos->wolf.select_block)
 		// 	infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.y] = 0;
 	}
@@ -117,17 +116,6 @@ int		ft_callback(t_window *infos)
 	// elapsed = ((double)current)/CLOCKS_PER_SEC;
 	// printf ("secondes entre appel = %f \n", elapsed);
 	return (1);
-}
-
-int		*ft_get_img_brick(t_window *infos)
-{
-	int	bpp;
-	int	s_l;
-	int	endian;
-
-	infos->img_brick = (int*)mlx_get_data_addr(infos->brick_img_ptr, &bpp, &s_l, &endian);
-	// ft_bzero(infos->img, infos->width * infos->height);
-	return (infos->img_brick);
 }
 
 int		*ft_get_img(t_window *infos)

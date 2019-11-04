@@ -6,34 +6,88 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:57:45 by mribouch          #+#    #+#             */
-/*   Updated: 2019/04/10 11:38:54 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/31 14:20:57 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "wolf.h"
 
-void	ft_set_color(int key, t_window *infos)
+int		ft_hsv2rgb(t_hsv hsv)
 {
-	if (key == 8)
-	{
-		infos->colid++;
-		if (infos->colid > 5)
-			infos->colid = 0;
-		if (infos->colid == 0)
-			infos->bcol = 0x000000;
-		if (infos->colid == 1)
-			infos->bcol = 0x003B3E;
-		if (infos->colid == 2)
-			infos->bcol = 0x0A3E00;
-		if (infos->colid == 3)
-			infos->bcol = 0x3C003E;
-		if (infos->colid == 4)
-			infos->bcol = 0x542E00;
-		if (infos->colid == 5)
-			infos->bcol = 0x540000;
-		ft_bcolor(infos->img, infos->bcol, (infos->height * infos->width));
-		ft_callback(infos);
-	}
+    int		i;
+    float	f;
+    float	p;
+    float	q;
+    float	t;
+    hsv.h = (hsv.h == 360) ? 0 : hsv.h / 60.0f;
+    i = (int)hsv.h;
+    f = hsv.h - i;
+    p = hsv.v * (1.0f - hsv.s) * 255;
+    q = hsv.v * (1.0f - (hsv.s * f)) * 255;
+    t = hsv.v * (1.0f - (hsv.s * (1.0 - f))) * 255;
+    if (i == 0)
+            return (ft_create_rgb(hsv.v * 255, t, p));
+    else if (i == 1)
+            return (ft_create_rgb(q, hsv.v * 255, p));
+    else if (i == 2)
+            return (ft_create_rgb(p, hsv.v * 255, t));
+    else if (i == 3)
+            return (ft_create_rgb(p, q, hsv.v * 255));
+    else if (i == 4)
+            return (ft_create_rgb(t, p, hsv.v * 255));
+    return (ft_create_rgb(hsv.v * 255, p, q));
+}
+
+int		ft_get_color_dist(t_window *infos, t_hsv color)
+{
+	int	ret;
+    (void)infos;
+	ret = ft_hsv2rgb(color);
+	return (ret);
+}
+
+t_hsv	ft_rgb2hsv(t_color color)
+{
+    t_hsv         out;
+    double      min;
+	double		max;
+	double		delta;
+
+    min = color.r < color.g ? color.r : color.g;
+    min = min  < color.b ? min  : color.b;
+    max = color.r > color.g ? color.r : color.g;
+    max = max  > color.b ? max  : color.b;
+    out.v = max;
+    delta = max - min;
+    if (delta < 0.00001)
+    {
+        out.s = 0;
+        out.h = 0; // undefined, maybe nan?
+        return out;
+    }
+    if( max > 0.0 ) { // NOTE: if Max is == 0, this divide would cause a crash
+        out.s = (delta / max);                  // s
+    } else {
+        // if max is 0, then r = g = b = 0
+        // s = 0, h is undefined
+        out.s = 0.0;
+        out.h = 0;                            // its now undefined
+        return out;
+    }
+    if( color.r >= max )                           // > is bogus, just keeps compilor happy
+        out.h = ( color.g - color.b ) / delta;        // between yellow & magenta
+    else
+    if( color.g >= max )
+        out.h = 2.0 + ( color.b - color.r ) / delta;  // between cyan & yellow
+    else
+        out.h = 4.0 + ( color.r - color.g ) / delta;  // between magenta & cyan
+
+    out.h *= 60.0;                              // degrees
+
+    if( out.h < 0.0 )
+        out.h += 360.0;
+
+    return out;
 }
 
 void	ft_bcolor(void *s, int color, size_t n)

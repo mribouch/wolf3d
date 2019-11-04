@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/29 15:32:39 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/31 13:55:56 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,55 @@
 #include <math.h>
 #    include <stdio.h>
 
+void	ft_explode(t_window *infos, int x, int y)
+{
+	infos->map.map[y][x] = 0;
+	if (infos->map.map[y][x + 1] == 6)
+		ft_explode(infos, x + 1, y);
+	if (infos->map.map[y][x - 1] == 6)
+		ft_explode(infos, x - 1, y);
+	if (infos->map.map[y + 1][x] == 6)
+		ft_explode(infos, x, y + 1);
+	if (infos->map.map[y - 1][x] == 6)
+		ft_explode(infos, x, y - 1);
+	if (infos->map.map[y + 1][x + 1] == 6)
+		ft_explode(infos, x + 1, y + 1);
+	if (infos->map.map[y - 1][x - 1] == 6)
+		ft_explode(infos, x - 1, y - 1);
+	if (infos->map.map[y + 1][x - 1] == 6)
+		ft_explode(infos, x - 1, y + 1);
+	if (infos->map.map[y - 1][x + 1] == 6)
+		ft_explode(infos, x + 1, y - 1);
+	if (y + 1 < infos->map.height - 1)
+		infos->map.map[y + 1][x] = 0;
+	if (y - 1 >= 1)
+		infos->map.map[y - 1][x] = 0;
+	if (x + 1 < infos->map.width - 1)
+		infos->map.map[y][x + 1] = 0;
+	if (x - 1 >= 1)
+		infos->map.map[y][x - 1] = 0;
+	if (y - 1 >= 1 && x - 1 >= 1)
+		infos->map.map[y - 1][x - 1] = 0;
+	if (y + 1 < infos->map.height - 1 && x + 1 < infos->map.width - 1)
+		infos->map.map[y + 1][x + 1] = 0;
+	if (y - 1 >= 1 && x + 1 < infos->map.width - 1)
+		infos->map.map[y - 1][x + 1] = 0;
+	if (y + 1 < infos->map.height - 1 && x - 1 >= 1)
+		infos->map.map[y + 1][x - 1] = 0;
+}
+
 void	ft_explode_tnt(t_window *infos)
 {
 	int	x;
 	int	y;
 	infos->wolf.exp_iter ++;
-	printf("explode = %d\n", infos->wolf.explode);
+	// printf("explode = %d\n", infos->wolf.explode);
+	// printf("exp_iter = %d\n", infos->wolf.exp_iter);
 	if (infos->wolf.exp_iter == 100)
 	{
 		x = infos->wolf.tnt_block.x;
 		y = infos->wolf.tnt_block.y;
-		infos->map.map[y][x] = 0;
-		infos->map.map[y + 1][x] = 0;
-		infos->map.map[y - 1][x] = 0;
-		infos->map.map[y][x + 1] = 0;
-		infos->map.map[y][x - 1] = 0;
-		infos->map.map[y - 1][x - 1] = 0;
-		infos->map.map[y + 1][x + 1] = 0;
-		infos->map.map[y - 1][x + 1] = 0;
-		infos->map.map[y + 1][x - 1] = 0;
+		ft_explode(infos, x, y);
 		infos->wolf.explode = 0;
 		infos->wolf.exp_iter = 0;
 	}
@@ -108,7 +138,6 @@ static void	ft_act_block(t_window *infos)
 	}
 	if (infos->keys.right_click == 1 && infos->wolf.editor == 0 && infos->wolf.select_block == 7)
 	{
-		// infos->wolf.explode++;
 		x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
 		y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
 		if (infos->map.map[y][x] == 6)
@@ -116,16 +145,6 @@ static void	ft_act_block(t_window *infos)
 			infos->wolf.explode = 1;
 			infos->wolf.tnt_block.x = x;
 			infos->wolf.tnt_block.y = y;
-			// infos->map.map[y][x] = 0;
-			// infos->map.map[y + 1][x] = 0;
-			// infos->map.map[y - 1][x] = 0;
-			// infos->map.map[y][x + 1] = 0;
-			// infos->map.map[y][x - 1] = 0;
-			// infos->map.map[y - 1][x - 1] = 0;
-			// infos->map.map[y + 1][x + 1] = 0;
-			// infos->map.map[y - 1][x + 1] = 0;
-			// infos->map.map[y + 1][x - 1] = 0;
-			// infos->wolf.explode = 0;
 		}
 	}
 	if (infos->wolf.explode == 1)

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/29 18:09:43 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/10/31 15:17:20 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,25 @@ void	ft_load_texture(t_window *infos)
 	int		fd;
 	char	*line;
 	int		size;
+	char	*path;
 
 	fd = open("textures.txt", O_RDONLY);
 	i = 0;
 	if (get_next_line(fd, &line) <= 0)
 		return ;
 	size = ft_atoi(line);
+	infos->nb_tex_tb = size;
+	free(line);
 	if (!(infos->texture = malloc(sizeof(t_image) * (size))))
 		return ;
 	while (get_next_line(fd, &line) > 0)
 	{
-		infos->texture[i].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, line, &infos->texture[i].w, &infos->texture[i].h );
+		path = ft_strjoin("textures/", line);
+		infos->texture[i].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, path, &infos->texture[i].w, &infos->texture[i].h );
 		free(line);
+		free(path);
 		i++;
 	}
-	// infos->texture[0].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "stone.xpm", &infos->texture[0].w, &infos->texture[0].h );
-	// infos->texture[1].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "oreDiamond.xpm", &infos->texture[1].w, &infos->texture[1].h );
-	// infos->texture[2].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "stonebricksmooth_mossy.xpm", &infos->texture[2].w, &infos->texture[2].h );
-	// infos->texture[3].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "brick.xpm", &infos->texture[3].w, &infos->texture[3].h );
-	// infos->texture[4].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "wood.xpm", &infos->texture[4].w, &infos->texture[4].h );
-	// infos->texture[5].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "tnt_side.xpm", &infos->texture[5].w, &infos->texture[5].h );
-	// infos->texture[6].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "quartzblock_chiseled.xpm", &infos->texture[6].w, &infos->texture[6].h );
-	// infos->texture[7].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "flintAndSteel.xpm", &infos->texture[7].w, &infos->texture[7].h );
 	i = 0;
 	while (i < size)
 	{
@@ -62,7 +59,6 @@ void	ft_load_texture(t_window *infos)
 		i++;
 	}
 	close(fd);
-	// printf("first = %s\n", u.ONE);
 }
 
 void	ft_init_wolf(t_window *infos)

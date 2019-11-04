@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/29 16:47:11 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/04 13:49:15 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_draw_item_tb(t_window *infos)
 	int	i;
 
 	i = 0;
-	while (i < NUM_TEX)
+	while (i < infos->nb_tex_tb)
 	{
 		mlx_put_image_to_window(infos->mlx_ptr,
     		infos->win_ptr, infos->texture[i].img_ptr, WIDTH / 2 -
@@ -93,7 +93,11 @@ void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 		if (dda.side == 1)
 			color = (color >> 1) & 8355711;
 		if ((int)infos->wolf.tnt_block.x == (int)dda.map.x && (int)infos->wolf.tnt_block.y == (int)dda.map.y && infos->wolf.explode == 1)
-			color = ft_get_tnt_color(infos, color);
+			color = ft_get_tnt_color(infos, color, 0xFFFFFF, 100);
+		// ft_putendl("heyyyy");
+		infos->wolf.block_dist = dda.perp_wall_dist;
+		// color = ft_get_lerp_dist(infos, color, 10);
+		// color = ft_get_color_dist(infos, ft_rgb2hsv(ft_int_to_rgb(color)));
 		infos->img[x + i++ * WIDTH] = color;
 	}
 }
@@ -118,6 +122,10 @@ void	ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x)
 		dda.draw_end = HEIGHT - 1;
 	if (dda.side == 1)
 		color = 0xDDDDDD;
+	// infos->wolf.block_dist = sqrtf(powf(dda.map.x - infos->wolf.pos_cam.x, 2) + powf(dda.map.y - infos->wolf.pos_cam.y, 2));
+	// infos->wolf.block_dist = sqrtf((dda.map.x * dda.map.x - 2 * dda.map.x * infos->wolf.pos_cam.x +
+	// 	infos->wolf.pos_cam.x * infos->wolf.pos_cam.x) + (dda.map.y * dda.map.y - 2 *
+	// 		dda.map.y * infos->wolf.pos_cam.y + infos->wolf.pos_cam.y * infos->wolf.pos_cam.y));
 	ft_get_col_tex(infos, dda, x, tex_num);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/29 16:46:54 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/04 14:54:33 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ typedef struct	s_var
 	int			color2;
 }				t_var;
 
+typedef struct  s_hsv
+{
+        double                  h;
+        double                  s;
+        double                  v;
+}                               t_hsv;
+
 typedef struct	s_color
 {
 	int	r;
@@ -118,6 +125,7 @@ typedef struct	s_wolf
 	t_coord2d	current_block;
 	t_ray		*tab_ray;
 	t_coord2d	tnt_block;
+	int			block_dist;
 	double		angle_cam;
 	int			fov;
 	int			explode;
@@ -146,16 +154,6 @@ typedef struct	s_image
 	int			h;
 }				t_image;
 
-// typedef union	u_texlist
-// {
-// 	"stone.xpm",
-// 	"oreDiamond.xpm",
-// 	"stonebricksmooth_mossy.xpm",
-// 	"brick.xpm",
-// 	"wood.xpm",
-// 	"tnt_side.xpm";
-// }				t_texlist;
-
 typedef struct	s_window
 {
 	void		*mlx_ptr;
@@ -164,8 +162,6 @@ typedef struct	s_window
 	int			*img;
 	int			width;
 	int			height;
-	void		*brick_img_ptr;
-	int			*img_brick;
 	clock_t		previous;
 	double		lag;
 	t_map		map;
@@ -175,6 +171,7 @@ typedef struct	s_window
 	t_wolf		wolf;
 	t_wolf		*data;
 	t_image		*texture;
+	int			nb_tex_tb;
 	t_image		*gui;
 }				t_window;
 
@@ -201,9 +198,14 @@ int				ft_button_press(int button, int x, int y, t_window *infos);
 int				ft_button_release(int button, int x, int y, t_window *infos);
 void			ft_draw_select_block(t_window *infos);
 void			ft_draw_item_tb(t_window *infos);
-int				ft_create_rgb(t_color color);
+int				ft_create_rgb(double r, double g, double b);
+t_hsv			ft_rgb2hsv(t_color color);
 int				ft_negative_col(t_color color);
 t_color			ft_int_to_rgb(int color);
-int				ft_get_tnt_color(t_window *infos, int color);
+int     		ft_get_tnt_color(t_window *infos, int color1, int color2, int nbp);
+int				ft_lerp(int i, int color1, int color2, float nbp);
+int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
+int				ft_get_lerp_dist(t_window *infos, int color1, int nbp);
+int				ft_get_color_dist(t_window *infos, t_hsv color);
 
 #endif
