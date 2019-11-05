@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2019/10/30 19:53:07 by mribouch         ###   ########.fr        #
+#    Updated: 2019/11/05 17:25:41 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,16 @@ NAME = wolf3d
 SRCS = main.c		\
 		keys.c		\
 		parse.c		\
-		bresenham.c	\
-		shape.c		\
 		ray.c		\
 		draw.c		\
 		action.c	\
 		tools.c		\
 		color.c		\
+		menu.c		\
+		edit.c		\
 		init.c
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror -g3
 OBJS = $(SRCS:.c=.o)
 
 LIBFT = libft/libft.a

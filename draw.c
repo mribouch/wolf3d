@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/04 13:49:15 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/04 15:12:22 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 		infos->wolf.block_dist = dda.perp_wall_dist;
 		// color = ft_get_lerp_dist(infos, color, 10);
 		// color = ft_get_color_dist(infos, ft_rgb2hsv(ft_int_to_rgb(color)));
-		infos->img[x + i++ * WIDTH] = color;
+		infos->game.img[x + i++ * WIDTH] = color;
 	}
 }
 
@@ -215,10 +215,10 @@ void	ft_draw_cursor(t_window *infos)
 	i = 0;
 	while (i < size)
 	{
-		current_int = infos->img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH];
+		current_int = infos->game.img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH];
 		current_rgb = ft_int_to_rgb(current_int);
 		neg_col = ft_negative_col(current_rgb);
-		infos->img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH] = neg_col;
+		infos->game.img[WIDTH / 2 - size / 2 + i + HEIGHT / 2 * WIDTH] = neg_col;
 		i++;
 	}
 	i = 0;
@@ -226,11 +226,11 @@ void	ft_draw_cursor(t_window *infos)
 	{
 		if (i != 7)
 		{
-			current_int = infos->img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH];
+			current_int = infos->game.img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH];
 			current_rgb = ft_int_to_rgb(current_int);
 			neg_col = ft_negative_col(current_rgb);
 			// printf("col neg = %x\n", neg_col);
-			infos->img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH] = neg_col;
+			infos->game.img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH] = neg_col;
 		}
 		i++;
 	}

@@ -6,13 +6,20 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/24 16:47:16 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/05 13:57:23 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 #include "key.h"
 #include "callbacks.h"
+
+int                     ft_get_cursor(int x, int y, t_window *infos)
+{
+        infos->cursor.x = x;
+        infos->cursor.y = y;
+        return (0);
+}
 
 void	ft_fill_key(t_window *infos)
 {

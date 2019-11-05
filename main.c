@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/04 14:55:11 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/05 17:27:10 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_editor(t_window *infos)
 	t_coord2d	current_block;
 	double	camx;
 
-	camx = 2 * (WIDTH / 2) / (double)infos->width - 1;
+	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
 	current_block.x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
 	current_block.y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
 	if ((current_block.x < 0 || current_block.x > infos->map.width) ||
@@ -85,7 +85,7 @@ int		ft_callback(t_window *infos)
 	elapsed = current - infos->previous;
 	infos->previous = current;
 	infos->lag += elapsed;
-	ft_bzero(infos->img, sizeof(int) * (WIDTH * HEIGHT));
+	ft_bzero(infos->game.img, sizeof(int) * (WIDTH * HEIGHT));
 	// ft_bzero(infos->img_brick, sizeof(int) * (16 * 16));
 	ft_dealk_act(infos);
 	// printf("lag = %f\n", infos->lag);
@@ -101,16 +101,24 @@ int		ft_callback(t_window *infos)
 	ft_draw_cursor(infos);
 	infos->wolf.dir_cam.color = 0xFF0000;
 	mlx_put_image_to_window(infos->mlx_ptr,
-    	infos->win_ptr, infos->img_ptr, 0, 0);
-	mlx_put_image_to_window(infos->mlx_ptr,
-    	infos->win_ptr, infos->gui[0].img_ptr, WIDTH / 2 -
-			infos->gui[0].w / 2, HEIGHT - infos->gui[0].h);
-	ft_draw_item_tb(infos);
-	ft_draw_select_block(infos);
-	if (infos->wolf.select_block == 7)
+    	infos->win_ptr, infos->game.img_ptr, 0, 0);
+	if (infos->wolf.menu == 0)
+	{
 		mlx_put_image_to_window(infos->mlx_ptr,
-    		infos->win_ptr, infos->gui[2].img_ptr, WIDTH - infos->gui[2].w,
-				HEIGHT - infos->gui[2].h);
+    		infos->win_ptr, infos->gui[0].img_ptr, WIDTH / 2 -
+				infos->gui[0].w / 2, HEIGHT - infos->gui[0].h);
+		ft_draw_item_tb(infos);
+		ft_draw_select_block(infos);
+		if (infos->wolf.select_block == 7)
+			mlx_put_image_to_window(infos->mlx_ptr,
+    			infos->win_ptr, infos->gui[2].img_ptr, WIDTH - infos->gui[2].w,
+					HEIGHT - infos->gui[2].h);
+	}
+	if (infos->wolf.menu == 1)
+	{
+		ft_putmenu(infos);
+	}
+	
 
 	// current = clock() - current;
 	// elapsed = ((double)current)/CLOCKS_PER_SEC;
@@ -118,28 +126,33 @@ int		ft_callback(t_window *infos)
 	return (1);
 }
 
-int		*ft_get_img(t_window *infos)
+int		*ft_get_img(t_image image)
 {
 	int	bpp;
 	int	s_l;
 	int	endian;
 
-	infos->img = (int*)mlx_get_data_addr(infos->img_ptr, &bpp, &s_l, &endian);
-	ft_bzero(infos->img, infos->width * infos->height);
-	return (infos->img);
+	image.img = (int*)mlx_get_data_addr(image.img_ptr, &bpp, &s_l, &endian);
+	ft_bzero(image.img, image.w * image.h);
+	return (image.img);
 }
 
 t_window	*ft_fill_infos(t_window *infos)
 {
 	infos->mlx_ptr = mlx_init();
-	infos->height = HEIGHT;
-	infos->width = WIDTH;
+	infos->game.h = HEIGHT;
+	infos->game.w = WIDTH;
+	infos->menu.h = HEIGHT;
+	infos->menu.w = WIDTH;
 	infos->win_ptr = mlx_new_window(infos->mlx_ptr, WIDTH, HEIGHT, "Wolf3d");
-	infos->img = NULL;
-	infos->img_ptr = mlx_new_image(infos->mlx_ptr, WIDTH, HEIGHT);
+	infos->game.img = NULL;
+	infos->menu.img = NULL;
+	infos->game.img_ptr = mlx_new_image(infos->mlx_ptr, WIDTH, HEIGHT);
+	infos->menu.img_ptr = mlx_new_image(infos->mlx_ptr, WIDTH, HEIGHT);
 	infos->test.x = 10;
 	infos->test.y = 20;
-	infos->img = ft_get_img(infos);
+	infos->game.img = ft_get_img(infos->game);
+	infos->menu.img = ft_get_img(infos->game);
 	return (infos);
 }
 
@@ -176,6 +189,7 @@ int	main(int ac, char **av)
 		// mlx_hook(infos->win_ptr, 5, (1L << 3), ft_check_button, infos);
 		infos->previous = clock();
 		infos->lag = 0.0;
+		mlx_hook(infos->win_ptr, MOTION_NOTIFY, POINTER_MOTION_MASK, ft_get_cursor, infos);
 		mlx_hook(infos->win_ptr, BUTTON_PRESS, BUTTON_PRESS_MASK, ft_button_press, infos);
 		mlx_hook(infos->win_ptr, BUTTON_RELEASE, BUTTON_RELEASE_MASK, ft_button_release, infos);
 		mlx_hook(infos->win_ptr, KEY_PRESS, KEY_PRESS_MASK, ft_dealkey_press, infos);

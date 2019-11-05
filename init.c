@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/31 15:17:20 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/05 15:33:44 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,58 @@ static int		*ft_get_img_tex(int	*tex, void *img_ptr)
 	int	s_l;
 	int	endian;
 
+	// ft_putendl("wowowowowow");
 	tex = (int*)mlx_get_data_addr(img_ptr, &bpp, &s_l, &endian);
 	// ft_bzero(infos->img, infos->width * infos->height);
 	return (tex);
 }
+
+void	ft_load_button(t_window *infos)
+{
+	int		i;
+	int		fd;
+	char	*line;
+	int		size;
+	char	*path;
+
+	fd = open("button.txt", O_RDONLY);
+	i = 0;
+	if (get_next_line(fd, &line) <= 0)
+		return ;
+	size = ft_atoi(line);
+	free(line);
+	if (!(infos->button = malloc(sizeof(t_image) * (size))))
+		return ;
+	while (get_next_line(fd, &line) > 0)
+	{
+		ft_putendl(line);
+		path = ft_strjoin("button/", line);
+		// ft_putendl("hehehehehe");
+		infos->button[i].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, path, &infos->button[i].w, &infos->button[i].h );
+		free(line);
+		free(path);
+		i++;
+	}
+	i = 0;
+	while (i < size)
+	{
+		infos->button[i].img = ft_get_img_tex(infos->button[i].img, infos->button[i].img_ptr);
+		i++;
+	}
+	// printf("couleur 1 = %x\n", infos->button[0].img[0]);
+	// ft_putendl("egrbe");
+	close(fd);
+}
+// void	ft_load_button(t_window *infos)
+// {
+
+// 	if (!(infos->button = malloc(sizeof(t_image) * (1))))
+// 		return ;
+// 	infos->button[0].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, "button/play_up.xpm", &infos->button[0].w, &infos->button[0].h );
+// 	infos->button[0].img = ft_get_img_tex(infos->button[0].img, infos->button[0].img_ptr);
+// 	// printf("couleur 1 = %x\n", infos->button[0].img[0]);
+// 	ft_putendl("egrbe");
+// }
 
 void	ft_load_texture(t_window *infos)
 {
@@ -47,7 +95,7 @@ void	ft_load_texture(t_window *infos)
 	while (get_next_line(fd, &line) > 0)
 	{
 		path = ft_strjoin("textures/", line);
-		infos->texture[i].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, path, &infos->texture[i].w, &infos->texture[i].h );
+		infos->texture[i].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, path, &infos->texture[i].w, &infos->texture[i].h );
 		free(line);
 		free(path);
 		i++;
@@ -65,13 +113,14 @@ void	ft_init_wolf(t_window *infos)
 {
 	double	camx;
 
-	camx = 2 * (WIDTH / 2) / (double)infos->width - 1;
+	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
 	if (!(infos->wolf.tab_ray = malloc(sizeof(t_ray) * (WIDTH))))
 		return ;
 	// infos->wolf.angle_cam = 0.349066;
 	// infos->wolf.angle_cam = 0.0;
 	// infos->wolf.d_camscreen = (WIDTH / 2) / tan(FOV / 2);
 	ft_load_texture(infos);
+	ft_load_button(infos);
 	if (!(infos->gui = malloc(sizeof(t_image) * (3))))
 		return ;
 	infos->gui[0].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "gui.xpm", &infos->gui[0].w, &infos->gui[0].h );
@@ -81,6 +130,8 @@ void	ft_init_wolf(t_window *infos)
 	infos->gui[2].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "Briquet.xpm", &infos->gui[2].w, &infos->gui[2].h );
 	infos->gui[2].img = ft_get_img_tex(infos->gui[2].img, infos->gui[2].img_ptr);
 	infos->wolf.editor = 0;
+	infos->wolf.menu = 1;
+	infos->push = 0;
 	infos->wolf.explode = 0;
 	infos->wolf.exp_iter = 0;
 	infos->wolf.select_block = 0;

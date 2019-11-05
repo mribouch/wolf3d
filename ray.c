@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2019/10/17 13:39:06 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/04 15:11:02 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ft_update_ray(t_window *infos)
 	i = 0;
 	while (i < WIDTH)
 	{
-		dda.cam.x = 2 * i / (double)infos->width - 1;
+		dda.cam.x = 2 * i / (double)WIDTH - 1;
 		dda.raydir.x = infos->wolf.dir_cam.x + infos->wolf.plane.x * dda.cam.x;
 		dda.raydir.y = infos->wolf.dir_cam.y + infos->wolf.plane.y * dda.cam.x;
 		dda.map.x = (int)infos->wolf.pos_cam.x;

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/04 14:54:33 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/05 17:25:31 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct	s_wolf
 	t_ray		*tab_ray;
 	t_coord2d	tnt_block;
 	int			block_dist;
+	int			menu;
 	double		angle_cam;
 	int			fov;
 	int			explode;
@@ -158,10 +159,9 @@ typedef struct	s_window
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	void		*img_ptr;
-	int			*img;
-	int			width;
-	int			height;
+	t_image		game;
+	t_image		menu;
+	int			push;
 	clock_t		previous;
 	double		lag;
 	t_map		map;
@@ -171,6 +171,7 @@ typedef struct	s_window
 	t_wolf		wolf;
 	t_wolf		*data;
 	t_image		*texture;
+	t_image		*button;
 	int			nb_tex_tb;
 	t_image		*gui;
 }				t_window;
@@ -178,6 +179,8 @@ typedef struct	s_window
 void			ft_fill_key(t_window *infos);
 int				ft_dealkey_press(int keycode, t_window *infos);
 int				ft_dealk_release(int keycode, t_window *infos);
+void			ft_putmenu(t_window *infos);
+int				ft_get_cursor(int x, int y, t_window *infos);
 int				ft_callback(t_window *infos);
 int				**ft_get_map(int fd, t_window *infos);
 void			ft_line_new(t_window *infos, t_coord2d v1, t_coord2d v2);
@@ -207,5 +210,7 @@ int				ft_lerp(int i, int color1, int color2, float nbp);
 int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
 int				ft_get_lerp_dist(t_window *infos, int color1, int nbp);
 int				ft_get_color_dist(t_window *infos, t_hsv color);
+int				ft_manage_button(t_window *infos, int x, int y, int id);
+void			ft_edit(t_window *infos);
 
 #endif

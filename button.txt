@@ -1,0 +1,9 @@
+8
+play_up.xpm
+play_down.xpm
+map_up.xpm
+map_down.xpm
+edit_up.xpm
+edit_down.xpm
+quit_up.xpm
+quit_down.xpm
