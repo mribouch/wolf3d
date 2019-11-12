@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/05 17:25:31 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:16:46 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ typedef struct	s_map
 	t_coord2d		map_pos;
 	int				width;
 	int				height;
+	char			*name;
 }				t_map;
 
 typedef struct	s_image
@@ -155,13 +156,31 @@ typedef struct	s_image
 	int			h;
 }				t_image;
 
+typedef struct	s_r_button
+{
+	int			x;
+	int			y;
+	int			checked;
+	char		*data;
+}				t_rd_button;
+
+typedef struct	s_button
+{
+	t_image		button_up;
+	t_image		button_down;
+	int			press;
+	int			x;
+	int			y;
+}				t_button;
+
 typedef struct	s_window
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_image		game;
 	t_image		menu;
-	int			push;
+	int			map_menu;
+	int			edit_menu;
 	clock_t		previous;
 	double		lag;
 	t_map		map;
@@ -171,7 +190,9 @@ typedef struct	s_window
 	t_wolf		wolf;
 	t_wolf		*data;
 	t_image		*texture;
-	t_image		*button;
+	t_button	*button;
+	t_rd_button	*rd_button;
+	int			nb_rd_button;
 	int			nb_tex_tb;
 	t_image		*gui;
 }				t_window;
@@ -187,10 +208,6 @@ void			ft_line_new(t_window *infos, t_coord2d v1, t_coord2d v2);
 void			ft_init_wolf(t_window *infos);
 void			ft_init_ray(t_window *infos);
 void			ft_update_ray(t_window *infos);
-void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
-void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
-void			ft_fill_square(t_window *infos, t_square s);
-void			ft_square(t_window *infos, t_square s);
 void			ft_draw_cam(t_window *infos);
 void			ft_draw_minimap(t_window *infos, t_coord2d coordmap);
 void			ft_draw_ray(t_window *infos);
@@ -211,6 +228,15 @@ int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
 int				ft_get_lerp_dist(t_window *infos, int color1, int nbp);
 int				ft_get_color_dist(t_window *infos, t_hsv color);
 int				ft_manage_button(t_window *infos, int x, int y, int id);
+void			ft_manage_rd_bt(t_window *infos);
 void			ft_edit(t_window *infos);
+void			ft_print_rd_bt(t_window *infos);
+void			ft_save_world(t_window *infos);
+void			ft_print_map(t_window *infos);
+void			ft_square(t_window *infos, t_image img, t_square s);
+void			ft_fill_square(t_window *infos, t_image img, t_square s);
+void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
+void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
+void			ft_load_rd_button(t_window *infos);
 
 #endif

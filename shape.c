@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:11:37 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/13 17:32:10 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:17:47 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,27 @@
 
 #include <stdio.h>
 
-void		ft_square(t_window *infos, t_square s)
+void		ft_square(t_window *infos, t_image img, t_square s)
 {
 	int	i;
 	int	j;
 
 	i = s.x;
 	j = s.y;
+	(void)infos;
 	{
 		while (i < s.x + s.size)
-			infos->img[i++ + s.y * infos->width] = s.color;
+			img.img[i++ + s.y * img.w] = s.color;
 		while (j < s.y + s.size)
-			infos->img[i + j++ * infos->width] = s.color;
+			img.img[i + j++ * img.w] = s.color;
 		while (i > s.x)
-			infos->img[i-- + j * infos->width] = s.color;
+			img.img[i-- + j * img.w] = s.color;
 		while (j > s.y)
-			infos->img[s.x + j-- * infos->width] = s.color;
+			img.img[s.x + j-- * img.w] = s.color;
 	}
 }
 
-void		ft_fill_square(t_window *infos, t_square s)
+void		ft_fill_square(t_window *infos, t_image img, t_square s)
 {
 	int	i;
 	int	j;
@@ -44,7 +45,7 @@ void		ft_fill_square(t_window *infos, t_square s)
 	while (j < s.y + s.size)
 	{
 		while (i < s.x + s.size)
-			infos->img[i++ + j * infos->width] = s.color;
+			img.img[i++ + j * img.w] = s.color;
 		i = s.x;
 		j++;
 	}
@@ -57,20 +58,20 @@ void		ft_fill_square(t_window *infos, t_square s)
 		s.x -= 1;
 		s.y -= 1;
 		s.size += 1;
-		ft_square(infos, s);
+		ft_square(infos, img, s);
 	}
 }
 
 static void	ft_fill_circle(t_window *infos, t_coord2d c, int x, int y)
 {
-	infos->img[(int)(c.x + x) + (int)(c.y + y) * infos->width] = c.color;
-	infos->img[(int)(c.x + y) + (int)(c.y + x) * infos->width] = c.color;
-	infos->img[(int)(c.x - x) + (int)(c.y + y) * infos->width] = c.color;
-	infos->img[(int)(c.x - y) + (int)(c.y + x) * infos->width] = c.color;
-	infos->img[(int)(c.x + x) + (int)(c.y - y) * infos->width] = c.color;
-	infos->img[(int)(c.x + y) + (int)(c.y - x) * infos->width] = c.color;
-	infos->img[(int)(c.x - x) + (int)(c.y - y) * infos->width] = c.color;
-	infos->img[(int)(c.x - y) + (int)(c.y - x) * infos->width] = c.color;
+	infos->game.img[(int)(c.x + x) + (int)(c.y + y) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x + y) + (int)(c.y + x) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x - x) + (int)(c.y + y) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x - y) + (int)(c.y + x) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x + x) + (int)(c.y - y) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x + y) + (int)(c.y - x) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x - x) + (int)(c.y - y) * infos->game.w] = c.color;
+	infos->game.img[(int)(c.x - y) + (int)(c.y - x) * infos->game.w] = c.color;
 }
 
 void		ft_fullcircle(t_window *infos, t_coord2d c, int r, int color)

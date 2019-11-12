@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/05 13:57:23 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:27:00 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 	ft_putnbr(keycode);
 	ft_putchar('\n');
 	if (keycode == 53)
+	{
+		if (infos->edit_menu == 1)
+		{
+			ft_save_world(infos);
+			exit(0);
+		}
 		exit(0);
+	}
 	if (keycode == 0)
 		infos->keys.a = 1;
 	if (keycode == 2)

@@ -6,22 +6,24 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2019/11/05 17:25:41 by mribouch         ###   ########.fr        #
+#    Updated: 2019/11/12 16:15:49 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 
-SRCS = main.c		\
-		keys.c		\
-		parse.c		\
-		ray.c		\
-		draw.c		\
-		action.c	\
-		tools.c		\
-		color.c		\
-		menu.c		\
-		edit.c		\
+SRCS = main.c			\
+		keys.c			\
+		parse.c			\
+		ray.c			\
+		draw.c			\
+		action.c		\
+		tools.c			\
+		color.c			\
+		menu.c			\
+		menu_button.c	\
+		shape.c			\
+		edit.c			\
 		init.c
 
 FLAGS = -Wall -Wextra -Werror -g3

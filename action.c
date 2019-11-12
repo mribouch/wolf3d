@@ -6,39 +6,13 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/05 19:52:30 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:15:46 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 #include <math.h>
 #    include <stdio.h>
-
-int		ft_manage_button(t_window *infos, int x, int y, int id)
-{
-	if (infos->wolf.menu == 1)
-	{
-		if ((infos->cursor.x >= x && infos->cursor.x <= x + infos->button[id].w) &&
-			(infos->cursor.y >= y && infos->cursor.y <= y + infos->button[id].h) &&
-				infos->keys.left_click == 1)
-				{
-					infos->push = 1;
-					return (1);
-				}
-		else if ((infos->cursor.x >= x && infos->cursor.x <= x + infos->button[id].w) &&
-			(infos->cursor.y >= y && infos->cursor.y <= y + infos->button[id].h) &&
-				infos->keys.left_click == 0 && infos->push == 1)
-				{
-					// ft_putendl("wowowowowo");
-					// infos->push = 0;
-					return (2);
-				}
-		else if (((infos->cursor.x < x || infos->cursor.x > x + infos->button[id].w) ||
-			(infos->cursor.y < y || infos->cursor.y > y + infos->button[id].h)) && (infos->keys.left_click == 0))
-				infos->push = 0;
-	}
-	return (0);
-}
 
 void	ft_explode(t_window *infos, int x, int y)
 {

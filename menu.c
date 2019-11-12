@@ -6,32 +6,100 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/05 18:23:43 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:20:59 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 #    include <math.h>
 #   include <stdio.h>
-// int	*ft_fill_menu(t_window *infos, int x, int y, t_image button)
-// {
-// 	int i;
-// 	int j;
 
-// 	i = 0;
-// 	j = 0;
-// 	while (i < button.h)
-// 	{
-// 		while (j < button.w)
-// 		{
-// 			infos->menu.img[(x + j) + (y + i) * WIDTH] = button.img[j + i * button.w];
-// 			j++;
-// 		}
-// 		j = x;
-// 		i++;
-// 	}
-// 	return (infos->menu.img);
-// }
+void	ft_button_in_game(t_window *infos, int id, t_image up_down)
+{
+	int	i;
+	int	j;
+	int	a;
+	int	b;
+
+	i = infos->button[id].y;
+	j = infos->button[id].x;
+	a = 0;
+	b = 0;
+	while (i < infos->button[id].y + infos->button[id].button_up.h)
+	{
+		while (j < infos->button[id].x + infos->button[id].button_up.w)
+		{
+			infos->game.img[j + i * WIDTH] = up_down.img[a + b * infos->button[id].button_up.w];
+			j++;
+			a++;
+		}
+		j = infos->button[id].x;
+		a = 0;
+		i++;
+		b++;
+	}
+}
+
+void	ft_act_button(t_window *infos, int id)
+{
+	(void)infos;
+	// ft_putendl("ahahahaahhaahahah");
+	if (id == 0)
+		infos->wolf.menu = 0;
+	if (id == 1)
+		infos->map_menu = 1;
+	if (id == 2)
+		ft_edit(infos);
+	if (id == 3)
+		exit(0);
+}
+
+int		ft_manage_button(t_window *infos, int x, int y, int id)
+{
+	int	w;
+	int	h;
+
+	w = infos->button[0].button_up.w;
+	h = infos->button[0].button_up.h;
+	if (infos->wolf.menu == 1)
+	{
+		if ((infos->cursor.x >= x && infos->cursor.x <= x + w) &&
+			(infos->cursor.y >= y && infos->cursor.y <= y + h) &&
+				infos->keys.left_click == 1)
+				{
+					infos->button[id].press = 1;
+					return (1);
+				}
+		else if ((infos->cursor.x >= x && infos->cursor.x <= x + w) &&
+			(infos->cursor.y >= y && infos->cursor.y <= y + h) &&
+				infos->keys.left_click == 0 && infos->button[id].press == 1)
+					return (2);
+		else if (((infos->cursor.x < x || infos->cursor.x > x + w) ||
+			(infos->cursor.y < y || infos->cursor.y > y + h)) || infos->keys.left_click == 0)
+				infos->button[id].press = 0;
+	}
+	return (0);
+}
+
+void	ft_print_button(t_window *infos)
+{
+	if (infos->button[0].press == 0)
+		ft_button_in_game(infos, 0, infos->button[0].button_up);
+	else
+		ft_button_in_game(infos, 0, infos->button[0].button_down);
+	if (infos->button[1].press == 0)
+		ft_button_in_game(infos, 1, infos->button[1].button_up);
+	else
+		ft_button_in_game(infos, 1, infos->button[1].button_down);
+	if (infos->button[2].press == 0)
+		ft_button_in_game(infos, 2, infos->button[2].button_up);
+	else
+		ft_button_in_game(infos, 2, infos->button[2].button_down);
+	if (infos->button[3].press == 0)
+		ft_button_in_game(infos, 3, infos->button[3].button_up);
+	else
+		ft_button_in_game(infos, 3, infos->button[3].button_down);
+}
 
 void	ft_rotate_bg(t_window *infos)
 {
@@ -50,43 +118,18 @@ void	ft_rotate_bg(t_window *infos)
 
 void	ft_putmenu(t_window *infos)
 {
-	int	x;
-	int	y;
-	int	h;
-	int	w;
-	int	down;
+	int	i;
 
-	h = infos->button[0].h;
-	w = infos->button[0].w;
+	i = 0;
 	ft_rotate_bg(infos);
-	down = 0;
-	// infos->menu.img = ft_fill_menu(infos, x, y, infos->button[0]);
-	x = WIDTH / 2 - w / 2;
-	y = HEIGHT * 0.25 - h / 2;
-	if (ft_manage_button(infos, x, y, 0) == 1)
-		down++;
-	if (ft_manage_button(infos, x, y, 0) == 2)
-		infos->wolf.menu = 0;
-	mlx_put_image_to_window(infos->mlx_ptr, infos->win_ptr, infos->button[0 + down].img_ptr, x, y);
-	down = 0;
-	y = HEIGHT * 0.4 - h / 2;
-	if (ft_manage_button(infos, x, y, 2) == 1)
-		down++;
-	mlx_put_image_to_window(infos->mlx_ptr, infos->win_ptr, infos->button[2 + down].img_ptr, x, y);
-	down = 0;
-	y = HEIGHT * 0.55 - h / 2;
-	if (ft_manage_button(infos, x, y, 4) == 1)
-		down++;
-	if (ft_manage_button(infos, x, y, 4) == 2)
+	mlx_string_put(infos->mlx_ptr, infos->win_ptr, WIDTH * 0.6, HEIGHT * 0.1, 0xFFFFFF, infos->map.name);
+	ft_putendl("avant manage");
+	while (i < 4)
 	{
-		printf("eeeeeeeh coucou");
-		ft_edit(infos);
-
+		if (ft_manage_button(infos, infos->button[i].x, infos->button[i].y, i) == 2)
+			ft_act_button(infos, i);
+		i++;
 	}
-	mlx_put_image_to_window(infos->mlx_ptr, infos->win_ptr, infos->button[4 + down].img_ptr, x, y);
-	down = 0;
-	y = HEIGHT * 0.70 - h / 2;
-	if (ft_manage_button(infos, x, y, 6) == 1)
-		down++;
-	mlx_put_image_to_window(infos->mlx_ptr, infos->win_ptr, infos->button[6 + down].img_ptr, x, y);
+	ft_manage_rd_bt(infos);
+	ft_print_button(infos);
 }
