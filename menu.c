@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/12 16:20:59 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/14 08:35:12 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,17 @@ void	ft_act_button(t_window *infos, int id)
 	(void)infos;
 	// ft_putendl("ahahahaahhaahahah");
 	if (id == 0)
+	{
 		infos->wolf.menu = 0;
+		infos->map_menu = 0;
+	}
 	if (id == 1)
 		infos->map_menu = 1;
 	if (id == 2)
+	{
 		ft_edit(infos);
+		infos->map_menu = 0;
+	}
 	if (id == 3)
 		exit(0);
 }
@@ -131,5 +137,7 @@ void	ft_putmenu(t_window *infos)
 		i++;
 	}
 	ft_manage_rd_bt(infos);
+	if (infos->map_menu == 1)
+		ft_check_map(infos);
 	ft_print_button(infos);
 }

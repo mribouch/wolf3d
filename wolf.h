@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/12 16:16:46 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/14 08:18:07 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,5 +238,6 @@ void			ft_fill_square(t_window *infos, t_image img, t_square s);
 void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_load_rd_button(t_window *infos);
+void    		ft_check_map(t_window *infos);
 
 #endif

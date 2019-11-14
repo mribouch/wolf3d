@@ -85,17 +85,17 @@ int		ft_callback(t_window *infos)
 	// elapsed = current - infos->previous;
 	// infos->previous = current;
 	// infos->lag += elapsed;
-	ft_putendl("avant bzero");
+	// ft_putendl("avant bzero");
 	ft_bzero(infos->game.img, sizeof(int) * (WIDTH * HEIGHT));
-	ft_putendl("apres bzero");
+	// ft_putendl("apres bzero");
 	// ft_bzero(infos->img_brick, sizeof(int) * (16 * 16));
 	ft_dealk_act(infos);
 	// printf("lag = %f\n", infos->lag);
 	// while (infos->lag >= 1600)
 	// {
-		ft_putendl("ca vient d'avant ray");
+		// ft_putendl("ca vient d'avant ray");
 		ft_update_ray(infos);
-		ft_putendl("ca vient d'apres ray");
+		// ft_putendl("ca vient d'apres ray");
 		// ft_putendl("dou ca vient");
 		if (infos->wolf.editor == 1)
 			ft_editor(infos);
@@ -106,18 +106,18 @@ int		ft_callback(t_window *infos)
 	if (infos->wolf.menu == 0)
 		ft_draw_cursor(infos);
 	infos->wolf.dir_cam.color = 0xFF0000;
-	ft_putendl("avant menu");
+	// ft_putendl("avant menu");
 	if (infos->wolf.menu == 1)
 		ft_putmenu(infos);
-	ft_putendl("apres menu");
+	// ft_putendl("apres menu");
 	if (infos->map_menu == 1)
 		ft_print_rd_bt(infos);
-	ft_putendl("apres mapmenu");
+	// ft_putendl("apres mapmenu");
 	mlx_put_image_to_window(infos->mlx_ptr,
     	infos->win_ptr, infos->game.img_ptr, 0, 0);
 	if (infos->map_menu == 1)
 		ft_print_map(infos);
-	ft_putendl("apres print map");
+	// ft_putendl("apres print map");
 	// mlx_string_put(infos->mlx_ptr, infos->win_ptr, 50, 50, 0xFFFFFF, "coucoucouc");
 	if (infos->wolf.menu == 0)
 	{
@@ -132,7 +132,7 @@ int		ft_callback(t_window *infos)
 					HEIGHT - infos->gui[2].h);
 	}
 
-	ft_putendl("avant le return");
+	// ft_putendl("avant le return");
 	// current = clock() - current;
 	// elapsed = ((double)current)/CLOCKS_PER_SEC;
 	// printf ("secondes entre appel = %f \n", elapsed);

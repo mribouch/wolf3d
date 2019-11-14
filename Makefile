@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2019/11/12 16:15:49 by mribouch         ###   ########.fr        #
+#    Updated: 2019/11/14 08:06:57 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS = main.c			\
 		menu.c			\
 		menu_button.c	\
 		shape.c			\
+		map.c			\
 		edit.c			\
 		init.c
 
