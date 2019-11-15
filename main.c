@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 05:43:38 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/15 06:04:04 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ int		ft_callback(t_window *infos)
 	// ft_putendl("apres mapmenu");
 	mlx_put_image_to_window(infos->mlx_ptr,
     	infos->win_ptr, infos->game.img_ptr, 0, 0);
+	if (infos->save_map == 1)
+		mlx_string_put(infos->mlx_ptr, infos->win_ptr, WIDTH / 4, HEIGHT / 2 - 100, 0xFFFFFF, "Do you want to save the map ?");
 	if (infos->map_menu == 1)
 		ft_print_map(infos);
 	// ft_putendl("apres print map");
