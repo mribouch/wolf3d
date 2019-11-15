@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/12 16:45:14 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:08:52 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ void	ft_load_button(t_window *infos)
 {
 	if (!(infos->button = malloc(sizeof(t_button) * (4))))
 		return ;
+	if (!(infos->edit_button = malloc(sizeof(t_button) * 2)))
+		return;
+	infos->edit_button[0].button_up.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
+		"button/yes_up.xpm", &infos->edit_button[0].button_up.w, &infos->edit_button[0].button_up.h);
+	infos->edit_button[0].button_down.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
+		"button/yes_down.xpm", &infos->edit_button[0].button_down.w, &infos->edit_button[0].button_down.h);
+	infos->edit_button[1].button_up.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
+		"button/no_up.xpm", &infos->edit_button[1].button_up.w, &infos->edit_button[1].button_up.h);
+	infos->edit_button[1].button_down.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
+		"button/no_down.xpm", &infos->edit_button[1].button_down.w, &infos->edit_button[1].button_down.h);
 	infos->button[0].button_up.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
 		"button/play_up.xpm", &infos->button[0].button_up.w, &infos->button[0].button_up.h);
 	infos->button[0].button_down.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
@@ -48,6 +58,10 @@ void	ft_load_button(t_window *infos)
 		"button/quit_up.xpm", &infos->button[3].button_up.w, &infos->button[3].button_up.h);
 	infos->button[3].button_down.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
 		"button/quit_down.xpm", &infos->button[3].button_down.w, &infos->button[3].button_down.h);
+	infos->edit_button[0].button_up.img = ft_get_img_tex(infos->edit_button[0].button_up.img, infos->edit_button[0].button_up.img_ptr);
+	infos->edit_button[0].button_down.img = ft_get_img_tex(infos->edit_button[0].button_down.img, infos->edit_button[0].button_down.img_ptr);
+	infos->edit_button[1].button_up.img = ft_get_img_tex(infos->edit_button[1].button_up.img, infos->edit_button[1].button_up.img_ptr);
+	infos->edit_button[1].button_down.img = ft_get_img_tex(infos->edit_button[1].button_down.img, infos->edit_button[1].button_down.img_ptr);
 	infos->button[0].button_up.img = ft_get_img_tex(infos->button[0].button_up.img, infos->button[0].button_up.img_ptr);
 	infos->button[0].button_down.img = ft_get_img_tex(infos->button[0].button_down.img, infos->button[0].button_down.img_ptr);
 	infos->button[1].button_up.img = ft_get_img_tex(infos->button[1].button_up.img, infos->button[1].button_up.img_ptr);
@@ -130,6 +144,7 @@ void	ft_init_wolf(t_window *infos)
 	ft_load_rd_button(infos);
 	if (!(infos->gui = malloc(sizeof(t_image) * (3))))
 		return ;
+	
 	infos->gui[0].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "gui.xpm", &infos->gui[0].w, &infos->gui[0].h );
 	infos->gui[0].img = ft_get_img_tex(infos->gui[0].img, infos->gui[0].img_ptr);
 	infos->gui[1].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "gui_select.xpm", &infos->gui[1].w, &infos->gui[1].h );
@@ -156,6 +171,7 @@ void	ft_init_wolf(t_window *infos)
 	infos->wolf.old_block.color = 0;
 	infos->edit_menu = 0;
 	infos->map_menu = 0;
+	infos->save_map = 0;
 	// infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.y] = 1;
 	printf("address = %p\n", &infos->wolf.tab_ray);
 }

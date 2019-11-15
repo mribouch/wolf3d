@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 16:08:48 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/12 16:59:04 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:38:57 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,41 @@
 
 #       include <stdio.h>
 #   include <dirent.h>
+
+int		ft_manage_yn_button(t_window *infos, int x, int y, int id)
+{
+	int	w;
+	int	h;
+
+	ft_putendl("je suis dedannnns");
+	w = infos->edit_button[0].button_up.w;
+	h = infos->edit_button[0].button_up.h;
+	printf("curx = %f, cury = %f\n", infos->cursor.x, infos->cursor.y);
+	printf("w = %d, h = %d\n", w, h);
+	printf("x = %d, y = %d\n", x, y);
+	if (infos->save_map == 1)
+	{
+		if ((infos->cursor.x >= x && infos->cursor.x <= x + w) &&
+			(infos->cursor.y >= y && infos->cursor.y <= y + h) &&
+				infos->keys.left_click == 1)
+				{
+					ft_putendl("ouais 1 ouais");
+					infos->edit_button[id].press = 1;
+					return (1);
+				}
+		else if ((infos->cursor.x >= x && infos->cursor.x <= x + w) &&
+			(infos->cursor.y >= y && infos->cursor.y <= y + h) &&
+				infos->keys.left_click == 0 && infos->edit_button[id].press == 1)
+					{
+						ft_putendl("ouais 1 ouais");
+						return (2);
+					}
+		else if (((infos->cursor.x < x || infos->cursor.x > x + w) ||
+			(infos->cursor.y < y || infos->cursor.y > y + h)) || infos->keys.left_click == 0)
+				infos->edit_button[id].press = 0;
+	}
+	return (0);
+}
 
 void	ft_manage_rd_bt(t_window *infos)
 {

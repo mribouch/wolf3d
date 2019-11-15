@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/14 08:18:07 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:19:03 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ typedef struct	s_window
 	t_image		menu;
 	int			map_menu;
 	int			edit_menu;
+	int			save_map;
 	clock_t		previous;
 	double		lag;
 	t_map		map;
@@ -191,6 +192,7 @@ typedef struct	s_window
 	t_wolf		*data;
 	t_image		*texture;
 	t_button	*button;
+	t_button	*edit_button;
 	t_rd_button	*rd_button;
 	int			nb_rd_button;
 	int			nb_tex_tb;
@@ -228,9 +230,12 @@ int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
 int				ft_get_lerp_dist(t_window *infos, int color1, int nbp);
 int				ft_get_color_dist(t_window *infos, t_hsv color);
 int				ft_manage_button(t_window *infos, int x, int y, int id);
+int				ft_manage_yn_button(t_window *infos, int x, int y, int id);
+void			ft_button_yn_in_game(t_window *infos, int id, t_image up_down);
 void			ft_manage_rd_bt(t_window *infos);
 void			ft_edit(t_window *infos);
 void			ft_print_rd_bt(t_window *infos);
+void			ft_print_yn_button(t_window *infos);
 void			ft_save_world(t_window *infos);
 void			ft_print_map(t_window *infos);
 void			ft_square(t_window *infos, t_image img, t_square s);

@@ -6,13 +6,39 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/14 08:35:12 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:19:07 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 #    include <math.h>
 #   include <stdio.h>
+
+void	ft_button_yn_in_game(t_window *infos, int id, t_image up_down)
+{
+	int	i;
+	int	j;
+	int	a;
+	int	b;
+
+	i = infos->edit_button[id].y;
+	j = infos->edit_button[id].x;
+	a = 0;
+	b = 0;
+	while (i < infos->edit_button[id].y + infos->edit_button[id].button_up.h)
+	{
+		while (j < infos->edit_button[id].x + infos->edit_button[id].button_up.w)
+		{
+			infos->game.img[j + i * WIDTH] = up_down.img[a + b * infos->edit_button[id].button_up.w];
+			j++;
+			a++;
+		}
+		j = infos->edit_button[id].x;
+		a = 0;
+		i++;
+		b++;
+	}
+}
 
 void	ft_button_in_game(t_window *infos, int id, t_image up_down)
 {
@@ -85,6 +111,18 @@ int		ft_manage_button(t_window *infos, int x, int y, int id)
 				infos->button[id].press = 0;
 	}
 	return (0);
+}
+
+void	ft_print_yn_button(t_window *infos)
+{
+	if (infos->edit_button[0].press == 0)
+		ft_button_yn_in_game(infos, 0, infos->edit_button[0].button_up);
+	else
+		ft_button_yn_in_game(infos, 0, infos->edit_button[0].button_down);
+	if (infos->edit_button[1].press == 0)
+		ft_button_yn_in_game(infos, 1, infos->edit_button[1].button_up);
+	else
+		ft_button_yn_in_game(infos, 1, infos->edit_button[1].button_down);
 }
 
 void	ft_print_button(t_window *infos)

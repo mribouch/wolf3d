@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:22:54 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/12 16:15:48 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:26:11 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,30 @@ static void	ft_save(t_window *infos)
 
 void	ft_save_world(t_window *infos)
 {
-	char	answer[4];
+	// char	answer[4];
 	(void)infos;
-	// ft_putendl("ahahah ou ais salut uais");
-	while (ft_strcmp(answer, "n") != 0 && ft_strcmp(answer, "y") != 0)
-	{
-		ft_putendl("Do you want to save the map ? (y / n)");
-		scanf("%s", answer);
-	}
-	if (ft_strcmp(answer, "y") == 0)
-	{
-		ft_putstr("you've saved the map : ");
-		ft_putendl(infos->map.name);
-	}
+	// // ft_putendl("ahahah ou ais salut uais");
+	// while (ft_strcmp(answer, "n") != 0 && ft_strcmp(answer, "y") != 0)
+	// {
+	// 	ft_putendl("Do you want to save the map ? (y / n)");
+	// 	scanf("%s", answer);
+	// }
+	// if (ft_strcmp(answer, "y") == 0)
+	// {
+	// 	ft_putstr("you've saved the map : ");
+	// 	ft_putendl(infos->map.name);
+	// }
 		ft_save(infos);
 }
 
 void	ft_edit(t_window *infos)
 {
+	infos->edit_button[0].x = WIDTH/2 - infos->edit_button[0].button_up.w;
+	infos->edit_button[1].x = WIDTH/2 + 50;
+	infos->edit_button[0].y = HEIGHT/2;
+	infos->edit_button[1].y = HEIGHT/2;
+	infos->edit_button[0].press = 0;
+	infos->edit_button[1].press = 0;
 	infos->edit_menu = 1;
 	infos->wolf.menu = 0;
 }
