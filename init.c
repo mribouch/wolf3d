@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 05:08:52 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:34:16 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int		*ft_get_img_tex(int	*tex, void *img_ptr)
 	return (tex);
 }
 
-void	ft_load_button(t_window *infos)
+static void	ft_load_button(t_window *infos)
 {
 	if (!(infos->button = malloc(sizeof(t_button) * (4))))
 		return ;
@@ -95,7 +95,7 @@ void	ft_load_button(t_window *infos)
 // 	ft_putendl("egrbe");
 // }
 
-void	ft_load_texture(t_window *infos)
+static void	ft_load_texture(t_window *infos)
 {
 	int		i;
 	int		fd;

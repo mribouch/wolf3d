@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 06:04:04 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/19 14:32:01 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,115 +40,13 @@
 // 		}
 // }
 
-void	ft_editor(t_window *infos)
-{
-	t_coord2d	current_block;
-	double	camx;
-
-	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
-	current_block.x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
-	current_block.y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
-	if ((current_block.x < 0 || current_block.x > infos->map.width) ||
-		(current_block.y < 0 || current_block.y > infos->map.height))
-			return ;
-	if (current_block.x != infos->wolf.old_block.x && current_block.y != infos->wolf.old_block.y)
-	{
-		// if (infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] != infos->wolf.select_block)
-		if (infos->map.map[(int)current_block.y][(int)current_block.x] == 0)
-		{
-			if (infos->wolf.old_block.color == 0)
-				infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
-			infos->map.map[(int)current_block.y][(int)current_block.x] = infos->wolf.select_block + 1;
-			infos->wolf.old_block.x = current_block.x;
-			infos->wolf.old_block.y = current_block.y;
-			infos->wolf.old_block.color = 0;
-		}
-		// else
-		// 	infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
-
-		// else if (infos->map.map[(int)current_block.y][(int)current_block.x] != 0)
-		// {
-		// 	// current_block.x = 0;
-		// 	// current_block.y = 0;
-		// 	infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
-		// }
-		// if (infos->map.map[(int)current_block.y][(int)current_block.x] != infos->wolf.select_block)
-		// 	infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.y] = 0;
-	}
-}
-
 int		ft_callback(t_window *infos)
 {
-	// clock_t current;
-	// double elapsed;
-    // current = clock();
-	// elapsed = current - infos->previous;
-	// infos->previous = current;
-	// infos->lag += elapsed;
-	// ft_putendl("avant bzero");
 	ft_bzero(infos->game.img, sizeof(int) * (WIDTH * HEIGHT));
-	// ft_putendl("apres bzero");
-	// ft_bzero(infos->img_brick, sizeof(int) * (16 * 16));
-	ft_dealk_act(infos);
-	// printf("lag = %f\n", infos->lag);
-	// while (infos->lag >= 1600)
-	// {
-		// ft_putendl("ca vient d'avant ray");
-		ft_update_ray(infos);
-		// ft_putendl("ca vient d'apres ray");
-		// ft_putendl("dou ca vient");
-		if (infos->wolf.editor == 1)
-			ft_editor(infos);
-		infos->lag -= 1600;
-		// printf("lag = %f\n", infos->lag);
-	// }
-	infos->lag = 0.0;
 	if (infos->wolf.menu == 0)
-		ft_draw_cursor(infos);
-	infos->wolf.dir_cam.color = 0xFF0000;
-	// ft_putendl("avant menu");
-	if (infos->wolf.menu == 1)
-		ft_putmenu(infos);
-	// ft_putendl("apres menu");
-	if (infos->map_menu == 1)
-		ft_print_rd_bt(infos);
-	if (infos->save_map == 1)
-	{
-		if (ft_manage_yn_button(infos, infos->edit_button[0].x, infos->edit_button[0].y, 0) == 2)
-		{
-			ft_save_world(infos);
-			exit(0);
-		}
-		if (ft_manage_yn_button(infos, infos->edit_button[1].x, infos->edit_button[1].y, 1) == 2)
-			exit(0);
-		ft_print_yn_button(infos);
-	}
-	// ft_putendl("apres mapmenu");
-	mlx_put_image_to_window(infos->mlx_ptr,
-    	infos->win_ptr, infos->game.img_ptr, 0, 0);
-	if (infos->save_map == 1)
-		mlx_string_put(infos->mlx_ptr, infos->win_ptr, WIDTH / 4, HEIGHT / 2 - 100, 0xFFFFFF, "Do you want to save the map ?");
-	if (infos->map_menu == 1)
-		ft_print_map(infos);
-	// ft_putendl("apres print map");
-	// mlx_string_put(infos->mlx_ptr, infos->win_ptr, 50, 50, 0xFFFFFF, "coucoucouc");
-	if (infos->wolf.menu == 0)
-	{
-		mlx_put_image_to_window(infos->mlx_ptr,
-    		infos->win_ptr, infos->gui[0].img_ptr, WIDTH / 2 -
-				infos->gui[0].w / 2, HEIGHT - infos->gui[0].h);
-		ft_draw_item_tb(infos);
-		ft_draw_select_block(infos);
-		if (infos->wolf.select_block == 7)
-			mlx_put_image_to_window(infos->mlx_ptr,
-    			infos->win_ptr, infos->gui[2].img_ptr, WIDTH - infos->gui[2].w,
-					HEIGHT - infos->gui[2].h);
-	}
-
-	// ft_putendl("avant le return");
-	// current = clock() - current;
-	// elapsed = ((double)current)/CLOCKS_PER_SEC;
-	// printf ("secondes entre appel = %f \n", elapsed);
+		ft_dealk_act(infos);
+	ft_update(infos);
+	ft_draw(infos);
 	return (1);
 }
 

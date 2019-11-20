@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 05:19:07 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:37:38 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #    include <math.h>
 #   include <stdio.h>
 
-void	ft_button_yn_in_game(t_window *infos, int id, t_image up_down)
+static void	ft_button_yn_in_game(t_window *infos, int id, t_image up_down)
 {
 	int	i;
 	int	j;
@@ -40,7 +40,7 @@ void	ft_button_yn_in_game(t_window *infos, int id, t_image up_down)
 	}
 }
 
-void	ft_button_in_game(t_window *infos, int id, t_image up_down)
+static void	ft_button_in_game(t_window *infos, int id, t_image up_down)
 {
 	int	i;
 	int	j;
@@ -66,7 +66,7 @@ void	ft_button_in_game(t_window *infos, int id, t_image up_down)
 	}
 }
 
-void	ft_act_button(t_window *infos, int id)
+static void	ft_act_button(t_window *infos, int id)
 {
 	(void)infos;
 	// ft_putendl("ahahahaahhaahahah");
@@ -86,7 +86,7 @@ void	ft_act_button(t_window *infos, int id)
 		exit(0);
 }
 
-int		ft_manage_button(t_window *infos, int x, int y, int id)
+static int		ft_manage_button(t_window *infos, int x, int y, int id)
 {
 	int	w;
 	int	h;
@@ -125,7 +125,7 @@ void	ft_print_yn_button(t_window *infos)
 		ft_button_yn_in_game(infos, 1, infos->edit_button[1].button_down);
 }
 
-void	ft_print_button(t_window *infos)
+static void	ft_print_button(t_window *infos)
 {
 	if (infos->button[0].press == 0)
 		ft_button_in_game(infos, 0, infos->button[0].button_up);
@@ -145,7 +145,7 @@ void	ft_print_button(t_window *infos)
 		ft_button_in_game(infos, 3, infos->button[3].button_down);
 }
 
-void	ft_rotate_bg(t_window *infos)
+static void	ft_rotate_bg(t_window *infos)
 {
 	double		olddirx;
 	double		oldplanex;

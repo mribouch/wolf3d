@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/08/13 15:31:38 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/20 17:32:26 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #include <stdio.h>
 
-int	ft_get_num(char *line, int i)
+static int	ft_get_num(char *line, int i)
 {
 	int	size;
 	int	mult;
@@ -50,7 +50,7 @@ int	ft_get_num(char *line, int i)
 	return (num);
 }
 
-int	*ft_get_line(char *line, int width)
+static int	*ft_get_line(char *line, int width)
 {
 	int	*tab;
 	int	num;
@@ -77,7 +77,7 @@ int	*ft_get_line(char *line, int width)
 	return (tab);
 }
 
-int	ft_check_width(char *line)
+static int	ft_check_width(char *line)
 {
 	int	i;
 	int	width;
@@ -98,6 +98,21 @@ int	ft_check_width(char *line)
 	return (width);
 }
 
+int	ft_count_height(int fd)
+{
+	char	buf;
+	int		height;
+
+	height = 0;
+	while (read(fd, &buf, 1) != 0)
+	{
+		if (buf == '\n')
+			height++;
+	}
+	height++;
+	return (height);
+}
+
 int	**ft_get_map(int fd, t_window *infos)
 {
 	char	*line;
@@ -106,12 +121,16 @@ int	**ft_get_map(int fd, t_window *infos)
 	int		i;
 
 	i = 1;
-	infos->map.height = 1;
+	infos->map.height = ft_count_height(fd);
+	close(fd);
+	fd = open(infos->map.name, O_RDONLY);
+	printf("height = %d\n", infos->map.height);
 	if (get_next_line(fd, &line) <= 0)
 		return (0);
+	ft_putendl("la");
 	width = ft_check_width(line);
 	infos->map.width = width;
-	if (!(map = malloc(sizeof(int*) * (width + 1))))
+	if (!(map = malloc(sizeof(int*) * (infos->map.height + 1))))
 		return (0);
 	map[0] = ft_get_line(line, width);
 	while (get_next_line(fd, &line) > 0)
@@ -120,7 +139,6 @@ int	**ft_get_map(int fd, t_window *infos)
 			return (0);
 		map[i] = ft_get_line(line, width);
 		i++;
-		infos->map.height++;
 	}
 	map[i] = NULL;
 	return (map);

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/12 16:15:46 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:11:56 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <math.h>
 #    include <stdio.h>
 
-void	ft_explode(t_window *infos, int x, int y)
+static void	ft_explode(t_window *infos, int x, int y)
 {
 	infos->map.map[y][x] = 0;
 	if (infos->map.map[y][x + 1] == 6)
@@ -51,7 +51,7 @@ void	ft_explode(t_window *infos, int x, int y)
 		infos->map.map[y + 1][x - 1] = 0;
 }
 
-void	ft_explode_tnt(t_window *infos)
+static void	ft_explode_tnt(t_window *infos)
 {
 	int	x;
 	int	y;

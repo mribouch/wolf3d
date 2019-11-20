@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 16:08:48 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 05:38:57 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:52:51 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	ft_load_rd_button(t_window *infos)
         return ;
     }
 	while ((de = readdir(dr)) != NULL)
-		count ++;
+		count++;
 	count -= 2;
 	closedir(dr);
 	if (!(infos->rd_button = malloc(sizeof(t_rd_button*) * count)))
@@ -142,4 +142,5 @@ void	ft_load_rd_button(t_window *infos)
 			coord.y += 30;
 		}
 	}
+	closedir(dr);
 }

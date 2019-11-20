@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/04 15:12:22 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/20 17:33:23 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,7 @@
 #include <stdio.h>
 #include <math.h>
 
-
-// void	ft_draw_col(t_window *infos, float up, float dwn, int it)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < HEIGHT)
-// 	{
-// 		if (infos->wolf.tab_ray[it].length == RAYLENGHT)
-// 		{
-// 			if (i <= HEIGHT / 2)
-// 				infos->img[WIDTH - it + i++ * WIDTH] = 0x392C02;
-// 			else
-// 				infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
-// 		}
-// 		else if (i < (int)up)
-// 		{
-// 			infos->img[WIDTH - it + i++ * WIDTH] = 0x392C02;
-// 		}
-// 		else if (i >= (int)up && i <= (int)dwn)
-// 			infos->img[WIDTH - it + i++ * WIDTH] = 0xB8B8B8;
-// 		else if (i > (int)dwn)
-// 			infos->img[WIDTH - it + i++ * WIDTH] = 0x765E10;
-// 			// printf("voici i = %d\n", i);
-// 	}
-// }
-
-void	ft_draw_item_tb(t_window *infos)
+static void	ft_draw_item_tb(t_window *infos)
 {
 	int	i;
 
@@ -57,7 +30,7 @@ void	ft_draw_item_tb(t_window *infos)
 	}
 }
 
-void	ft_draw_select_block(t_window *infos)
+static void	ft_draw_select_block(t_window *infos)
 {
 	int	x;
 	int	y;
@@ -68,10 +41,11 @@ void	ft_draw_select_block(t_window *infos)
     	infos->win_ptr, infos->gui[1].img_ptr, x, y);
 }
 
-void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
+static void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 {
 	int	color;
 	int	i;
+	int	y;
 
 	i = 0;
 	if (dda.side == 0)
@@ -93,12 +67,50 @@ void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 		if (dda.side == 1)
 			color = (color >> 1) & 8355711;
 		if ((int)infos->wolf.tnt_block.x == (int)dda.map.x && (int)infos->wolf.tnt_block.y == (int)dda.map.y && infos->wolf.explode == 1)
-			color = ft_get_tnt_color(infos, color, 0xFFFFFF, 100);
+			color = ft_get_lerp_tnt(infos, color, 0xFFFFFF, 100 / 4);
 		// ft_putendl("heyyyy");
 		infos->wolf.block_dist = dda.perp_wall_dist;
 		// color = ft_get_lerp_dist(infos, color, 10);
-		// color = ft_get_color_dist(infos, ft_rgb2hsv(ft_int_to_rgb(color)));
 		infos->game.img[x + i++ * WIDTH] = color;
+	}
+    if(dda.side == 0 && dda.raydir.x > 0)
+    {
+      dda.floor_wall.x = dda.map.x;
+      dda.floor_wall.y = dda.map.y + dda.wall_x;
+    }
+    else if(dda.side == 0 && dda.raydir.x < 0)
+    {
+      dda.floor_wall.x = dda.map.x + 1.0;
+      dda.floor_wall.y = dda.map.y + dda.wall_x;
+    }
+    else if(dda.side == 1 && dda.raydir.y > 0)
+    {
+      dda.floor_wall.x = dda.map.x + dda.wall_x;
+      dda.floor_wall.y = dda.map.y;
+    }
+    else
+    {
+      dda.floor_wall.x = dda.map.x + dda.wall_x;
+      dda.floor_wall.y = dda.map.y + 1.0;
+    }
+    dda.distwall = dda.perp_wall_dist;
+    dda.distplayer = 0.0;
+    if (dda.draw_end < 0) dda.draw_end = HEIGHT;
+	y = dda.draw_end;
+	while (y < HEIGHT)
+    {
+    	dda.cur_dist = HEIGHT / (2.0 * y - HEIGHT);
+        dda.weight = (dda.cur_dist - dda.distplayer) / (dda.distwall - dda.distplayer);
+        dda.cur_floor.x = dda.weight * dda.floor_wall.x + (1.0 - dda.weight) * infos->wolf.pos_cam.x;
+        dda.cur_floor.y = dda.weight * dda.floor_wall.y + (1.0 - dda.weight) * infos->wolf.pos_cam.y;
+        dda.floor_tex.x = (int)(dda.cur_floor.x * infos->texture[2].w * 2) % infos->texture[2].w;
+        dda.floor_tex.y = (int)(dda.cur_floor.y * infos->texture[2].h * 2) % infos->texture[2].h;
+		color = (infos->texture[2].img[infos->texture[2].w * (int)dda.floor_tex.y + (int)dda.floor_tex.x]);
+        // color = ft_get_lerp_dist(infos, color, 10);
+		infos->game.img[x + y * WIDTH] = color;
+		color = infos->texture[2].img[infos->texture[2].w * (int)dda.floor_tex.y + (int)dda.floor_tex.x];
+        infos->game.img[x + (HEIGHT - y) * WIDTH] = color;
+      	y++;
 	}
 }
 
@@ -128,80 +140,6 @@ void	ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x)
 	// 		dda.map.y * infos->wolf.pos_cam.y + infos->wolf.pos_cam.y * infos->wolf.pos_cam.y));
 	ft_get_col_tex(infos, dda, x, tex_num);
 }
-
-// void	ft_draw_ray(t_window *infos)
-// {
-// 	int	i;
-// 	t_coord2d	pos_cam_mm;
-
-// 	pos_cam_mm.x = 100;
-// 	pos_cam_mm.y = 100;
-// 	pos_cam_mm.color = 0x00FF00;
-// 	i = 0;
-// 	while (i < WIDTH)
-// 	{
-// 		// infos->wolf.tab_ray[i].length /= cos(infos->wolf.tab_ray[i].angle);
-// 		infos->wolf.tab_ray[i].pos_ray.x -= (infos->wolf.pos_cam.x - pos_cam_mm.x);
-// 		infos->wolf.tab_ray[i].pos_ray.y -= (infos->wolf.pos_cam.y - pos_cam_mm.y);
-// 		ft_line_new(infos, pos_cam_mm, infos->wolf.tab_ray[i].pos_ray);
-// 		i++;
-// 	}
-// }
-
-// void	ft_draw_cam(t_window *infos)
-// {
-// 	t_coord2d	coordcam;
-
-// 	// coordcam.x = infos->wolf.pos_cam.x;
-// 	// coordcam.y = infos->wolf.pos_cam.y;
-// 	coordcam.x = 100;
-// 	coordcam.y = 100;
-// 	coordcam.color = 0xDD1212;
-// 	ft_fullcircle(infos, coordcam, 3, 0xDD1212);
-// }
-
-// void	ft_draw_fence(t_window *infos)
-// {
-// 	t_square	fence;
-
-// 	fence.size = 200;
-// 	fence.x = 0;
-// 	fence.y = 0;
-// 	fence.color = 0xFF0000;
-// 	ft_square(infos, fence);
-// }
-
-// void	ft_draw_minimap(t_window *infos, t_coord2d coordmap)
-// {
-// 	t_square	sq;
-// 	int			i;
-// 	int			j;
-
-// 	i = 0;
-// 	j = 0;
-// 	ft_draw_fence(infos);
-// 	sq.size = 24;
-// 	sq.x = coordmap.x;
-// 	sq.y = coordmap.y;
-// 	while (i < infos->map.height)
-// 	{
-// 		while (j < infos->map.width)
-// 		{
-// 			if (infos->map.map[i][j] == 0)
-// 				sq.color = 0xFFFFFF;
-// 			else
-// 				sq.color = 0x0000FF;
-// 			if ((sq.x < 200 - sq.size && sq.x >= 0) && (sq.y < 200 - sq.size && sq.y >= 0))
-// 				ft_fill_square(infos, sq);
-// 			sq.x += sq.size;
-// 			j++;
-// 		}
-// 		j = 0;
-// 		i++;
-// 		sq.x = coordmap.x;
-// 		sq.y += sq.size;
-// 	}
-// }
 
 void	ft_draw_cursor(t_window *infos)
 {
@@ -233,5 +171,28 @@ void	ft_draw_cursor(t_window *infos)
 			infos->game.img[WIDTH / 2 + (HEIGHT / 2 - size / 2 + i) * WIDTH] = neg_col;
 		}
 		i++;
+	}
+}
+
+void	ft_draw(t_window *infos)
+{
+	mlx_put_image_to_window(infos->mlx_ptr,
+    	infos->win_ptr, infos->game.img_ptr, 0, 0);
+	if (infos->save_map == 1)
+		mlx_string_put(infos->mlx_ptr, infos->win_ptr, WIDTH / 2 - WIDTH / 8,
+			HEIGHT / 2 - 100, 0xFFFFFF, "Do you want to save the map ?");
+	if (infos->map_menu == 1)
+		ft_print_map(infos);
+	if (infos->wolf.menu == 0)
+	{
+		mlx_put_image_to_window(infos->mlx_ptr,
+    		infos->win_ptr, infos->gui[0].img_ptr, WIDTH / 2 -
+				infos->gui[0].w / 2, HEIGHT - infos->gui[0].h);
+		ft_draw_item_tb(infos);
+		ft_draw_select_block(infos);
+		if (infos->wolf.select_block == 7)
+			mlx_put_image_to_window(infos->mlx_ptr,
+    			infos->win_ptr, infos->gui[2].img_ptr, WIDTH - infos->gui[2].w,
+					HEIGHT - infos->gui[2].h);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 05:19:03 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:01:12 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ typedef struct	s_var
 	int			color2;
 }				t_var;
 
-typedef struct  s_hsv
+typedef struct	s_hsv
 {
-        double                  h;
-        double                  s;
-        double                  v;
-}                               t_hsv;
+	double		h;
+	double		s;
+	double		v;
+}				t_hsv;
 
 typedef struct	s_color
 {
@@ -88,7 +88,7 @@ typedef struct	s_coord2d
 	int				color;
 }				t_coord2d;
 
-typedef	struct s_dda
+typedef	struct	s_dda
 {
 	t_coord2d	cam;
 	t_coord2d	raydir;
@@ -96,6 +96,13 @@ typedef	struct s_dda
 	t_coord2d	delta_dist;
 	t_coord2d	step;
 	t_coord2d	map;
+	t_coord2d	floor_tex;
+	t_coord2d	floor_wall;
+	t_coord2d	cur_floor;
+	double			weight;
+	double			distwall;
+	double			distplayer;
+	double			cur_dist;
 	int			side;
 	int			hit;
 	double		wall_x;
@@ -137,7 +144,6 @@ typedef struct	s_wolf
 	int			select_block;
 	int			edit_distance_wall;
 }				t_wolf;
-
 
 typedef struct	s_map
 {
@@ -199,50 +205,94 @@ typedef struct	s_window
 	t_image		*gui;
 }				t_window;
 
+int				ft_callback(t_window *infos);
+
+/*
+** key.c
+*/
+
 void			ft_fill_key(t_window *infos);
 int				ft_dealkey_press(int keycode, t_window *infos);
 int				ft_dealk_release(int keycode, t_window *infos);
-void			ft_putmenu(t_window *infos);
-int				ft_get_cursor(int x, int y, t_window *infos);
-int				ft_callback(t_window *infos);
-int				**ft_get_map(int fd, t_window *infos);
-void			ft_line_new(t_window *infos, t_coord2d v1, t_coord2d v2);
-void			ft_init_wolf(t_window *infos);
-void			ft_init_ray(t_window *infos);
-void			ft_update_ray(t_window *infos);
-void			ft_draw_cam(t_window *infos);
-void			ft_draw_minimap(t_window *infos, t_coord2d coordmap);
-void			ft_draw_ray(t_window *infos);
-void			ft_draw_wolf(t_window *infos, t_dda dda, double perp_wall_dist, int x);
-void			ft_draw_cursor(t_window *infos);
-void			ft_dealk_act(t_window *infos);
 int				ft_button_press(int button, int x, int y, t_window *infos);
 int				ft_button_release(int button, int x, int y, t_window *infos);
-void			ft_draw_select_block(t_window *infos);
-void			ft_draw_item_tb(t_window *infos);
-int				ft_create_rgb(double r, double g, double b);
-t_hsv			ft_rgb2hsv(t_color color);
+int				ft_get_cursor(int x, int y, t_window *infos);
+
+/*
+** menu.c
+*/
+
+void			ft_putmenu(t_window *infos);
+void			ft_print_yn_button(t_window *infos);
+
+/*
+** menu_button.c
+*/
+
+void			ft_load_rd_button(t_window *infos);
+void			ft_print_map(t_window *infos);
+void			ft_manage_rd_bt(t_window *infos);
+int				ft_manage_yn_button(t_window *infos, int x, int y, int id);
+
+/*
+** edit.c
+*/
+
+void			ft_edit(t_window *infos);
+void			ft_save(t_window *infos);
+void			ft_print_rd_bt(t_window *infos);
+
+/*
+** init.c
+*/
+
+void			ft_init_wolf(t_window *infos);
+
+/*
+** map.c
+*/
+
+void			ft_check_map(t_window *infos);
+
+/*
+** parse.c
+*/
+
+int				**ft_get_map(int fd, t_window *infos);
+
+/*
+** tools.c
+*/
+
 int				ft_negative_col(t_color color);
 t_color			ft_int_to_rgb(int color);
-int     		ft_get_tnt_color(t_window *infos, int color1, int color2, int nbp);
-int				ft_lerp(int i, int color1, int color2, float nbp);
+int				ft_create_rgb(double r, double g, double b);
 int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
 int				ft_get_lerp_dist(t_window *infos, int color1, int nbp);
-int				ft_get_color_dist(t_window *infos, t_hsv color);
-int				ft_manage_button(t_window *infos, int x, int y, int id);
-int				ft_manage_yn_button(t_window *infos, int x, int y, int id);
-void			ft_button_yn_in_game(t_window *infos, int id, t_image up_down);
-void			ft_manage_rd_bt(t_window *infos);
-void			ft_edit(t_window *infos);
-void			ft_print_rd_bt(t_window *infos);
-void			ft_print_yn_button(t_window *infos);
-void			ft_save_world(t_window *infos);
-void			ft_print_map(t_window *infos);
+
+/*
+** draw.c
+*/
+
+void			ft_draw_wolf(t_window *infos,
+					t_dda dda, double perp_wall_dist, int x);
+void			ft_draw_cursor(t_window *infos);
+
+/*
+** shape.c
+*/
+
 void			ft_square(t_window *infos, t_image img, t_square s);
 void			ft_fill_square(t_window *infos, t_image img, t_square s);
 void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
-void			ft_load_rd_button(t_window *infos);
-void    		ft_check_map(t_window *infos);
+
+/*
+** Game loop
+*/
+
+void			ft_dealk_act(t_window *infos);
+void			ft_update(t_window *infos);
+void			ft_draw(t_window *infos);
 
 #endif

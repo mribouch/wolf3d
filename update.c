@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
+/*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/04 15:11:02 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:54:58 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,30 @@
 #include <math.h>
 #include <stdio.h>
 
-int		ft_check_wall(t_map map, float dx, float dy)
+static void	ft_editor(t_window *infos)
 {
-	if (map.map[(int)dy][(int)dx] != 0)
-		return (1);
-	return (0);
+	t_coord2d	current_block;
+	double	camx;
+
+	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
+	current_block.x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
+	current_block.y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
+	if ((current_block.x < 0 || current_block.x > infos->map.width) ||
+		(current_block.y < 0 || current_block.y > infos->map.height))
+			return ;
+	if (current_block.x != infos->wolf.old_block.x && current_block.y != infos->wolf.old_block.y)
+	{
+		// if (infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] != infos->wolf.select_block)
+		if (infos->map.map[(int)current_block.y][(int)current_block.x] == 0)
+		{
+			if (infos->wolf.old_block.color == 0)
+				infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
+			infos->map.map[(int)current_block.y][(int)current_block.x] = infos->wolf.select_block + 1;
+			infos->wolf.old_block.x = current_block.x;
+			infos->wolf.old_block.y = current_block.y;
+			infos->wolf.old_block.color = 0;
+		}
+	}
 }
 
 t_dda		ft_intersect(t_window *infos, t_dda dda)
@@ -70,7 +89,7 @@ static t_dda	ft_get_side_dist(t_window *infos, t_dda dda)
 	return (dda);
 }
 
-void	ft_update_ray(t_window *infos)
+static void	ft_update_ray(t_window *infos)
 {
 	int		i;
 	double	perp_wall_dist;
@@ -97,28 +116,27 @@ void	ft_update_ray(t_window *infos)
 	}
 }
 
-void	ft_init_ray(t_window *infos)
+void	ft_update(t_window *infos)
 {
-	int	i;
-	float	angle;
-	float	fov;
-
-	i = 0;
-	angle = infos->wolf.angle_cam + FOV / 2;
-	fov = FOV / WIDTH;
-	ft_putendl("nanibefore");
-	while (i < WIDTH)
+	ft_update_ray(infos);
+	if (infos->wolf.editor == 1)
+		ft_editor(infos);
+	if (infos->wolf.menu == 0)
+		ft_draw_cursor(infos);
+	infos->wolf.dir_cam.color = 0xFF0000;
+	if (infos->wolf.menu == 1)
+		ft_putmenu(infos);
+	if (infos->map_menu == 1)
+		ft_print_rd_bt(infos);
+	if (infos->save_map == 1)
 	{
-		infos->wolf.tab_ray[i].length = RAYLENGHT;
-		infos->wolf.tab_ray[i].pos_ray.x = infos->wolf.pos_cam.x + infos->wolf.tab_ray[i].length
-			* cosf(angle - i * fov);
-		infos->wolf.tab_ray[i].angle = angle - i * fov;
-		printf("ray numero %d, angle = %f\n", i, infos->wolf.tab_ray[i].angle);
-		infos->wolf.tab_ray[i].pos_ray.y = infos->wolf.pos_cam.y + infos->wolf.tab_ray[i].length
-			* sinf(angle - i * fov);
-		infos->wolf.tab_ray[i].pos_ray.color = 0x00FF00;
-		i++;
+		if (ft_manage_yn_button(infos, infos->edit_button[0].x, infos->edit_button[0].y, 0) == 2)
+		{
+			ft_save(infos);
+			exit(0);
+		}
+		if (ft_manage_yn_button(infos, infos->edit_button[1].x, infos->edit_button[1].y, 1) == 2)
+			exit(0);
+		ft_print_yn_button(infos);
 	}
-	// exit(0);
-	ft_putendl("naniafter");
 }

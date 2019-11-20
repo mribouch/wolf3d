@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2019/11/14 08:06:57 by mribouch         ###   ########.fr        #
+#    Updated: 2019/11/19 18:09:26 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,15 @@ NAME = wolf3d
 SRCS = main.c			\
 		keys.c			\
 		parse.c			\
-		ray.c			\
+		update.c		\
 		draw.c			\
 		action.c		\
 		tools.c			\
-		color.c			\
 		menu.c			\
 		menu_button.c	\
 		shape.c			\
 		map.c			\
+		color.c			\
 		edit.c			\
 		init.c
 
@@ -37,7 +37,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX) wolf.h
 	gcc $(FLAGS) $(MLX) $(LIBFT) $(OBJS) \
-	`sdl-config --cflags --libs` \
 	-framework OpenGL -framework Appkit -o wolf3d
 
 %.o: %.c
