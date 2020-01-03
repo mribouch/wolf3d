@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/15 05:27:45 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/12/04 17:47:38 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 	if (keycode == 53)
 	{
 		if (infos->edit_menu == 1)
-		{
 			infos->save_map = 1;
-		}
 		else
+		{
+			ft_quit_wolf(infos);
+			while(1);
 			exit(0);
+		}
 	}
 	if (keycode == 0)
 		infos->keys.a = 1;
@@ -66,7 +68,6 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 		infos->keys.o = 1;
 	if (keycode == 257)
 		infos->keys.f = 1;
-	ft_callback(infos);
 	return (1);
 }
 
@@ -93,7 +94,6 @@ int		ft_dealk_release(int keycode, t_window *infos)
 		infos->keys.o = 0;
 	if (keycode == 257)
 		infos->keys.f = 0;
-	ft_callback(infos);
 	return (1);
 }
 

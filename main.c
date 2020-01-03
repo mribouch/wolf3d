@@ -6,19 +6,11 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/19 14:32:01 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/03 18:04:16 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <time.h>
-
-#include <math.h>
-
-#include <stdio.h>
 
 // static void	ft_print_map(t_window *infos)
 // {
@@ -42,11 +34,24 @@
 
 int		ft_callback(t_window *infos)
 {
+	// int	i;
+
+	// i = 0;
+	// ft_putendl("avant le bzero");
 	ft_bzero(infos->game.img, sizeof(int) * (WIDTH * HEIGHT));
+	// ft_putendl("avant le dealk act");
 	if (infos->wolf.menu == 0)
 		ft_dealk_act(infos);
+	// ft_putendl("avant update");
 	ft_update(infos);
+	// ft_putendl("avant draw");
+	// while (i < WIDTH)
+	// {
+	// 	pthread_join(infos->col_th[i], NULL);
+	// 	i++;
+	// }
 	ft_draw(infos);
+	// ft_putendl("apres draw");
 	return (1);
 }
 
@@ -73,8 +78,6 @@ t_window	*ft_fill_infos(t_window *infos)
 	infos->menu.img = NULL;
 	infos->game.img_ptr = mlx_new_image(infos->mlx_ptr, WIDTH, HEIGHT);
 	infos->menu.img_ptr = mlx_new_image(infos->mlx_ptr, WIDTH, HEIGHT);
-	infos->test.x = 10;
-	infos->test.y = 20;
 	infos->game.img = ft_get_img(infos->game);
 	infos->menu.img = ft_get_img(infos->game);
 	return (infos);
@@ -106,6 +109,12 @@ int	main(int ac, char **av)
 		if ((infos->map.map = ft_get_map(fd, infos)) == 0)
 		{
 			ft_putendl("Wrong input ! The lines doesn't have the same lenght !");
+			free(infos->map.map);
+			mlx_destroy_image(infos->mlx_ptr, infos->game.img_ptr);
+			mlx_destroy_image(infos->mlx_ptr, infos->menu.img_ptr);
+			mlx_destroy_window(infos->mlx_ptr, infos->win_ptr);
+			free(infos);
+			while(1);
 			exit(0);
 		}
 		close(fd);
@@ -115,11 +124,17 @@ int	main(int ac, char **av)
 		// infos->previous = clock();
 		// infos->lag = 0.0;
 		mlx_hook(infos->win_ptr, MOTION_NOTIFY, POINTER_MOTION_MASK, ft_get_cursor, infos);
+		// ft_putendl("apres get cursor");
 		mlx_hook(infos->win_ptr, BUTTON_PRESS, BUTTON_PRESS_MASK, ft_button_press, infos);
+		// ft_putendl("apres button press");
 		mlx_hook(infos->win_ptr, BUTTON_RELEASE, BUTTON_RELEASE_MASK, ft_button_release, infos);
+		// ft_putendl("apres button release");
 		mlx_hook(infos->win_ptr, KEY_PRESS, KEY_PRESS_MASK, ft_dealkey_press, infos);
+		// ft_putendl("apres key press");
 		mlx_hook(infos->win_ptr, KEY_RELEASE, KEY_RELEASE_MASK, ft_dealk_release, infos);
+		// ft_putendl("apres key release");
 		mlx_loop_hook(infos->mlx_ptr, ft_callback, infos);
+		// ft_putendl("apres main loop callback");
 		mlx_loop(infos->mlx_ptr);
 	}
 	return (0);

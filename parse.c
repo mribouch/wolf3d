@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/20 17:32:26 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/03 16:45:40 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	ft_count_height(int fd)
 		if (buf == '\n')
 			height++;
 	}
+	if (buf == '\n')
+		height--;
 	height++;
 	return (height);
 }
@@ -124,7 +126,6 @@ int	**ft_get_map(int fd, t_window *infos)
 	infos->map.height = ft_count_height(fd);
 	close(fd);
 	fd = open(infos->map.name, O_RDONLY);
-	printf("height = %d\n", infos->map.height);
 	if (get_next_line(fd, &line) <= 0)
 		return (0);
 	ft_putendl("la");
@@ -133,11 +134,14 @@ int	**ft_get_map(int fd, t_window *infos)
 	if (!(map = malloc(sizeof(int*) * (infos->map.height + 1))))
 		return (0);
 	map[0] = ft_get_line(line, width);
+	free(line);
 	while (get_next_line(fd, &line) > 0)
 	{
+		ft_putendl(line);
 		if (width != ft_check_width(line))
 			return (0);
 		map[i] = ft_get_line(line, width);
+		free(line);
 		i++;
 	}
 	map[i] = NULL;

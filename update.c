@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/19 17:54:58 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/03 16:18:45 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	ft_editor(t_window *infos)
 	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
 	current_block.x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
 	current_block.y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y * infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
-	if ((current_block.x < 0 || current_block.x > infos->map.width) ||
-		(current_block.y < 0 || current_block.y > infos->map.height))
+	if ((current_block.x <= 0 || current_block.x >= infos->map.width) ||
+		(current_block.y <= 0 || current_block.y >= infos->map.height))
 			return ;
 	if (current_block.x != infos->wolf.old_block.x && current_block.y != infos->wolf.old_block.y)
 	{
@@ -32,7 +32,8 @@ static void	ft_editor(t_window *infos)
 		{
 			if (infos->wolf.old_block.color == 0)
 				infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = 0;
-			infos->map.map[(int)current_block.y][(int)current_block.x] = infos->wolf.select_block + 1;
+			if (infos->wolf.select_block < 7)
+				infos->map.map[(int)current_block.y][(int)current_block.x] = infos->wolf.select_block + 1;
 			infos->wolf.old_block.x = current_block.x;
 			infos->wolf.old_block.y = current_block.y;
 			infos->wolf.old_block.color = 0;
@@ -111,6 +112,10 @@ static void	ft_update_ray(t_window *infos)
 			perp_wall_dist = (dda.map.x - infos->wolf.pos_cam.x + (1 - dda.step.x) / 2) / dda.raydir.x;
 		else
 			perp_wall_dist = (dda.map.y - infos->wolf.pos_cam.y + (1 -dda.step.y) / 2) / dda.raydir.y;
+		// param->infos = infos;
+		// param->dda = dda;
+		// param->perp_wall_dist = perp_wall_dist;
+		// param->i = i;
 		ft_draw_wolf(infos, dda, perp_wall_dist, i);
 		i++;
 	}

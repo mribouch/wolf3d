@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/19 17:11:56 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/12/04 15:51:25 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,9 @@ void	ft_dealk_act(t_window *infos)
 {
 	ft_walk(infos);
 	ft_rotate_view(infos);
-	// if (infos->keys.mouse_wheel_up == 1 && infos->wolf.edit_distance_wall < 7)
+	// if ((infos->keys.f == 1 && infos->keys.mouse_wheel_up == 1) && infos->wolf.edit_distance_wall < 7)
 	// 	infos->wolf.edit_distance_wall++;
-	// else if (infos->keys.mouse_wheel_down == 1 && infos->wolf.edit_distance_wall > 1)
+	// else if ((infos->keys.f == 1 && infos->keys.mouse_wheel_down == 1) && infos->wolf.edit_distance_wall > 1)
 	// 	infos->wolf.edit_distance_wall--;
 	if (infos->keys.mouse_wheel_up == 1)
 	{
@@ -165,12 +165,16 @@ void	ft_dealk_act(t_window *infos)
 		if (infos->wolf.select_block == 0)
 			infos->wolf.select_block = 9;
 		infos->wolf.select_block--;
+		if (infos->wolf.editor == 1 && infos->wolf.select_block < 7)
+			infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = infos->wolf.select_block + 1;
 	}
 	if (infos->keys.mouse_wheel_down == 1)
 	{
 		if (infos->wolf.select_block == 8)
 			infos->wolf.select_block = -1;
 		infos->wolf.select_block++;
+		if (infos->wolf.editor == 1 && infos->wolf.select_block < 7)
+			infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.x] = infos->wolf.select_block + 1;
 	}
 	if (infos->keys.i == 1)
 		infos->wolf.editor = 1;

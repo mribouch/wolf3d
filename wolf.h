@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/20 14:01:12 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/03 17:44:13 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include "minilibx_macos/mlx.h"
 # include "callbacks.h"
 # include "key.h"
-# include <time.h>
+# include <pthread.h>
+# include <stdio.h>
+# include <math.h>
 # define WIDTH 916
 # define HEIGHT 688
 # define RAYLENGHT 150.0
@@ -179,6 +181,7 @@ typedef struct	s_button
 	int			y;
 }				t_button;
 
+
 typedef struct	s_window
 {
 	void		*mlx_ptr;
@@ -192,10 +195,9 @@ typedef struct	s_window
 	double		lag;
 	t_map		map;
 	t_key		keys;
-	t_coord2d	test;
 	t_coord2d	cursor;
 	t_wolf		wolf;
-	t_wolf		*data;
+	t_image		title;
 	t_image		*texture;
 	t_button	*button;
 	t_button	*edit_button;
@@ -204,6 +206,14 @@ typedef struct	s_window
 	int			nb_tex_tb;
 	t_image		*gui;
 }				t_window;
+
+typedef struct	s_param
+{
+	t_window	*infos;
+	t_dda		dda;
+	int			perp_wall_dist;
+	int			i;
+}				t_param;
 
 int				ft_callback(t_window *infos);
 
@@ -224,6 +234,7 @@ int				ft_get_cursor(int x, int y, t_window *infos);
 
 void			ft_putmenu(t_window *infos);
 void			ft_print_yn_button(t_window *infos);
+void			ft_img_in_game(t_image main, t_image print, t_coord2d coord, int coef);
 
 /*
 ** menu_button.c
@@ -268,7 +279,7 @@ int				ft_negative_col(t_color color);
 t_color			ft_int_to_rgb(int color);
 int				ft_create_rgb(double r, double g, double b);
 int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
-int				ft_get_lerp_dist(t_window *infos, int color1, int nbp);
+int				ft_get_lerp_dist(t_window *infos, int color1, int dist, int nbp);
 
 /*
 ** draw.c
@@ -286,6 +297,13 @@ void			ft_square(t_window *infos, t_image img, t_square s);
 void			ft_fill_square(t_window *infos, t_image img, t_square s);
 void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
+
+/*
+** free.c
+*/
+
+void			ft_quit_wolf(t_window *infos);
+void			ft_free_map(t_window *infos);
 
 /*
 ** Game loop

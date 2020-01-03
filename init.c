@@ -6,15 +6,11 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/19 17:34:16 by mribouch         ###   ########.fr       */
+/*   Updated: 2019/12/04 16:16:51 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-#include <stdio.h>
-
-#include <math.h>
 
 static int		*ft_get_img_tex(int	*tex, void *img_ptr)
 {
@@ -22,17 +18,18 @@ static int		*ft_get_img_tex(int	*tex, void *img_ptr)
 	int	s_l;
 	int	endian;
 
-	// ft_putendl("wowowowowow");
 	tex = (int*)mlx_get_data_addr(img_ptr, &bpp, &s_l, &endian);
+	if (tex == NULL)
+		ft_putendl("wowowowowowowow c'est quoi ca");
 	// ft_bzero(infos->img, infos->width * infos->height);
 	return (tex);
 }
 
 static void	ft_load_button(t_window *infos)
 {
-	if (!(infos->button = malloc(sizeof(t_button) * (4))))
+	if (!(infos->button = malloc(sizeof(t_button) * (5))))
 		return ;
-	if (!(infos->edit_button = malloc(sizeof(t_button) * 2)))
+	if (!(infos->edit_button = malloc(sizeof(t_button) * 3)))
 		return;
 	infos->edit_button[0].button_up.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
 		"button/yes_up.xpm", &infos->edit_button[0].button_up.w, &infos->edit_button[0].button_up.h);
@@ -108,14 +105,17 @@ static void	ft_load_texture(t_window *infos)
 	if (get_next_line(fd, &line) <= 0)
 		return ;
 	size = ft_atoi(line);
+	printf("LA SIZE EST : %d\n", size);
 	infos->nb_tex_tb = size;
 	free(line);
-	if (!(infos->texture = malloc(sizeof(t_image) * (size))))
+	if (!(infos->texture = malloc(sizeof(t_image) * (size + 1))))
 		return ;
 	while (get_next_line(fd, &line) > 0)
 	{
 		path = ft_strjoin("textures/", line);
 		infos->texture[i].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, path, &infos->texture[i].w, &infos->texture[i].h );
+		if (infos->texture[i].img_ptr == NULL)
+			printf("omagalul c'est pas de ma faute\n");
 		free(line);
 		free(path);
 		i++;
@@ -123,6 +123,7 @@ static void	ft_load_texture(t_window *infos)
 	i = 0;
 	while (i < size)
 	{
+		ft_putendl("combien de fois je charge les textures");
 		infos->texture[i].img = ft_get_img_tex(infos->texture[i].img, infos->texture[i].img_ptr);
 		i++;
 	}
@@ -139,12 +140,14 @@ void	ft_init_wolf(t_window *infos)
 	// infos->wolf.angle_cam = 0.349066;
 	// infos->wolf.angle_cam = 0.0;
 	// infos->wolf.d_camscreen = (WIDTH / 2) / tan(FOV / 2);
+	// ft_putendl("avant load rd");
+	// ft_putendl("apres load rd");
 	ft_load_texture(infos);
 	ft_load_button(infos);
-	ft_load_rd_button(infos);
-	if (!(infos->gui = malloc(sizeof(t_image) * (3))))
+	if (!(infos->gui = malloc(sizeof(t_image) * (4))))
 		return ;
-	
+	infos->title.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, "Title.xpm", &infos->title.w, &infos->title.h);
+	infos->title.img = ft_get_img_tex(infos->title.img, infos->title.img_ptr);
 	infos->gui[0].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "gui.xpm", &infos->gui[0].w, &infos->gui[0].h );
 	infos->gui[0].img = ft_get_img_tex(infos->gui[0].img, infos->gui[0].img_ptr);
 	infos->gui[1].img_ptr = mlx_xpm_file_to_image( infos->mlx_ptr, "gui_select.xpm", &infos->gui[1].w, &infos->gui[1].h );
@@ -172,6 +175,8 @@ void	ft_init_wolf(t_window *infos)
 	infos->edit_menu = 0;
 	infos->map_menu = 0;
 	infos->save_map = 0;
+	infos->nb_rd_button = 0;
+	ft_load_rd_button(infos);
 	// infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.y] = 1;
 	printf("address = %p\n", &infos->wolf.tab_ray);
 }

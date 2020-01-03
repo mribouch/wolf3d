@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2019/11/19 18:09:26 by mribouch         ###   ########.fr        #
+#    Updated: 2019/11/21 14:13:29 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = main.c			\
 		map.c			\
 		color.c			\
 		edit.c			\
+		free.c			\
 		init.c
 
 FLAGS = -Wall -Wextra -Werror -g3
