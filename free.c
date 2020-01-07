@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:08:25 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/03 17:40:13 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:56:28 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_free_texture(t_window *infos)
 		ft_putendl("APRES le destroy tex");
 		i++;
 	}
+	free(infos->gui);
+	free(infos->texture);
 }
 
 void	ft_free_button(t_window *infos)
@@ -39,17 +41,19 @@ void	ft_free_button(t_window *infos)
 	i = 0;
 	while (i < 4)
 	{
-		// if (i < 2)
-		// {
-		// 	mlx_destroy_image(infos->mlx_ptr, infos->edit_button[i].button_up.img_ptr);
-		// 	mlx_destroy_image(infos->mlx_ptr, infos->edit_button[i].button_down.img_ptr);
-		// }
+		if (i < 2)
+		{
+			mlx_destroy_image(infos->mlx_ptr, infos->edit_button[i].button_up.img_ptr);
+			mlx_destroy_image(infos->mlx_ptr, infos->edit_button[i].button_down.img_ptr);
+		}
 		ft_putendl("avant le destroy button");
 		mlx_destroy_image(infos->mlx_ptr, infos->button[i].button_up.img_ptr);
 		mlx_destroy_image(infos->mlx_ptr, infos->button[i].button_down.img_ptr);
 		ft_putendl("APRES le destroy button");
 		i++;
 	}
+	free(infos->edit_button);
+	free(infos->button);
 }
 
 void	ft_free_rd_button(t_window *infos)
@@ -65,6 +69,7 @@ void	ft_free_rd_button(t_window *infos)
 		free(infos->rd_button[i].data);
 		i++;
 	}
+	free(infos->rd_button);
 }
 
 void	ft_free_map(t_window *infos)
@@ -79,6 +84,7 @@ void	ft_free_map(t_window *infos)
 		i++;
 	}
 	free(infos->map.map);
+	ft_putendl("fin free map");
 	// free(infos->map.name);
 }
 
@@ -93,14 +99,13 @@ void	ft_quit_wolf(t_window *infos)
 	ft_putendl("avant free texture");
 	ft_free_texture(infos);
 	ft_putendl("avant free solo gui");
-	free(infos->gui);
+	// free(infos->gui);
 	ft_putendl("avant free solo tex");
-	free(infos->texture);
+	// free(infos->texture);
 	ft_putendl("avant free solo rdbutton");
-	free(infos->rd_button);
+	// free(infos->rd_button);
 	ft_putendl("avant free solo button");
-	free(infos->button);
-	mlx_destroy_image(infos->mlx_ptr, infos->menu.img_ptr);
+	// free(infos->button);
 	mlx_destroy_image(infos->mlx_ptr, infos->game.img_ptr);
 	mlx_destroy_window(infos->mlx_ptr, infos->win_ptr);
 	free(infos);

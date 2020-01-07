@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/03 16:45:40 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:44:49 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ static int	*ft_get_line(char *line, int width)
 			while (line[i] >= 48 && line[i] <= 57)
 				i++;
 		}
-		else
+		else if (line[i] == ' ')
 			i++;
+		else
+			return (0);
 	}
 	return (tab);
 }
@@ -92,8 +94,10 @@ static int	ft_check_width(char *line)
 			while (line[i] >= 48 && line[i] <= 57)
 				i++;
 		}
-		else
+		else if (line[i] == ' ')
 			i++;
+		else
+			return(0);
 	}
 	return (width);
 }
@@ -115,21 +119,46 @@ int	ft_count_height(int fd)
 	return (height);
 }
 
+void	ft_free_fail(int ***map, int count, char **line)
+{
+	int	i;
+	i = 0;
+	while (i < count)
+	{
+		ft_putendl("debut boucle");
+		free(*map[i]);
+		i++;
+		ft_putendl("fin boucle");
+	}
+	ft_putendl("apres bouclr");
+	free(*map);
+	ft_putendl("apres map");
+	free(*line);
+	ft_putendl("apres line");
+}
+
 int	**ft_get_map(int fd, t_window *infos)
 {
 	char	*line;
 	int		**map;
 	int		width;
 	int		i;
+	int		count;
 
 	i = 1;
+	count = 1;
 	infos->map.height = ft_count_height(fd);
 	close(fd);
 	fd = open(infos->map.name, O_RDONLY);
 	if (get_next_line(fd, &line) <= 0)
 		return (0);
 	ft_putendl("la");
-	width = ft_check_width(line);
+	if ((width = ft_check_width(line)) == 0)
+	{
+		free(line);
+		return (0);
+	}
+	// width = ft_check_width(line);
 	infos->map.width = width;
 	if (!(map = malloc(sizeof(int*) * (infos->map.height + 1))))
 		return (0);
@@ -137,12 +166,26 @@ int	**ft_get_map(int fd, t_window *infos)
 	free(line);
 	while (get_next_line(fd, &line) > 0)
 	{
-		ft_putendl(line);
-		if (width != ft_check_width(line))
+		// ft_putendl("dans la boucle ?");
+		if (width != ft_check_width(line) || ft_check_width(line) == 0)
+		{
+			ft_putendl("debut de boucle");
+			// ft_free_fail(&map, count, &line);
+			i = 0;
+			while (i < count)
+			{
+				free(map[i]);
+				i++;
+			}
+			free(map);
+			free(line);
+			ft_putendl("coucou c'estbien la fin");
 			return (0);
+		}
 		map[i] = ft_get_line(line, width);
 		free(line);
 		i++;
+		count++;
 	}
 	map[i] = NULL;
 	return (map);

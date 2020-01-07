@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:22:54 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/22 16:17:55 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 19:54:14 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_save(t_window *infos)
 	int	i;
 	int	j;
 	char	*line;
+	char	*tmp;
 
 	if (!(line = malloc(sizeof(char) * (infos->map.width * 2 - 2))))
 		return ;
@@ -49,17 +50,21 @@ void	ft_save(t_window *infos)
 	{
 		while (j < infos->map.width)
 		{
-			line[j] = *ft_itoa(infos->map.map[i][j]);
+			// line[j] = *ft_itoa(infos->map.map[i][j]);
+			tmp = ft_itoa(infos->map.map[i][j]);
+			line[j] = tmp[0];
 			ft_putchar_fd(line[j], fd);
 			if (j < infos->map.width - 1)
 				ft_putchar_fd(' ', fd);
 			j++;
+			free(tmp);
 		}
 		if (i < infos->map.height - 1)
 		ft_putchar_fd('\n', fd);
 		j = 0;
 		i++;
 	}
+	free(line);
 	close(fd);
 }
 

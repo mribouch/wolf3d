@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2019/12/04 17:47:38 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 19:37:06 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 #include "key.h"
 #include "callbacks.h"
 
-int                     ft_get_cursor(int x, int y, t_window *infos)
+int		ft_close_window(t_window *infos)
+{
+	// (void)infos;
+	ft_quit_wolf(infos);
+	while(1);
+	exit(0);
+}
+
+int		ft_get_cursor(int x, int y, t_window *infos)
 {
         infos->cursor.x = x;
         infos->cursor.y = y;

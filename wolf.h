@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/03 17:44:13 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 19:36:10 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ typedef struct	s_wolf
 	t_coord2d	plane;
 	t_coord2d	old_block;
 	t_coord2d	current_block;
-	t_ray		*tab_ray;
 	t_coord2d	tnt_block;
 	int			block_dist;
 	int			menu;
@@ -187,12 +186,9 @@ typedef struct	s_window
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_image		game;
-	t_image		menu;
 	int			map_menu;
 	int			edit_menu;
 	int			save_map;
-	clock_t		previous;
-	double		lag;
 	t_map		map;
 	t_key		keys;
 	t_coord2d	cursor;
@@ -227,6 +223,7 @@ int				ft_dealk_release(int keycode, t_window *infos);
 int				ft_button_press(int button, int x, int y, t_window *infos);
 int				ft_button_release(int button, int x, int y, t_window *infos);
 int				ft_get_cursor(int x, int y, t_window *infos);
+int				ft_close_window(t_window *infos);
 
 /*
 ** menu.c
@@ -304,6 +301,10 @@ void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
 
 void			ft_quit_wolf(t_window *infos);
 void			ft_free_map(t_window *infos);
+void			ft_free_rd_button(t_window *infos);
+void			ft_free_button(t_window *infos);
+void			ft_free_texture(t_window *infos);
+
 
 /*
 ** Game loop

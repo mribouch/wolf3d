@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2019/12/04 16:16:51 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:42:29 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,6 @@ void	ft_init_wolf(t_window *infos)
 	double	camx;
 
 	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
-	if (!(infos->wolf.tab_ray = malloc(sizeof(t_ray) * (WIDTH))))
-		return ;
 	// infos->wolf.angle_cam = 0.349066;
 	// infos->wolf.angle_cam = 0.0;
 	// infos->wolf.d_camscreen = (WIDTH / 2) / tan(FOV / 2);
@@ -177,6 +175,4 @@ void	ft_init_wolf(t_window *infos)
 	infos->save_map = 0;
 	infos->nb_rd_button = 0;
 	ft_load_rd_button(infos);
-	// infos->map.map[(int)infos->wolf.old_block.y][(int)infos->wolf.old_block.y] = 1;
-	printf("address = %p\n", &infos->wolf.tab_ray);
 }

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 07:45:20 by mribouch          #+#    #+#             */
-/*   Updated: 2019/12/04 17:34:27 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:52:00 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ void    ft_check_map(t_window *infos)
 				infos->map.name = map;
 				if ((infos->map.map = ft_get_map(fd, infos)) == 0)
 				{
-					ft_putendl("Wrong input ! The lines doesn't have the same lenght !");
+					ft_putendl("Wrong format file");
+					ft_free_rd_button(infos);
+					ft_free_button(infos);
+					ft_free_texture(infos);
+					mlx_destroy_image(infos->mlx_ptr, infos->game.img_ptr);
+					mlx_destroy_window(infos->mlx_ptr, infos->win_ptr);
+					free(infos);
+					while(1);
 					exit(0);
 				}
 				close(fd);
