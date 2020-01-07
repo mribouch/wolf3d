@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 07:45:20 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/07 17:52:00 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/07 20:00:31 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void    ft_check_map(t_window *infos)
         if (infos->rd_button[i].checked == 1)
         {
 			map = ft_strjoin("maps/", infos->rd_button[i].data);
-			// printf("join = %s\n", map);
-			// printf("name = %s\n", infos->map.name);
             if (ft_strcmp(map, infos->map.name) != 0)
 			{
 				fd = open(map, O_RDONLY);
@@ -50,5 +48,4 @@ void    ft_check_map(t_window *infos)
         }
         i++;
     }
-	ft_putendl("ah, bah non du coup dsl");
 }
