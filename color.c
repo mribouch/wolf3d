@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 18:06:31 by mribouch          #+#    #+#             */
-/*   Updated: 2019/11/19 18:09:10 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:17:33 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int		ft_create_rgb(double r, double g, double b)
 {
-        int     ret;
+	int	ret;
 
-        ret = ((int)b << 0) | ((int)g << 8) | ((int)r << 16);
-        return (ret);
+	ret = ((int)b << 0) | ((int)g << 8) | ((int)r << 16);
+	return (ret);
 }
 
 t_color	ft_int_to_rgb(int color)
@@ -25,8 +25,8 @@ t_color	ft_int_to_rgb(int color)
 	t_color	ret;
 
 	ret.r = (color & 0xFF0000) >> 16;
-    ret.g = (color & 0x00FF00) >> 8;
-    ret.b = (color & 0x0000FF);
+	ret.g = (color & 0x00FF00) >> 8;
+	ret.b = (color & 0x0000FF);
 	return (ret);
 }
 

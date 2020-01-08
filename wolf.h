@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/07 19:36:10 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/08 19:32:50 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,17 @@ void			ft_print_rd_bt(t_window *infos);
 */
 
 void			ft_init_wolf(t_window *infos);
+int				*ft_get_img_tex(int	*tex, void *img_ptr);
+/*
+** load.c
+*/
+
+void		ft_load_button_down(t_window *infos);
+void		ft_load_button_up(t_window *infos);
+void		ft_load_img_button_up(t_window *infos);
+void		ft_load_img_button_down(t_window *infos);
+
+
 
 /*
 ** map.c
@@ -282,9 +293,17 @@ int				ft_get_lerp_dist(t_window *infos, int color1, int dist, int nbp);
 ** draw.c
 */
 
-void			ft_draw_wolf(t_window *infos,
-					t_dda dda, double perp_wall_dist, int x);
+void			ft_draw_wolf(t_window *infos, t_dda dda, double pwd, int x);
 void			ft_draw_cursor(t_window *infos);
+
+/*
+** draw_tools.c
+*/
+
+int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
+t_dda			ft_get_floor_wall(t_window *infos, t_dda dda);
+void			ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda);
+void			ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num);
 
 /*
 ** shape.c
@@ -304,6 +323,20 @@ void			ft_free_map(t_window *infos);
 void			ft_free_rd_button(t_window *infos);
 void			ft_free_button(t_window *infos);
 void			ft_free_texture(t_window *infos);
+
+/*
+** tnt.c
+*/
+
+void			ft_explode_tnt(t_window *infos);
+
+/*
+** action_tools.c
+*/
+
+void			ft_rotate_view(t_window *infos);
+void			ft_break_wall(t_window *infos);
+void			ft_put_wall(t_window *infos);
 
 
 /*

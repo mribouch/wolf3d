@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/07 19:55:07 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/08 18:45:57 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	ft_update(t_window *infos)
 		{
 			ft_save(infos);
 			ft_quit_wolf(infos);
-			// while(1);
+			while(1);
 			exit(0);
 		}
 		if (ft_manage_yn_button(infos, infos->edit_button[1].x, infos->edit_button[1].y, 1) == 2)
