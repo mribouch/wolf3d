@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:08:25 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 19:03:09 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/09 14:37:05 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_free_texture(t_window *infos)
 	i = 0;
 	while (i < 9)
 	{
-		if (i < 3)
+		if (i < 2)
 			mlx_destroy_image(infos->mlx_ptr, infos->gui[i].img_ptr);
 		mlx_destroy_image(infos->mlx_ptr, infos->texture[i].img_ptr);
 		i++;

@@ -6,11 +6,21 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 19:04:40 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 19:32:48 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:31:55 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+int		*ft_get_img_tex(int *tex, void *img_ptr)
+{
+	int	bpp;
+	int	s_l;
+	int	endian;
+
+	tex = (int*)mlx_get_data_addr(img_ptr, &bpp, &s_l, &endian);
+	return (tex);
+}
 
 void	ft_load_img_button_down(t_window *infos)
 {

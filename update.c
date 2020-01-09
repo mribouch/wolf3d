@@ -6,13 +6,11 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:13:18 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 18:45:57 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:12:46 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include <math.h>
-#include <stdio.h>
 
 static void	ft_editor(t_window *infos)
 {

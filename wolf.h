@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 19:32:50 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:17:22 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,16 +214,21 @@ typedef struct	s_param
 int				ft_callback(t_window *infos);
 
 /*
-** key.c
+** keys_board.c
 */
 
 void			ft_fill_key(t_window *infos);
 int				ft_dealkey_press(int keycode, t_window *infos);
 int				ft_dealk_release(int keycode, t_window *infos);
+int				ft_close_window(t_window *infos);
+
+/*
+** keys_board.c
+*/
+
 int				ft_button_press(int button, int x, int y, t_window *infos);
 int				ft_button_release(int button, int x, int y, t_window *infos);
 int				ft_get_cursor(int x, int y, t_window *infos);
-int				ft_close_window(t_window *infos);
 
 /*
 ** menu.c
@@ -255,7 +260,7 @@ void			ft_print_rd_bt(t_window *infos);
 */
 
 void			ft_init_wolf(t_window *infos);
-int				*ft_get_img_tex(int	*tex, void *img_ptr);
+
 /*
 ** load.c
 */
@@ -264,6 +269,7 @@ void		ft_load_button_down(t_window *infos);
 void		ft_load_button_up(t_window *infos);
 void		ft_load_img_button_up(t_window *infos);
 void		ft_load_img_button_down(t_window *infos);
+int				*ft_get_img_tex(int	*tex, void *img_ptr);
 
 
 

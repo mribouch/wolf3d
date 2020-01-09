@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keys.c                                             :+:      :+:    :+:   */
+/*   keys_board.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/07 19:37:06 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:34:21 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-#include "key.h"
-#include "callbacks.h"
 
 int		ft_close_window(t_window *infos)
 {
-	// (void)infos;
 	ft_quit_wolf(infos);
-	while(1);
 	exit(0);
-}
-
-int		ft_get_cursor(int x, int y, t_window *infos)
-{
-        infos->cursor.x = x;
-        infos->cursor.y = y;
-        return (0);
+	return (1);
 }
 
 void	ft_fill_key(t_window *infos)
@@ -37,16 +27,10 @@ void	ft_fill_key(t_window *infos)
 	infos->keys.d = 0;
 	infos->keys.q = 0;
 	infos->keys.e = 0;
-	infos->keys.i = 0;
-	infos->keys.o = 0;
-	infos->keys.f = 0;
 }
 
 int		ft_dealkey_press(int keycode, t_window *infos)
 {
-	(void)infos;
-	ft_putnbr(keycode);
-	ft_putchar('\n');
 	if (keycode == 53)
 	{
 		if (infos->edit_menu == 1)
@@ -70,20 +54,11 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 		infos->keys.q = 1;
 	if (keycode == 14)
 		infos->keys.e = 1;
-	if (keycode == 34)
-		infos->keys.i = 1;
-	if (keycode == 31)
-		infos->keys.o = 1;
-	if (keycode == 257)
-		infos->keys.f = 1;
 	return (1);
 }
 
 int		ft_dealk_release(int keycode, t_window *infos)
 {
-	// ft_bzero(infos->img, WIDTH * HEIGHT);
-	ft_putnbr(keycode);
-	ft_putchar('\n');
 	if (keycode == 0)
 		infos->keys.a = 0;
 	if (keycode == 2)
@@ -96,45 +71,5 @@ int		ft_dealk_release(int keycode, t_window *infos)
 		infos->keys.q = 0;
 	if (keycode == 14)
 		infos->keys.e = 0;
-	if (keycode == 34)
-		infos->keys.i = 0;
-	if (keycode == 31)
-		infos->keys.o = 0;
-	if (keycode == 257)
-		infos->keys.f = 0;
 	return (1);
-}
-
-int	ft_button_press(int button, int x, int y, t_window *infos)
-{
-	(void)x;
-	(void)y;
-
-	// ft_putendl("press");
-	// ft_putnbr(button);
-	// ft_putchar('\n');
-
-	if (button == 1)
-		infos->keys.left_click = 1;
-	if (button == 2)
-		infos->keys.right_click = 1;
-	if (button == 5)
-		infos->keys.mouse_wheel_up = 1;
-	if (button == 4)
-		infos->keys.mouse_wheel_down = 1;
-	return (0);
-}
-
-int	ft_button_release(int button, int x, int y, t_window *infos)
-{
-	(void)x;
-	(void)y;
-	// ft_putendl("release");
-	// ft_putnbr(button);
-	// ft_putchar('\n');
-	if (button == 1)
-		infos->keys.left_click = 0;
-	if (button == 2)
-		infos->keys.right_click = 0;
-	return (0);
 }
