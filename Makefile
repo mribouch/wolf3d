@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2020/01/09 15:11:14 by mribouch         ###   ########.fr        #
+#    Updated: 2020/01/10 16:37:12 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS = main.c			\
 		parse.c			\
 		update.c		\
 		draw.c			\
+		image.c			\
 		draw_tools.c	\
 		action.c		\
 		action_tools.c	\

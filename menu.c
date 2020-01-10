@@ -6,108 +6,11 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/09 16:51:45 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:17:26 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void	ft_img_in_game(t_image main, t_image print, t_coord2d coord, int coef)
-{
-	t_coord2d	tmp;
-	t_coord2d	iter;
-	int	itcoef;
-	int	tmpitcoef;
-	int	tmpcoef;
-
-	tmp.y = coord.y;
-	tmp.x = coord.x;
-	iter.x = 0;
-	iter.y = 0;
-	itcoef = 0;
-	tmpcoef = 0;
-	tmpitcoef = 0;
-	while (tmp.y < coord.y + (print.h * coef))
-	{
-		while (tmp.x < (coord.x + print.w * coef))
-		{
-			while (itcoef < coef)
-			{
-				while (tmpitcoef < coef)
-				{
-					if (print.img[(int)(iter.x + iter.y * print.w)] >= 0x000000)
-						main.img[(int)(tmp.x + itcoef + (tmp.y + tmpitcoef) * WIDTH)] = print.img[(int)(iter.x + iter.y * print.w)];
-					tmpitcoef++;
-				}
-				itcoef++;
-				tmpitcoef = 0;
-			}
-			itcoef = 0;
-			tmp.x += coef;
-			iter.x++;
-		}
-		tmp.x = coord.x;
-		iter.x = 0;
-		tmp.y += coef;
-		iter.y++;
-	}
-
-}
-
-static void	ft_button_yn_in_game(t_window *infos, int id, t_image up_down)
-{
-	int	i;
-	int	j;
-	int	a;
-	int	b;
-
-	i = infos->edit_button[id].y;
-	j = infos->edit_button[id].x;
-	a = 0;
-	b = 0;
-	while (i < infos->edit_button[id].y + infos->edit_button[id].button_up.h)
-	{
-		while (j < infos->edit_button[id].x +
-			infos->edit_button[id].button_up.w)
-		{
-			infos->game.img[j + i * WIDTH] = up_down.img[a + b *
-				infos->edit_button[id].button_up.w];
-			j++;
-			a++;
-		}
-		j = infos->edit_button[id].x;
-		a = 0;
-		i++;
-		b++;
-	}
-}
-
-static void	ft_button_in_game(t_window *infos, int id, t_image up_down)
-{
-	int	i;
-	int	j;
-	int	a;
-	int	b;
-
-	i = infos->button[id].y;
-	j = infos->button[id].x;
-	a = 0;
-	b = 0;
-	while (i < infos->button[id].y + infos->button[id].button_up.h)
-	{
-		while (j < infos->button[id].x + infos->button[id].button_up.w)
-		{
-			infos->game.img[j + i * WIDTH] =
-				up_down.img[a + b * infos->button[id].button_up.w];
-			j++;
-			a++;
-		}
-		j = infos->button[id].x;
-		a = 0;
-		i++;
-		b++;
-	}
-}
 
 static void	ft_act_button(t_window *infos, int id)
 {
@@ -126,12 +29,11 @@ static void	ft_act_button(t_window *infos, int id)
 	if (id == 3)
 	{
 		ft_quit_wolf(infos);
-		while(1);
 		exit(0);
 	}
 }
 
-static int		ft_manage_button(t_window *infos, int x, int y, int id)
+static int	ft_manage_button(t_window *infos, int x, int y, int id)
 {
 	int	w;
 	int	h;
@@ -143,23 +45,23 @@ static int		ft_manage_button(t_window *infos, int x, int y, int id)
 		if ((infos->cursor.x >= x && infos->cursor.x <= x + w) &&
 			(infos->cursor.y >= y && infos->cursor.y <= y + h) &&
 				infos->keys.left_click == 1)
-				{
-					infos->button[id].press = 1;
-					return (1);
-				}
+		{
+			infos->button[id].press = 1;
+			return (1);
+		}
 		else if ((infos->cursor.x >= x && infos->cursor.x <= x + w) &&
 			(infos->cursor.y >= y && infos->cursor.y <= y + h) &&
 				infos->keys.left_click == 0 && infos->button[id].press == 1)
-					return (2);
+			return (2);
 		else if (((infos->cursor.x < x || infos->cursor.x > x + w) ||
 			(infos->cursor.y < y || infos->cursor.y > y + h)) ||
 				infos->keys.left_click == 0)
-				infos->button[id].press = 0;
+			infos->button[id].press = 0;
 	}
 	return (0);
 }
 
-void	ft_print_yn_button(t_window *infos)
+void		ft_print_yn_button(t_window *infos)
 {
 	if (infos->edit_button[0].press == 0)
 		ft_button_yn_in_game(infos, 0, infos->edit_button[0].button_up);
@@ -191,26 +93,7 @@ static void	ft_print_button(t_window *infos)
 		ft_button_in_game(infos, 3, infos->button[3].button_down);
 }
 
-static void	ft_rotate_bg(t_window *infos)
-{
-	double		olddirx;
-	double		oldplanex;
-	double		speed;
-
-	speed = 0.01;
-	olddirx = infos->wolf.dir_cam.x;
-	infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(speed) -
-		infos->wolf.dir_cam.y * sin(speed);
-	infos->wolf.dir_cam.y = olddirx * sin(speed) +
-		infos->wolf.dir_cam.y * cos(speed);
-	oldplanex = infos->wolf.plane.x;
-	infos->wolf.plane.x = infos->wolf.plane.x * cos(speed) -
-		infos->wolf.plane.y * sin(speed);
-	infos->wolf.plane.y = oldplanex * sin(speed) +
-		infos->wolf.plane.y * cos(speed);
-}
-
-void	ft_putmenu(t_window *infos)
+void		ft_putmenu(t_window *infos)
 {
 	int			i;
 	t_coord2d	coord;
@@ -219,7 +102,7 @@ void	ft_putmenu(t_window *infos)
 	coord.x = WIDTH / 2 - infos->title.w / 2;
 	coord.y = 40;
 	ft_img_in_game(infos->game, infos->title, coord, 1);
-	ft_rotate_bg(infos);
+	ft_rotate_left(infos, 0.01);
 	mlx_string_put(infos->mlx_ptr, infos->win_ptr, WIDTH *
 		0.6, HEIGHT * 0.1, 0xFFFFFF, infos->map.name);
 	while (i < 4)

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/09 15:17:22 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:55:38 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define RAYLENGHT 150.0
 # define FOV 1.5708
 # define NUM_TEX 8
+
 
 typedef struct	s_square
 {
@@ -89,6 +90,16 @@ typedef struct	s_coord2d
 	double			y;
 	int				color;
 }				t_coord2d;
+
+typedef struct	s_putimage
+{
+	t_coord2d	tmp;
+	t_coord2d	iter;
+	int			itcoef;
+	int			coef;
+	int			tmpitcoef;
+	int			tmpcoef;
+}				t_putimage;
 
 typedef	struct	s_dda
 {
@@ -236,7 +247,6 @@ int				ft_get_cursor(int x, int y, t_window *infos);
 
 void			ft_putmenu(t_window *infos);
 void			ft_print_yn_button(t_window *infos);
-void			ft_img_in_game(t_image main, t_image print, t_coord2d coord, int coef);
 
 /*
 ** menu_button.c
@@ -246,6 +256,15 @@ void			ft_load_rd_button(t_window *infos);
 void			ft_print_map(t_window *infos);
 void			ft_manage_rd_bt(t_window *infos);
 int				ft_manage_yn_button(t_window *infos, int x, int y, int id);
+
+/*
+** image.c
+*/
+
+void			ft_img_in_game(t_image main, t_image print, t_coord2d coord, int coef);
+void			ft_button_in_game(t_window *infos, int id, t_image up_down);
+void			ft_button_yn_in_game(t_window *infos, int id, t_image up_down);
+
 
 /*
 ** edit.c
@@ -340,7 +359,9 @@ void			ft_explode_tnt(t_window *infos);
 ** action_tools.c
 */
 
-void			ft_rotate_view(t_window *infos);
+void			ft_rotate_view(t_window *infos, float speed);
+void			ft_rotate_right(t_window *infos, float speed);
+void			ft_rotate_left(t_window *infos, float speed);
 void			ft_break_wall(t_window *infos);
 void			ft_put_wall(t_window *infos);
 

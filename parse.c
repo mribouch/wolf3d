@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/07 16:44:49 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/10 18:17:51 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,22 +119,18 @@ int	ft_count_height(int fd)
 	return (height);
 }
 
-void	ft_free_fail(int ***map, int count, char **line)
+void	ft_free_fail(int **map, int count, char *line)
 {
 	int	i;
 	i = 0;
+
 	while (i < count)
 	{
-		ft_putendl("debut boucle");
-		free(*map[i]);
+		free(map[i]);
 		i++;
-		ft_putendl("fin boucle");
 	}
-	ft_putendl("apres bouclr");
-	free(*map);
-	ft_putendl("apres map");
-	free(*line);
-	ft_putendl("apres line");
+	free(map);
+	free(line);
 }
 
 int	**ft_get_map(int fd, t_window *infos)
@@ -152,13 +148,11 @@ int	**ft_get_map(int fd, t_window *infos)
 	fd = open(infos->map.name, O_RDONLY);
 	if (get_next_line(fd, &line) <= 0)
 		return (0);
-	ft_putendl("la");
 	if ((width = ft_check_width(line)) == 0)
 	{
 		free(line);
 		return (0);
 	}
-	// width = ft_check_width(line);
 	infos->map.width = width;
 	if (!(map = malloc(sizeof(int*) * (infos->map.height + 1))))
 		return (0);
@@ -166,20 +160,9 @@ int	**ft_get_map(int fd, t_window *infos)
 	free(line);
 	while (get_next_line(fd, &line) > 0)
 	{
-		// ft_putendl("dans la boucle ?");
 		if (width != ft_check_width(line) || ft_check_width(line) == 0)
 		{
-			ft_putendl("debut de boucle");
-			// ft_free_fail(&map, count, &line);
-			i = 0;
-			while (i < count)
-			{
-				free(map[i]);
-				i++;
-			}
-			free(map);
-			free(line);
-			ft_putendl("coucou c'estbien la fin");
+			ft_free_fail(map, count, line);
 			return (0);
 		}
 		map[i] = ft_get_line(line, width);

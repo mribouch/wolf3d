@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/09 15:38:34 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:32:38 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int			main(int ac, char **av)
 			ft_putendl("Wrong format file");
 			close(fd);
 			free(infos);
+			while(1);
 			exit(0);
 		}
 		infos = ft_fill_infos(infos);

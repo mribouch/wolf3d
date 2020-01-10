@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 15:06:11 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 15:11:07 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:55:36 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,44 +43,45 @@ void		ft_put_wall(t_window *infos)
 		infos->wolf.old_block.color = 1;
 }
 
-static void	ft_rotate_right(t_window *infos)
+void	ft_rotate_right(t_window *infos, float speed)
+{
+	double	olddirx;
+	double	oldplanex;
+
+	speed = -speed;
+	olddirx = infos->wolf.dir_cam.x;
+	infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(speed)
+		- infos->wolf.dir_cam.y * sin(speed);
+	infos->wolf.dir_cam.y = olddirx * sin(speed)
+		+ infos->wolf.dir_cam.y * cos(speed);
+	oldplanex = infos->wolf.plane.x;
+	infos->wolf.plane.x = infos->wolf.plane.x * cos(speed)
+		- infos->wolf.plane.y * sin(speed);
+	infos->wolf.plane.y = oldplanex * sin(speed)
+		+ infos->wolf.plane.y * cos(speed);
+}
+
+void	ft_rotate_left(t_window *infos, float speed)
 {
 	double	olddirx;
 	double	oldplanex;
 
 	olddirx = infos->wolf.dir_cam.x;
-	infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(-0.03)
-		- infos->wolf.dir_cam.y * sin(-0.03);
-	infos->wolf.dir_cam.y = olddirx * sin(-0.03)
-		+ infos->wolf.dir_cam.y * cos(-0.03);
+	infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(speed)
+		- infos->wolf.dir_cam.y * sin(speed);
+	infos->wolf.dir_cam.y = olddirx * sin(speed)
+		+ infos->wolf.dir_cam.y * cos(speed);
 	oldplanex = infos->wolf.plane.x;
-	infos->wolf.plane.x = infos->wolf.plane.x * cos(-0.03)
-		- infos->wolf.plane.y * sin(-0.03);
-	infos->wolf.plane.y = oldplanex * sin(-0.03)
-		+ infos->wolf.plane.y * cos(-0.03);
+	infos->wolf.plane.x = infos->wolf.plane.x * cos(speed)
+		- infos->wolf.plane.y * sin(speed);
+	infos->wolf.plane.y = oldplanex * sin(speed)
+		+ infos->wolf.plane.y * cos(speed);
 }
 
-static void	ft_rotate_left(t_window *infos)
-{
-	double	olddirx;
-	double	oldplanex;
-
-	olddirx = infos->wolf.dir_cam.x;
-	infos->wolf.dir_cam.x = infos->wolf.dir_cam.x * cos(0.03)
-		- infos->wolf.dir_cam.y * sin(0.03);
-	infos->wolf.dir_cam.y = olddirx * sin(0.03)
-		+ infos->wolf.dir_cam.y * cos(0.03);
-	oldplanex = infos->wolf.plane.x;
-	infos->wolf.plane.x = infos->wolf.plane.x * cos(0.03)
-		- infos->wolf.plane.y * sin(0.03);
-	infos->wolf.plane.y = oldplanex * sin(0.03)
-		+ infos->wolf.plane.y * cos(0.03);
-}
-
-void		ft_rotate_view(t_window *infos)
+void		ft_rotate_view(t_window *infos, float speed)
 {
 	if (infos->keys.a == 1)
-		ft_rotate_left(infos);
+		ft_rotate_left(infos, speed);
 	if (infos->keys.d == 1)
-		ft_rotate_right(infos);
+		ft_rotate_right(infos, speed);
 }

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/09 15:23:09 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:53:05 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	ft_inventory_bar(t_window *infos)
 void		ft_dealk_act(t_window *infos)
 {
 	ft_walk(infos);
-	ft_rotate_view(infos);
+	ft_rotate_view(infos, 0.03);
 	ft_inventory_bar(infos);
 	if (infos->keys.q == 1)
 		infos->wolf.editor = 1;
