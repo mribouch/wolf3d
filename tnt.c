@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 14:28:06 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 14:29:44 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:38:19 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ static void	ft_explode(t_window *infos, int x, int y)
 	ft_destroy_block(infos, x, y);
 }
 
-void	ft_explode_tnt(t_window *infos)
+void		ft_explode_tnt(t_window *infos)
 {
 	int	x;
 	int	y;
-	infos->wolf.exp_iter ++;
+
+	infos->wolf.exp_iter++;
 	if (infos->wolf.exp_iter == 100)
 	{
 		x = infos->wolf.tnt_block.x;

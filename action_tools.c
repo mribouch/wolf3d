@@ -6,13 +6,13 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 15:06:11 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/10 16:55:36 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:28:46 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		ft_break_wall(t_window *infos)
+void	ft_break_wall(t_window *infos)
 {
 	int		x;
 	int		y;
@@ -28,7 +28,7 @@ void		ft_break_wall(t_window *infos)
 		infos->map.map[y][x] = 0;
 }
 
-void		ft_put_wall(t_window *infos)
+void	ft_put_wall(t_window *infos)
 {
 	int		x;
 	int		y;
@@ -78,7 +78,7 @@ void	ft_rotate_left(t_window *infos, float speed)
 		+ infos->wolf.plane.y * cos(speed);
 }
 
-void		ft_rotate_view(t_window *infos, float speed)
+void	ft_rotate_view(t_window *infos, float speed)
 {
 	if (infos->keys.a == 1)
 		ft_rotate_left(infos, speed);

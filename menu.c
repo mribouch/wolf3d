@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/10 17:17:26 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:37:21 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ static void	ft_act_button(t_window *infos, int id)
 		infos->map_menu = 1;
 	if (id == 2)
 	{
-		ft_edit(infos);
+		infos->edit_button[0].x = WIDTH / 2 - infos->edit_button[0].button_up.w;
+		infos->edit_button[1].x = WIDTH / 2 + 50;
+		infos->edit_button[0].y = HEIGHT / 2;
+		infos->edit_button[1].y = HEIGHT / 2;
+		infos->edit_button[0].press = 0;
+		infos->edit_button[1].press = 0;
+		infos->edit_menu = 1;
+		infos->wolf.menu = 0;
 		infos->map_menu = 0;
 	}
 	if (id == 3)

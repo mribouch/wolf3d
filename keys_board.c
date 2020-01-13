@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:55:24 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/10 17:30:41 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:37:02 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int		ft_dealkey_press(int keycode, t_window *infos)
 		else
 		{
 			ft_quit_wolf(infos);
-			while(1);
 			exit(0);
 		}
 	}

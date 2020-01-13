@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/10 17:32:38 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:37:09 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,13 @@ t_window	*ft_fill_infos(t_window *infos)
 
 static void	ft_loop_hook(t_window *infos)
 {
-	mlx_hook(infos->win_ptr, MOTION_NOTIFY, POINTER_MOTION_MASK,
-		ft_get_cursor, infos);
-	mlx_hook(infos->win_ptr, BUTTON_PRESS, BUTTON_PRESS_MASK,
-		ft_button_press, infos);
-	mlx_hook(infos->win_ptr, BUTTON_RELEASE, BUTTON_RELEASE_MASK,
+	mlx_hook(infos->win_ptr, MOTION_NOTIFY, (1L << 6), ft_get_cursor, infos);
+	mlx_hook(infos->win_ptr, BUTTON_PRESS, (1L << 2), ft_button_press, infos);
+	mlx_hook(infos->win_ptr, BUTTON_RELEASE, (1L << 3),
 		ft_button_release, infos);
-	mlx_hook(infos->win_ptr, KEY_PRESS, KEY_PRESS_MASK,
-		ft_dealkey_press, infos);
-	mlx_hook(infos->win_ptr, KEY_RELEASE, KEY_RELEASE_MASK,
-		ft_dealk_release, infos);
-	mlx_hook(infos->win_ptr, DESTROY_NOTIFY, STRUCTURE_NOTIFY_MASK,
+	mlx_hook(infos->win_ptr, KEY_PRESS, (1L << 0), ft_dealkey_press, infos);
+	mlx_hook(infos->win_ptr, KEY_RELEASE, (1L << 1), ft_dealk_release, infos);
+	mlx_hook(infos->win_ptr, DESTROY_NOTIFY, (1L << 17),
 		ft_close_window, infos);
 	mlx_loop_hook(infos->mlx_ptr, ft_callback, infos);
 	mlx_loop(infos->mlx_ptr);
@@ -81,7 +77,6 @@ int			main(int ac, char **av)
 			ft_putendl("Wrong format file");
 			close(fd);
 			free(infos);
-			while(1);
 			exit(0);
 		}
 		infos = ft_fill_infos(infos);

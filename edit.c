@@ -6,13 +6,51 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:22:54 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 18:49:14 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:20:11 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		ft_print_rd_bt(t_window *infos)
+static t_coord2d	ft_init_cb(t_window *infos)
+{
+	t_coord2d	cb;
+	double		camx;
+
+	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
+	cb.x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x *
+		infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
+	cb.y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y *
+		infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
+	return (cb);
+}
+
+void				ft_editor(t_window *infos)
+{
+	t_coord2d	cb;
+
+	cb = ft_init_cb(infos);
+	if ((cb.x <= 0 || cb.x >= infos->map.width) ||
+		(cb.y <= 0 || cb.y >= infos->map.height))
+		return ;
+	if (cb.x != infos->wolf.old_block.x && cb.y != infos->wolf.old_block.y)
+	{
+		if (infos->map.map[(int)cb.y][(int)cb.x] == 0)
+		{
+			if (infos->wolf.old_block.color == 0)
+				infos->map.map[(int)infos->wolf.old_block.y]
+					[(int)infos->wolf.old_block.x] = 0;
+			if (infos->wolf.select_block < 7)
+				infos->map.map[(int)cb.y][(int)cb.x] =
+					infos->wolf.select_block + 1;
+			infos->wolf.old_block.x = cb.x;
+			infos->wolf.old_block.y = cb.y;
+			infos->wolf.old_block.color = 0;
+		}
+	}
+}
+
+void				ft_print_rd_bt(t_window *infos)
 {
 	int			i;
 	t_coord2d	coord;
@@ -29,7 +67,7 @@ void		ft_print_rd_bt(t_window *infos)
 	}
 }
 
-static char	*ft_write_file(t_window *infos, int fd, char *line, int i)
+static char			*ft_write_file(t_window *infos, int fd, char *line, int i)
 {
 	char	*tmp;
 	int		j;
@@ -48,7 +86,7 @@ static char	*ft_write_file(t_window *infos, int fd, char *line, int i)
 	return (line);
 }
 
-void		ft_save(t_window *infos)
+void				ft_save(t_window *infos)
 {
 	int		fd;
 	int		i;
@@ -67,16 +105,4 @@ void		ft_save(t_window *infos)
 	}
 	free(line);
 	close(fd);
-}
-
-void		ft_edit(t_window *infos)
-{
-	infos->edit_button[0].x = WIDTH / 2 - infos->edit_button[0].button_up.w;
-	infos->edit_button[1].x = WIDTH / 2 + 50;
-	infos->edit_button[0].y = HEIGHT / 2;
-	infos->edit_button[1].y = HEIGHT / 2;
-	infos->edit_button[0].press = 0;
-	infos->edit_button[1].press = 0;
-	infos->edit_menu = 1;
-	infos->wolf.menu = 0;
 }

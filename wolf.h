@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/10 16:55:38 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:59:35 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define RAYLENGHT 150.0
 # define FOV 1.5708
 # define NUM_TEX 8
-
 
 typedef struct	s_square
 {
@@ -79,16 +78,16 @@ typedef struct	s_hsv
 
 typedef struct	s_color
 {
-	int	r;
-	int	g;
-	int	b;
+	int			r;
+	int			g;
+	int			b;
 }				t_color;
 
 typedef struct	s_coord2d
 {
-	double			x;
-	double			y;
-	int				color;
+	double		x;
+	double		y;
+	int			color;
 }				t_coord2d;
 
 typedef struct	s_putimage
@@ -112,10 +111,10 @@ typedef	struct	s_dda
 	t_coord2d	floor_tex;
 	t_coord2d	floor_wall;
 	t_coord2d	cur_floor;
-	double			weight;
-	double			distwall;
-	double			distplayer;
-	double			cur_dist;
+	double		weight;
+	double		distwall;
+	double		distplayer;
+	double		cur_dist;
 	int			side;
 	int			hit;
 	double		wall_x;
@@ -159,11 +158,11 @@ typedef struct	s_wolf
 
 typedef struct	s_map
 {
-	int				**map;
-	t_coord2d		map_pos;
-	int				width;
-	int				height;
-	char			*name;
+	int			**map;
+	t_coord2d	map_pos;
+	int			width;
+	int			height;
+	char		*name;
 }				t_map;
 
 typedef struct	s_image
@@ -190,7 +189,6 @@ typedef struct	s_button
 	int			x;
 	int			y;
 }				t_button;
-
 
 typedef struct	s_window
 {
@@ -261,16 +259,16 @@ int				ft_manage_yn_button(t_window *infos, int x, int y, int id);
 ** image.c
 */
 
-void			ft_img_in_game(t_image main, t_image print, t_coord2d coord, int coef);
+void			ft_img_in_game(t_image main, t_image print, t_coord2d coord,
+	int coef);
 void			ft_button_in_game(t_window *infos, int id, t_image up_down);
 void			ft_button_yn_in_game(t_window *infos, int id, t_image up_down);
-
 
 /*
 ** edit.c
 */
 
-void			ft_edit(t_window *infos);
+void			ft_editor(t_window *infos);
 void			ft_save(t_window *infos);
 void			ft_print_rd_bt(t_window *infos);
 
@@ -284,19 +282,18 @@ void			ft_init_wolf(t_window *infos);
 ** load.c
 */
 
-void		ft_load_button_down(t_window *infos);
-void		ft_load_button_up(t_window *infos);
-void		ft_load_img_button_up(t_window *infos);
-void		ft_load_img_button_down(t_window *infos);
+void			ft_load_button_down(t_window *infos);
+void			ft_load_button_up(t_window *infos);
+void			ft_load_img_button_up(t_window *infos);
+void			ft_load_img_button_down(t_window *infos);
 int				*ft_get_img_tex(int	*tex, void *img_ptr);
-
-
 
 /*
 ** map.c
 */
 
 void			ft_check_map(t_window *infos);
+int				*ft_get_line(char *line, int width);
 
 /*
 ** parse.c
@@ -308,11 +305,14 @@ int				**ft_get_map(int fd, t_window *infos);
 ** tools.c
 */
 
+int				ft_spawn_cam(t_window *infos);
 int				ft_negative_col(t_color color);
 t_color			ft_int_to_rgb(int color);
 int				ft_create_rgb(double r, double g, double b);
-int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
-int				ft_get_lerp_dist(t_window *infos, int color1, int dist, int nbp);
+int				ft_get_lerp_tnt(t_window *infos, int color1, int color2,
+	int nbp);
+int				ft_get_lerp_dist(t_window *infos, int color1, int dist,
+	int nbp);
 
 /*
 ** draw.c
@@ -325,7 +325,8 @@ void			ft_draw_cursor(t_window *infos);
 ** draw_tools.c
 */
 
-int				ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp);
+int				ft_get_lerp_tnt(t_window *infos, int color1,
+	int color2, int nbp);
 t_dda			ft_get_floor_wall(t_window *infos, t_dda dda);
 void			ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda);
 void			ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num);
@@ -334,9 +335,6 @@ void			ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num);
 ** shape.c
 */
 
-void			ft_square(t_window *infos, t_image img, t_square s);
-void			ft_fill_square(t_window *infos, t_image img, t_square s);
-void			ft_circle(t_window *infos, t_coord2d c, int r, int color);
 void			ft_fullcircle(t_window *infos, t_coord2d c, int r, int color);
 
 /*
@@ -364,7 +362,6 @@ void			ft_rotate_right(t_window *infos, float speed);
 void			ft_rotate_left(t_window *infos, float speed);
 void			ft_break_wall(t_window *infos);
 void			ft_put_wall(t_window *infos);
-
 
 /*
 ** Game loop

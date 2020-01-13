@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:58:11 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/09 15:06:35 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:54:06 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ static void	ft_load_gui_tex(t_window *infos)
 			infos->texture[i].img_ptr);
 	if (!(infos->gui = malloc(sizeof(t_image) * (3))))
 		return ;
-	infos->title.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, "Title.xpm",
-		&infos->title.w, &infos->title.h);
+	infos->title.img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
+		"gui/Title.xpm", &infos->title.w, &infos->title.h);
 	infos->title.img = ft_get_img_tex(infos->title.img, infos->title.img_ptr);
-	infos->gui[0].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, "gui.xpm",
+	infos->gui[0].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr, "gui/gui.xpm",
 		&infos->gui[0].w, &infos->gui[0].h);
 	infos->gui[0].img = ft_get_img_tex(infos->gui[0].img,
 		infos->gui[0].img_ptr);
 	infos->gui[1].img_ptr = mlx_xpm_file_to_image(infos->mlx_ptr,
-		"gui_select.xpm", &infos->gui[1].w, &infos->gui[1].h);
+		"gui/gui_select.xpm", &infos->gui[1].w, &infos->gui[1].h);
 	infos->gui[1].img = ft_get_img_tex(infos->gui[1].img,
 		infos->gui[1].img_ptr);
 }
@@ -87,7 +87,7 @@ static void	ft_load_texture(t_window *infos)
 	close(fd);
 }
 
-static void	ft_load_var_wolf(t_window *infos, double camx)
+static int	ft_load_var_wolf(t_window *infos, double camx)
 {
 	infos->wolf.editor = 0;
 	infos->wolf.menu = 1;
@@ -97,8 +97,8 @@ static void	ft_load_var_wolf(t_window *infos, double camx)
 	infos->wolf.edit_distance_wall = 3;
 	infos->wolf.plane.x = 0;
 	infos->wolf.plane.y = 0.66;
-	infos->wolf.pos_cam.x = 10;
-	infos->wolf.pos_cam.y = 8;
+	if (ft_spawn_cam(infos) == 0)
+		return (0);
 	infos->wolf.dir_cam.x = -1;
 	infos->wolf.dir_cam.y = 0;
 	infos->wolf.dir_cam.color = 0x00FF00;
@@ -113,6 +113,7 @@ static void	ft_load_var_wolf(t_window *infos, double camx)
 	infos->map_menu = 0;
 	infos->save_map = 0;
 	infos->nb_rd_button = 0;
+	return (1);
 }
 
 void		ft_init_wolf(t_window *infos)
@@ -123,6 +124,15 @@ void		ft_init_wolf(t_window *infos)
 	ft_load_texture(infos);
 	ft_load_button(infos);
 	ft_load_gui_tex(infos);
-	ft_load_var_wolf(infos, camx);
+	if (ft_load_var_wolf(infos, camx) == 0)
+	{
+		ft_putendl("Error: There is no empty space in the map !");
+		ft_free_map(infos);
+		ft_free_button(infos);
+		ft_free_texture(infos);
+		mlx_destroy_image(infos->mlx_ptr, infos->game.img_ptr);
+		mlx_destroy_window(infos->mlx_ptr, infos->win_ptr);
+		exit(0);
+	}
 	ft_load_rd_button(infos);
 }
