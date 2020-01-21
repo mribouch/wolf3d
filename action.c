@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/10 16:53:05 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:51:28 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 static void	ft_walk(t_window *infos)
 {
+	float	speed;
+
+	speed = 0.08;
 	if (infos->keys.w == 1)
 	{
 		if (infos->map.map[(int)infos->wolf.pos_cam.y]
-			[(int)(infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * 0.05)] == 0)
-			infos->wolf.pos_cam.x += infos->wolf.dir_cam.x * 0.05;
+			[(int)(infos->wolf.pos_cam.x + infos->wolf.dir_cam.x * speed)] == 0)
+			infos->wolf.pos_cam.x += infos->wolf.dir_cam.x * speed;
 		if (infos->map.map[(int)(infos->wolf.pos_cam.y
-			+ infos->wolf.dir_cam.y * 0.05)][(int)infos->wolf.pos_cam.x] == 0)
-			infos->wolf.pos_cam.y += infos->wolf.dir_cam.y * 0.05;
+			+ infos->wolf.dir_cam.y * speed)][(int)infos->wolf.pos_cam.x] == 0)
+			infos->wolf.pos_cam.y += infos->wolf.dir_cam.y * speed;
 	}
 	if (infos->keys.s == 1)
 	{
 		if (infos->map.map[(int)infos->wolf.pos_cam.y]
-			[(int)(infos->wolf.pos_cam.x - infos->wolf.dir_cam.x * 0.05)] == 0)
-			infos->wolf.pos_cam.x -= infos->wolf.dir_cam.x * 0.05;
+			[(int)(infos->wolf.pos_cam.x - infos->wolf.dir_cam.x * speed)] == 0)
+			infos->wolf.pos_cam.x -= infos->wolf.dir_cam.x * speed;
 		if (infos->map.map[(int)(infos->wolf.pos_cam.y
-			- infos->wolf.dir_cam.y * 0.05)][(int)infos->wolf.pos_cam.x] == 0)
-			infos->wolf.pos_cam.y -= infos->wolf.dir_cam.y * 0.05;
+			- infos->wolf.dir_cam.y * speed)][(int)infos->wolf.pos_cam.x] == 0)
+			infos->wolf.pos_cam.y -= infos->wolf.dir_cam.y * speed;
 	}
 }
 

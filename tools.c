@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 16:40:19 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/13 19:27:29 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:54:27 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,29 @@ int		ft_get_lerp_tnt(t_window *infos, int color1, int color2, int nbp)
 	return (ret);
 }
 
-int		ft_get_lerp_dist(t_window *infos, int color1, int dist, int nbp)
+int		ft_get_lerp_dist(t_window *infos, int color1, float dist, float nbp)
 {
 	t_color	c1;
+	t_color	tmp;
 	double	perc;
 	int		ret;
 
+	dist /= 2;
 	perc = nbp;
 	c1.r = (color1 & 0xFF0000) >> 16;
 	c1.g = (color1 & 0x00FF00) >> 8;
 	c1.b = (color1 & 0x0000FF);
 	if (infos->wolf.select_block == 8)
-		perc = 5;
-	c1.r -= c1.r * (dist * perc) / 100;
-	c1.g -= c1.g * (dist * perc) / 100;
-	c1.b -= c1.b * (dist * perc) / 100;
+		perc = 1;
+	tmp.r = c1.r / (dist * perc);
+	if (tmp.r >= 0 && tmp.r <= c1.r)
+		c1.r = tmp.r;
+	tmp.g = c1.g / (dist * perc);
+	if (tmp.g >= 0 && tmp.g <= c1.g)
+		c1.g = tmp.g;
+	tmp.b = c1.b / (dist * perc);
+	if (tmp.b >= 0 && tmp.b <= c1.b)
+		c1.b = tmp.b;
 	ret = (c1.b << 0) | (c1.g << 8) | (c1.r << 16);
 	if (ret < 0x000000)
 		ret = 0x000000;

@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/13 19:59:35 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:13:36 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "minilibx_macos/mlx.h"
 # include "callbacks.h"
 # include "key.h"
-# include <pthread.h>
 # include <stdio.h>
 # include <math.h>
 # define WIDTH 916
@@ -143,7 +142,7 @@ typedef struct	s_wolf
 	t_coord2d	old_block;
 	t_coord2d	current_block;
 	t_coord2d	tnt_block;
-	int			block_dist;
+	float			block_dist;
 	int			menu;
 	double		angle_cam;
 	int			fov;
@@ -311,8 +310,8 @@ t_color			ft_int_to_rgb(int color);
 int				ft_create_rgb(double r, double g, double b);
 int				ft_get_lerp_tnt(t_window *infos, int color1, int color2,
 	int nbp);
-int				ft_get_lerp_dist(t_window *infos, int color1, int dist,
-	int nbp);
+int				ft_get_lerp_dist(t_window *infos, int color1, float dist,
+	float nbp);
 
 /*
 ** draw.c

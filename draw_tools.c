@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:45:17 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 18:26:31 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:53:44 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_dda	ft_get_wall_color(t_window *infos, t_dda dda, int x, int tex_num)
 				infos->wolf.explode == 1)
 			color = ft_get_lerp_tnt(infos, color, 0xFFFFFF, 100 / 4);
 		infos->wolf.block_dist = dda.perp_wall_dist;
-		// color = ft_get_lerp_dist(infos, color, infos->wolf.block_dist, 10);
+		color = ft_get_lerp_dist(infos, color, infos->wolf.block_dist, 2);
 		infos->game.img[x + i++ * WIDTH] = color;
 	}
 	return (dda);
@@ -72,7 +72,7 @@ void	ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda)
 
 	while (y < HEIGHT)
 	{
-		dda.cur_dist = HEIGHT / (2.0 * y - HEIGHT);
+		dda.cur_dist = (double)(HEIGHT / (2.0 * y - HEIGHT));
 		dda.weight = (dda.cur_dist - dda.distplayer) /
 			(dda.distwall - dda.distplayer);
 		dda.cur_floor.x = dda.weight * dda.floor_wall.x +
@@ -85,11 +85,11 @@ void	ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda)
 			infos->texture[2].h;
 		color = (infos->texture[2].img[infos->texture[2].w *
 			(int)dda.floor_tex.y + (int)dda.floor_tex.x]);
-		// color = ft_get_lerp_dist(infos, color, dda.cur_dist, 13);
+		color = ft_get_lerp_dist(infos, color, dda.cur_dist, 2);
 		infos->game.img[x + y * WIDTH] = color;
 		color = infos->texture[2].img[infos->texture[2].w *
 			(int)dda.floor_tex.y + (int)dda.floor_tex.x];
-		// color = ft_get_lerp_dist(infos, color, dda.cur_dist, 13);
+		color = ft_get_lerp_dist(infos, color, dda.cur_dist, 2);
 		infos->game.img[x + (HEIGHT - y) * WIDTH] = color;
 		y++;
 	}
