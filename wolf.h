@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/21 17:13:36 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:54:30 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "minilibx_macos/mlx.h"
 # include "callbacks.h"
 # include "key.h"
-# include <stdio.h>
 # include <math.h>
 # define WIDTH 916
 # define HEIGHT 688

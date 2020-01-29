@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2020/01/10 16:37:12 by mribouch         ###   ########.fr        #
+#    Updated: 2020/01/22 14:54:50 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS = main.c			\
 		free.c			\
 		init.c
 
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror
 OBJS = $(SRCS:.c=.o)
 
 LIBFT = libft/libft.a

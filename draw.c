@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:58:17 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/08 18:23:59 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:48:51 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ void		ft_draw(t_window *infos)
 	coord.y = HEIGHT - (infos->texture[7].h * 13);
 	if (infos->wolf.select_block == 7)
 		ft_img_in_game(infos->game, infos->texture[7], coord, 13);
+	coord.x = WIDTH - (infos->texture[7].w * 27);
+	coord.y = HEIGHT - (infos->texture[7].h * 30);
 	if (infos->wolf.select_block == 8)
-		ft_img_in_game(infos->game, infos->texture[8], coord, 13);
+		ft_img_in_game(infos->game, infos->texture[8], coord, 30);
 	mlx_put_image_to_window(infos->mlx_ptr,
 		infos->win_ptr, infos->game.img_ptr, 0, 0);
 	if (infos->save_map == 1)

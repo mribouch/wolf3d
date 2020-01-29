@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 14:49:28 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/13 19:37:21 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:52:25 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void		ft_putmenu(t_window *infos)
 	coord.x = WIDTH / 2 - infos->title.w / 2;
 	coord.y = 40;
 	ft_img_in_game(infos->game, infos->title, coord, 1);
-	ft_rotate_left(infos, 0.01);
+	ft_rotate_left(infos, 0.02);
 	mlx_string_put(infos->mlx_ptr, infos->win_ptr, WIDTH *
 		0.6, HEIGHT * 0.1, 0xFFFFFF, infos->map.name);
 	while (i < 4)
