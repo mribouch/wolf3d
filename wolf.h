@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/22 14:54:30 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/02/17 16:36:13 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ typedef struct	s_wolf
 	t_coord2d	old_block;
 	t_coord2d	current_block;
 	t_coord2d	tnt_block;
-	float			block_dist;
+	float		block_dist;
 	int			menu;
 	double		angle_cam;
 	int			fov;

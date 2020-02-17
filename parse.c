@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/13 19:43:29 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/02/17 16:34:59 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,13 @@ static int	ft_count_height(int fd)
 {
 	char	buf;
 	int		height;
+	int		res;
 
 	height = 0;
-	while (read(fd, &buf, 1) != 0)
+	while ((res = read(fd, &buf, 1)) != 0)
 	{
+		if (res < 0)
+			return (0);
 		if (buf == '\n')
 			height++;
 	}
@@ -102,6 +105,8 @@ int			**ft_get_map(int fd, t_window *infos)
 	int		**map;
 	int		width;
 
+	if (fd < 0)
+		return (0);
 	infos->map.height = ft_count_height(fd);
 	close(fd);
 	fd = open(infos->map.name, O_RDONLY);

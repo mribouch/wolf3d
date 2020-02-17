@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:11:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/13 19:37:09 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/02/17 15:21:45 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			main(int ac, char **av)
 		infos->map.name = av[1];
 		if ((infos->map.map = ft_get_map(fd, infos)) == 0)
 		{
-			ft_putendl("Wrong format file");
+			ft_putendl("Wrong format file !");
 			close(fd);
 			free(infos);
 			exit(0);
