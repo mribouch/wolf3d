@@ -6,11 +6,21 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:00:24 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/21 17:51:28 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/02/18 17:34:09 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+static void	ft_init_tnt(t_window *infos, int x, int y)
+{
+	if (infos->map.map[y][x] == 6)
+	{
+		infos->wolf.explode = 1;
+		infos->wolf.tnt_block.x = x;
+		infos->wolf.tnt_block.y = y;
+	}
+}
 
 static void	ft_walk(t_window *infos)
 {
@@ -55,12 +65,10 @@ static void	ft_act_block(t_window *infos)
 			* infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
 		y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y
 			* infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
-		if (infos->map.map[y][x] == 6)
-		{
-			infos->wolf.explode = 1;
-			infos->wolf.tnt_block.x = x;
-			infos->wolf.tnt_block.y = y;
-		}
+		if (x <= 0 || x >= infos->map.width - 1 || y <= 0 ||
+			y >= infos->map.height - 1)
+			return ;
+		ft_init_tnt(infos, x, y);
 	}
 	if (infos->wolf.explode == 1)
 		ft_explode_tnt(infos);
@@ -91,7 +99,7 @@ static void	ft_inventory_bar(t_window *infos)
 void		ft_dealk_act(t_window *infos)
 {
 	ft_walk(infos);
-	ft_rotate_view(infos, 0.03);
+	ft_rotate_view(infos, 0.05);
 	ft_inventory_bar(infos);
 	if (infos->keys.q == 1)
 		infos->wolf.editor = 1;
