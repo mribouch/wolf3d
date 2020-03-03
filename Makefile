@@ -6,7 +6,7 @@
 #    By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/06 12:52:28 by mribouch          #+#    #+#              #
-#    Updated: 2020/01/22 14:54:50 by mribouch         ###   ########.fr        #
+#    Updated: 2020/03/03 16:34:32 by mribouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ $(MLX):
 clean:
 	rm -rf $(OBJS)
 	make clean -C libft/
+	make clean -C minilibx_macos/
 
 fclean: clean
 	rm -rf wolf3d libft/libft.a minilibx_macos/libmlx.a

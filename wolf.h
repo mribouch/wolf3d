@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:13:15 by mribouch          #+#    #+#             */
-/*   Updated: 2020/02/17 16:36:13 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/03/03 17:56:59 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,57 +22,7 @@
 # include <math.h>
 # define WIDTH 916
 # define HEIGHT 688
-# define RAYLENGHT 150.0
-# define FOV 1.5708
 # define NUM_TEX 8
-
-typedef struct	s_square
-{
-	int			x;
-	int			y;
-	int			size;
-	int			color;
-}				t_square;
-
-typedef struct	s_circle
-{
-	int			x;
-	int			y;
-	int			d;
-	int			r;
-}				t_circle;
-
-typedef struct	s_coord3d
-{
-	double		x;
-	double		y;
-	double		z;
-}				t_coord3d;
-
-typedef struct	s_bresen
-{
-	float		dx;
-	float		dy;
-	int			i;
-	int			xinc;
-	int			yinc;
-	float		cumul;
-	float		x;
-	float		y;
-}				t_bresen;
-
-typedef struct	s_var
-{
-	int			color1;
-	int			color2;
-}				t_var;
-
-typedef struct	s_hsv
-{
-	double		h;
-	double		s;
-	double		v;
-}				t_hsv;
 
 typedef struct	s_color
 {
@@ -125,14 +75,6 @@ typedef	struct	s_dda
 	int			draw_end;
 }				t_dda;
 
-typedef struct	s_ray
-{
-	t_coord2d	pos_ray;
-	t_coord2d	pos_int;
-	float		length;
-	float		angle;
-}				t_ray;
-
 typedef struct	s_wolf
 {
 	t_coord2d	pos_cam;
@@ -143,12 +85,8 @@ typedef struct	s_wolf
 	t_coord2d	tnt_block;
 	float		block_dist;
 	int			menu;
-	double		angle_cam;
-	int			fov;
 	int			explode;
 	int			exp_iter;
-	int			d_camscreen;
-	int			s_wall;
 	int			editor;
 	int			select_block;
 	int			edit_distance_wall;
@@ -209,14 +147,6 @@ typedef struct	s_window
 	int			nb_tex_tb;
 	t_image		*gui;
 }				t_window;
-
-typedef struct	s_param
-{
-	t_window	*infos;
-	t_dda		dda;
-	int			perp_wall_dist;
-	int			i;
-}				t_param;
 
 int				ft_callback(t_window *infos);
 
