@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:14:08 by mribouch          #+#    #+#             */
-/*   Updated: 2020/02/17 16:34:59 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/03/03 15:06:46 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ static int	ft_count_height(int fd)
 	height = 0;
 	while ((res = read(fd, &buf, 1)) != 0)
 	{
-		if (res < 0)
-			return (0);
+		if (res < 0 || ((buf < '0' || buf > '8') && buf != ' ' && buf != '\n'))
+		{
+			ft_putendl("Wrong format file !");
+			exit(0);
+		}
 		if (buf == '\n')
 			height++;
 	}

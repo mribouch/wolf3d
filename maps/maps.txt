@@ -1,0 +1,6 @@
+5
+little_map.wolf
+crea_map.wolf
+wrong_map.wolf
+map.wolf
+fill_map.wolf

@@ -1,5 +1,0 @@
-4
-testupdate.wolf
-testangle.wolf
-test.wolf
-wrongmap.wolf

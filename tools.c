@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 16:40:19 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/21 17:54:27 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:12:38 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,21 @@ int		ft_get_lerp_dist(t_window *infos, int color1, float dist, float nbp)
 {
 	t_color	c1;
 	t_color	tmp;
-	double	perc;
 	int		ret;
 
 	dist /= 2;
-	perc = nbp;
 	c1.r = (color1 & 0xFF0000) >> 16;
 	c1.g = (color1 & 0x00FF00) >> 8;
 	c1.b = (color1 & 0x0000FF);
 	if (infos->wolf.select_block == 8)
-		perc = 1;
-	tmp.r = c1.r / (dist * perc);
+		nbp = 1;
+	tmp.r = c1.r / (dist * nbp);
 	if (tmp.r >= 0 && tmp.r <= c1.r)
 		c1.r = tmp.r;
-	tmp.g = c1.g / (dist * perc);
+	tmp.g = c1.g / (dist * nbp);
 	if (tmp.g >= 0 && tmp.g <= c1.g)
 		c1.g = tmp.g;
-	tmp.b = c1.b / (dist * perc);
+	tmp.b = c1.b / (dist * nbp);
 	if (tmp.b >= 0 && tmp.b <= c1.b)
 		c1.b = tmp.b;
 	ret = (c1.b << 0) | (c1.g << 8) | (c1.r << 16);

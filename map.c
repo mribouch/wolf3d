@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 07:45:20 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/13 19:37:14 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/03/03 15:17:26 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int			*ft_get_line(char *line, int width)
 		}
 		else if (line[i] == ' ')
 			i++;
-		else
+		else if (line[i] < 48 || line[i] > 57)
 			return (0);
 	}
 	return (tab);

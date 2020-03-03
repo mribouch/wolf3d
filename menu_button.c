@@ -6,7 +6,7 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 16:08:48 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/09 16:46:00 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/03/03 14:33:12 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void		ft_load_rd_button(t_window *infos)
 
 	coord.x = 20;
 	coord.y = 20;
-	fd = open("maps.txt", O_RDONLY);
+	fd = open("maps/maps.txt", O_RDONLY);
 	if (get_next_line(fd, &line) <= 0)
 		return ;
 	infos->nb_rd_button = ft_atoi(line);

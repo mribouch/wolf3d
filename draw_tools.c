@@ -6,13 +6,37 @@
 /*   By: mribouch <mribouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:45:17 by mribouch          #+#    #+#             */
-/*   Updated: 2020/01/21 17:53:44 by mribouch         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:27:02 by mribouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-t_dda	ft_get_wall_color(t_window *infos, t_dda dda, int x, int tex_num)
+static int	ft_get_tnt_tex(t_window *infos, t_dda dda)
+{
+	int color;
+
+	color = infos->texture[5].img[infos->texture[5].h *
+	dda.tex_y + dda.tex_x];
+	if (dda.side == 0 && dda.raydir.x > 0)
+		color = infos->texture[0].img[infos->texture[0].h *
+		dda.tex_y + dda.tex_x];
+	if (dda.side == 1 && dda.raydir.y > 0)
+	{
+		color = infos->texture[1].img[infos->texture[1].h *
+		dda.tex_y + dda.tex_x];
+		color = (color >> 1) & 8355711;
+	}
+	if (dda.side == 1 && dda.raydir.y < 0)
+	{
+		color = infos->texture[2].img[infos->texture[2].h *
+		dda.tex_y + dda.tex_x];
+		color = (color >> 1) & 8355711;
+	}
+	return (color);
+}
+
+t_dda		ft_get_wall_color(t_window *infos, t_dda dda, int x, int tex_num)
 {
 	int	color;
 	int	i;
@@ -27,6 +51,8 @@ t_dda	ft_get_wall_color(t_window *infos, t_dda dda, int x, int tex_num)
 			dda.tex_y + dda.tex_x];
 		if (dda.side == 1)
 			color = (color >> 1) & 8355711;
+		if (tex_num == 5)
+			color = ft_get_tnt_tex(infos, dda);
 		if ((int)infos->wolf.tnt_block.x == (int)dda.map.x &&
 			(int)infos->wolf.tnt_block.y == (int)dda.map.y &&
 				infos->wolf.explode == 1)
@@ -38,7 +64,7 @@ t_dda	ft_get_wall_color(t_window *infos, t_dda dda, int x, int tex_num)
 	return (dda);
 }
 
-t_dda	ft_get_floor_wall(t_window *infos, t_dda dda)
+t_dda		ft_get_floor_wall(t_window *infos, t_dda dda)
 {
 	(void)infos;
 	if (dda.side == 0 && dda.raydir.x > 0)
@@ -66,7 +92,7 @@ t_dda	ft_get_floor_wall(t_window *infos, t_dda dda)
 	return (dda);
 }
 
-void	ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda)
+void		ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda)
 {
 	int	color;
 
@@ -95,7 +121,7 @@ void	ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda)
 	}
 }
 
-void	ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
+void		ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 {
 	int		i;
 	int		y;
