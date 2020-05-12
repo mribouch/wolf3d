@@ -123,11 +123,11 @@ void		ft_get_ceil_floor(t_window *infos, int x, int y, t_dda dda)
 
 void		ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 {
-	int		i;
+	//int		i;
 	int		y;
 	float	tex_x;
 
-	i = 0;
+	//i = 0;
 	if (dda.side == 0)
 		dda.wall_x = infos->wolf.pos_cam.y + dda.perp_wall_dist * dda.raydir.y;
 	else
@@ -138,7 +138,7 @@ void		ft_get_col_tex(t_window *infos, t_dda dda, int x, int tex_num)
 	if ((dda.side == 0 && dda.raydir.x > 0) ||
 		(dda.side == 1 && dda.raydir.y < 0))
 		dda.tex_x = tex_x;
-	i = dda.draw_start;
+	//i = dda.draw_start;
 	dda = ft_get_wall_color(infos, dda, x, tex_num);
 	dda = ft_get_floor_wall(infos, dda);
 	if (dda.draw_end < 0)
