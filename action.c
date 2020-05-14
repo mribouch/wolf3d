@@ -12,14 +12,27 @@
 
 #include "wolf.h"
 
-static void	ft_init_tnt(t_window *infos, int x, int y)
+static int	ft_init_tnt(t_window *infos, int dtmp)
 {
+	int		x;
+	int		y;
+	double	camx;
+
+	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
+	x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x
+		* dtmp + infos->wolf.plane.x * camx;
+	y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y
+		* dtmp + infos->wolf.plane.y * camx;
+	if (x <= 0 || x >= infos->map.width - 1 || y <= 0 ||
+		y >= infos->map.height - 1)
+		return (0);
 	if (infos->map.map[y][x] == 6)
 	{
 		infos->wolf.explode = 1;
 		infos->wolf.tnt_block.x = x;
 		infos->wolf.tnt_block.y = y;
 	}
+	return (1);
 }
 
 static void	ft_walk(t_window *infos)
@@ -49,11 +62,9 @@ static void	ft_walk(t_window *infos)
 
 static void	ft_act_block(t_window *infos)
 {
-	int		x;
-	int		y;
-	double	camx;
+	int	dtmp;
 
-	camx = 2 * (WIDTH / 2) / (double)WIDTH - 1;
+	dtmp = infos->wolf.edit_distance_wall;
 	if (infos->keys.right_click == 1 && infos->wolf.editor == 1)
 		ft_put_wall(infos);
 	if (infos->keys.left_click == 1 && infos->wolf.editor == 1)
@@ -61,14 +72,12 @@ static void	ft_act_block(t_window *infos)
 	if (infos->keys.right_click == 1 && infos->wolf.editor == 0
 		&& infos->wolf.select_block == 7)
 	{
-		x = infos->wolf.pos_cam.x + infos->wolf.dir_cam.x
-			* infos->wolf.edit_distance_wall + infos->wolf.plane.x * camx;
-		y = infos->wolf.pos_cam.y + infos->wolf.dir_cam.y
-			* infos->wolf.edit_distance_wall + infos->wolf.plane.y * camx;
-		if (x <= 0 || x >= infos->map.width - 1 || y <= 0 ||
-			y >= infos->map.height - 1)
-			return ;
-		ft_init_tnt(infos, x, y);
+		while (dtmp >= 1)
+		{
+			if (ft_init_tnt(infos, dtmp) == 0)
+				return ;
+			dtmp--;
+		}
 	}
 	if (infos->wolf.explode == 1)
 		ft_explode_tnt(infos);

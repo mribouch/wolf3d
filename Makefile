@@ -45,7 +45,7 @@ BG_WHITE = \e[107m
 
 CCC = gcc
 FLAGS = -g -Wall -Werror -Wextra
-MLX = minilibx_macos/libmlx.a
+MLX = minilibx/libmlx.a
 SRC_PATH = ./
 OBJ_PATH = ./
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -83,9 +83,9 @@ $(NAME): $(SRCS) $(LIBFT) $(MLX) fdf.h keysymdef.h
 	@$(CCC) $(FLAGS) $(MLX) -L$(LIB_PATH) -I $(INCLUDES) $(OBJS) -lft -framework OpenGL -framework Appkit -o $(NAME)
 	@printf "$(RESET)$(BOLD)$(BG_GREEN)$(WHITE)$(DIM) DONE $(RESET)\n"
 
-linux:
+linux:	$(MLX)
 	@make -j objects
-	@cc -lm -I $(INCLUDES) $(OBJS) -L libft -lft -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lXext -lX11 -lm
+	@cc -lm -I $(INCLUDES) $(OBJS) -L libft -lft $(MLX) -lXext -lXext -lX11 -lm
 
 objects: $(OBJS)
 
@@ -93,7 +93,7 @@ $(LIBFT):
 	@make -C $(LIB_PATH)
 
 $(MLX):
-	@make -C minilibx_macos
+	@make -C minilibx
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@gcc $(FLAGS) -I $(INCLUDES) -c $< -o $@
