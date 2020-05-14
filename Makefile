@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+NAME = wolf3d
 
 RESET = \e[0m
 BOLD = \e[1m
@@ -46,6 +46,7 @@ BG_WHITE = \e[107m
 CCC = gcc
 FLAGS = -g -Wall -Werror -Wextra
 MLX = minilibx/libmlx.a
+MLX_PATH = ./minilibx
 SRC_PATH = ./
 OBJ_PATH = ./
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -78,14 +79,10 @@ INCLUDES = ./libft/includes
 
 all:	$(NAME)
 
-$(NAME): $(SRCS) $(LIBFT) $(MLX) fdf.h keysymdef.h
+$(NAME): $(SRCS) $(LIBFT) $(MLX)
 	@make -j objects
-	@$(CCC) $(FLAGS) $(MLX) -L$(LIB_PATH) -I $(INCLUDES) $(OBJS) -lft -framework OpenGL -framework Appkit -o $(NAME)
+	@cc -lm -I $(INCLUDES) $(OBJS) -L libft -lft $(MLX) -lXext -lXext -lX11 -lm -o $(NAME)
 	@printf "$(RESET)$(BOLD)$(BG_GREEN)$(WHITE)$(DIM) DONE $(RESET)\n"
-
-linux:	$(MLX)
-	@make -j objects
-	@cc -lm -I $(INCLUDES) $(OBJS) -L libft -lft $(MLX) -lXext -lXext -lX11 -lm
 
 objects: $(OBJS)
 
@@ -102,6 +99,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 clean:
 	@rm -rf $(OBJS)
 	@make -C $(LIB_PATH) clean
+	@make -C $(MLX_PATH) clean
 	@printf "$(RESET)$(BG_CYAN)$(WHITE) PROJECT O_FILES CLEANED $(RESET)\n"
 
 fclean: clean

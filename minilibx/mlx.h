@@ -1,9 +1,9 @@
 /*
-** mlx.h for MinilibX in 
-** 
+** mlx.h for MinilibX in
+**
 ** Made by Charlie Root
 ** Login   <ol@epitech.net>
-** 
+**
 ** Started on  Mon Jul 31 16:37:50 2000 Charlie Root
 ** Last update Tue May 15 16:23:28 2007 Olivier Crouzet
 */
@@ -30,7 +30,7 @@
 #ifndef MLX_H
 
 #define	MLX_H
-
+#include <string.h>
 
 void	*mlx_init();
 /*
@@ -125,5 +125,7 @@ int	mlx_hook(void *win_ptr, int x_event, int x_mask,
 int	mlx_do_key_autorepeatoff(void *mlx_ptr);
 int	mlx_do_key_autorepeaton(void *mlx_ptr);
 int	mlx_do_sync(void *mlx_ptr);
+
+unsigned int strlcpy(char * dst, const char * src, size_t maxlen);
 
 #endif /* MLX_H */

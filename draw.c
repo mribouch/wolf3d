@@ -42,14 +42,12 @@ static void	ft_draw_select_block(t_window *infos)
 
 void		ft_draw_wolf(t_window *infos, t_dda dda, double pwd, int x)
 {
-	//int	color;
 	int	tex_num;
 
 	tex_num = infos->map.map[(int)dda.map.y][(int)dda.map.x];
 	if (tex_num > 0)
 		tex_num = infos->map.map[(int)dda.map.y][(int)dda.map.x] - 1;
 	dda.perp_wall_dist = pwd;
-	//color = 0xFFFFFF;
 	dda.line_height = (int)(HEIGHT / dda.perp_wall_dist);
 	dda.draw_start = -dda.line_height / 2 + HEIGHT / 2;
 	if (dda.draw_start < 0)
@@ -57,8 +55,6 @@ void		ft_draw_wolf(t_window *infos, t_dda dda, double pwd, int x)
 	dda.draw_end = dda.line_height / 2 + HEIGHT / 2;
 	if (dda.draw_end >= HEIGHT)
 		dda.draw_end = HEIGHT - 1;
-	//if (dda.side == 1)
-	//	color = 0xDDDDDD;
 	ft_get_col_tex(infos, dda, x, tex_num);
 }
 
